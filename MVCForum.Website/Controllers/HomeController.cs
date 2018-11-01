@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Mail;
+    using System.Text;
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
@@ -18,6 +20,9 @@
     using Core.Models.Entities;
     using Core.Models.Enums;
     using Core.Models.General;
+    using MvcForum.Core.Models;
+    using MvcForum.Web.ViewModels;
+    using MvcForum.Web.ViewModels.Contact;
     using ViewModels.Home;
 
     public partial class HomeController : BaseController
@@ -25,17 +30,70 @@
         private readonly IActivityService _activityService;
         private readonly ICategoryService _categoryService;
         private readonly ITopicService _topicService;
+        private readonly IEmailService _emailService;
+        private readonly Settings _settings;
 
         public HomeController(ILoggingService loggingService, IActivityService activityService,
             IMembershipService membershipService, ITopicService topicService, ILocalizationService localizationService,
             IRoleService roleService, ISettingsService settingsService, ICategoryService categoryService,
-            ICacheService cacheService, IMvcForumContext context)
+            ICacheService cacheService, IMvcForumContext context, IEmailService emailService)
             : base(loggingService, membershipService, localizationService, roleService,
                 settingsService, cacheService, context)
         {
             _topicService = topicService;
             _categoryService = categoryService;
             _activityService = activityService;
+            _emailService = emailService;
+            _settings = SettingsService.GetSettings();
+        }
+        public virtual ActionResult Contact()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ContactForm()
+        {
+            if (ModelState.IsValid)
+            {
+                var settings = SettingsService.GetSettings();
+                var sb = new StringBuilder();
+                sb.Append($"<p>{string.Concat("Nome: ", Request.Form["Name"].ToString())}</p>");
+                sb.Append($"<p>{string.Concat("Email: ", Request.Form["Email"].ToString())}</p>");
+                sb.Append($"<p>{string.Concat("Mensagem: ", Request.Form["Message"].ToString())}</p>");
+                var email = new Email
+                {
+                    EmailTo = settings.AdminEmailAddress,
+                    NameTo = "Olá Administrador, temos uma nova mensagem",
+                    Subject = "[Case da Retro] [Contato] "
+                };
+                email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString());
+                _emailService.SendMail(email);
+
+                var message = new GenericMessageViewModel
+                {
+                    Message = "Enviado com sucesso.",
+                    MessageType = GenericMessages.success
+                };
+
+                try
+                {
+                    Context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Context.RollBack();
+                    LoggingService.Error(ex);
+                    message.Message = "Erro ao enviar email.";
+                    message.MessageType = GenericMessages.danger;
+                }
+                TempData[Constants.MessageViewBagName] = message;
+
+                return View("Index");
+            }
+            else
+            {
+                return View("Index");
+            }
         }
 
         public virtual ActionResult Index()
@@ -57,6 +115,37 @@
         {
             return View();
         }
+
+        public virtual ActionResult About()
+        {
+            return View();
+        }
+
+        public virtual ActionResult TopicosMaisVistos()
+        {
+            return View();
+        }
+
+        public virtual ActionResult UniversoRetro()
+        {
+            return View();
+        }
+
+        public virtual ActionResult TopicosDestacados()
+        {
+            return View();
+        }
+
+        public virtual ActionResult TopicosFotos()
+        {
+            return View();
+        }
+
+        public virtual ActionResult TopicosRecentes()
+        {
+            return View();
+        }
+
 
         public virtual ActionResult TermsAndConditions()
         {

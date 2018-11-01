@@ -87,6 +87,108 @@
 
             return PartialView("TopicsMemberHasPostedIn", viewModel);
         }
+                
+        public virtual PartialViewResult TopicosDestacadosShow(int? p)
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+            var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
+            var settings = SettingsService.GetSettings();
+
+            // Set the page index
+            var pageIndex = p ?? 1;
+
+            // Get the topics
+            var topics = Task.Run(() => _topicService.GetTopicosDestacados(pageIndex,
+                settings.TopicsPerPage,
+                ForumConfiguration.Instance.ActiveTopicsListSize,
+                allowedCategories)).Result;
+
+            // Get the Topic View Models
+            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
+                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
+                _pollService, _voteService, _favouriteService);           
+
+            // create the view model
+            var viewModel = new PostedInViewModel
+            {
+                Topics = topicViewModels,
+                PageIndex = pageIndex,
+                TotalCount = topics.TotalCount,
+                TotalPages = topics.TotalPages
+            };
+
+            return PartialView("TopicsMemberHasPostedIn", viewModel);
+        }
+
+        public virtual PartialViewResult TopicosMaisVistosShow(int? p)
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+            var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
+            var settings = SettingsService.GetSettings();
+
+            // Set the page index
+            var pageIndex = p ?? 1;
+
+            // Get the topics
+            var topics = Task.Run(() => _topicService.GetTopicosMaisVistos(pageIndex,
+                settings.TopicsPerPage,
+                ForumConfiguration.Instance.ActiveTopicsListSize,
+                allowedCategories)).Result;
+
+            // Get the Topic View Models
+            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
+                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
+                _pollService, _voteService, _favouriteService);
+
+            // create the view model
+            var viewModel = new PostedInViewModel
+            {
+                Topics = topicViewModels,
+                PageIndex = pageIndex,
+                TotalCount = topics.TotalCount,
+                TotalPages = topics.TotalPages
+            };
+
+            return PartialView("TopicsMemberHasPostedIn", viewModel);
+        }
+
+        public virtual PartialViewResult TopicosRecentesShow(int? p)
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+            var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
+            var settings = SettingsService.GetSettings();
+
+            // Set the page index
+            var pageIndex = p ?? 1;
+
+            // Get the topics
+            var topics = Task.Run(() => _topicService.GetTopicosRecentes(pageIndex,
+                settings.TopicsPerPage,
+                ForumConfiguration.Instance.ActiveTopicsListSize,
+                allowedCategories)).Result;
+
+            // Get the Topic View Models
+            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
+                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
+                _pollService, _voteService, _favouriteService);
+
+            // create the view model
+            var viewModel = new PostedInViewModel
+            {
+                Topics = topicViewModels,
+                PageIndex = pageIndex,
+                TotalCount = topics.TotalCount,
+                TotalPages = topics.TotalPages
+            };
+
+            return PartialView("TopicsMemberHasPostedIn", viewModel);
+        }
 
         [ChildActionOnly]
         [Authorize]
@@ -881,6 +983,118 @@
             return PartialView(viewModel);
         }
 
+        public virtual int Total()
+        {
+            var categories = _categoryService.GetAll();
+            var total = _topicService.GetAll(categories).Count;
+            return total;
+        }
+
+        [ChildActionOnly]
+        public virtual ActionResult TopicosRecentes(int? p)
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+            var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
+            var settings = SettingsService.GetSettings();
+
+            // Set the page index
+            var pageIndex = p ?? 1;
+
+            // Get the topics
+            var topics = Task.Run(() => _topicService.GetTopicosRecentes(pageIndex,
+                settings.TopicsPerPage,
+                ForumConfiguration.Instance.ActiveTopicsListSize,
+                allowedCategories)).Result;
+
+            // Get the Topic View Models
+            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
+                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
+                _pollService, _voteService, _favouriteService);
+
+            // create the view model
+            var viewModel = new ActiveTopicsViewModel
+            {
+                Topics = topicViewModels,
+                PageIndex = pageIndex,
+                TotalCount = topics.TotalCount,
+                TotalPages = topics.TotalPages
+            };
+
+            return PartialView(viewModel);
+        }
+
+        [ChildActionOnly]
+        public virtual ActionResult TopicosMaisVistos(int? p)
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+            var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
+            var settings = SettingsService.GetSettings();
+
+            // Set the page index
+            var pageIndex = p ?? 1;
+
+            // Get the topics
+            var topics = Task.Run(() => _topicService.GetTopicosMaisVistos(pageIndex,
+                settings.TopicsPerPage,
+                ForumConfiguration.Instance.ActiveTopicsListSize,
+                allowedCategories)).Result;
+
+            // Get the Topic View Models
+            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
+                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
+                _pollService, _voteService, _favouriteService);
+
+            // create the view model
+            var viewModel = new ActiveTopicsViewModel
+            {
+                Topics = topicViewModels,
+                PageIndex = pageIndex,
+                TotalCount = topics.TotalCount,
+                TotalPages = topics.TotalPages
+            };
+
+            return PartialView(viewModel);
+        }
+
+        [ChildActionOnly]
+        public virtual ActionResult TopicosDestacados(int? p)
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+            var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
+            var settings = SettingsService.GetSettings();
+
+            // Set the page index
+            var pageIndex = p ?? 1;
+
+            // Get the topics
+            var topics = Task.Run(() => _topicService.GetTopicosDestacados(pageIndex,
+                settings.TopicsPerPage,
+                ForumConfiguration.Instance.ActiveTopicsListSize,
+                allowedCategories)).Result;
+
+            // Get the Topic View Models
+            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
+                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
+                _pollService, _voteService, _favouriteService);
+
+            // create the view model
+            var viewModel = new ActiveTopicsViewModel
+            {
+                Topics = topicViewModels,
+                PageIndex = pageIndex,
+                TotalCount = topics.TotalCount,
+                TotalPages = topics.TotalPages
+            };
+
+            return PartialView(viewModel);
+        }
+
         [ChildActionOnly]
         public virtual ActionResult HotTopics(DateTime? from, DateTime? to, int? amountToShow)
         {
@@ -920,5 +1134,7 @@
 
             return PartialView(viewModel);
         }
+
+        
     }
 }

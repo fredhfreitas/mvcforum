@@ -104,7 +104,7 @@
             var allowedCatIds = allowedCategories.Select(x => x.Id);
             return _context.Post
                     .Include(x => x.Topic.Category)
-                    .Where(x => allowedCatIds.Contains(x.Topic.Category.Id));
+                    .Where(x => allowedCatIds.Contains(x.Topic.Category.Id) && x.User.UserName != "editor");
 
         }
 
@@ -118,7 +118,7 @@
             return _context.Post
                 .Include(x => x.Topic)
                 .Include(x => x.User)
-                .Where(x => x.VoteCount < 0 && x.Pending != true)
+                .Where(x => x.VoteCount < 0 && x.Pending != true && x.User.UserName != "editor")
                 .OrderBy(x => x.VoteCount)
                 .Take(amountToTake)
                 .ToList();
@@ -136,7 +136,7 @@
             return _context.Post
                 .Include(x => x.Topic)
                 .Include(x => x.User)
-                .Where(x => x.VoteCount > 0 && x.Pending != true)
+                .Where(x => x.VoteCount > 0 && x.Pending != true && x.User.UserName != "editor")
                 .OrderByDescending(x => x.VoteCount)
                 .Take(amountToTake)
                 .ToList();
@@ -159,7 +159,7 @@
                     .Include(x => x.Topic.LastPost.User)
                     .Include(x => x.Topic.Category)
                     .Include(x => x.User)
-                    .Where(x => x.User.Id == memberId && x.Pending != true)
+                    .Where(x => x.User.Id == memberId && x.Pending != true && x.User.UserName != "editor")
                     .Where(x => allowedCatIds.Contains(x.Topic.Category.Id))
                     .OrderByDescending(x => x.DateCreated)
                     .Take(amountToTake)
@@ -189,7 +189,7 @@
                    .Include(x => x.Topic.Category)
                    .Include(x => x.User)
                    .Include(x => x.Favourites.Select(f => f.Member))
-                   .Where(x => x.User.Id == postsByMemberId && x.Favourites.Count(c => c.Member.Id != postsByMemberId) >= minAmountOfFavourites);
+                   .Where(x => x.User.Id == postsByMemberId && x.User.UserName != "editor" && x.Favourites.Count(c => c.Member.Id != postsByMemberId) >= minAmountOfFavourites);
 
         }
 
@@ -201,7 +201,7 @@
                         .Include(x => x.Topic.Category)
                         .Include(x => x.User)
                         .Include(x => x.Favourites.Select(f => f.Member))
-                        .Where(x => x.User.Id == postsByMemberId && x.Favourites.Any(c => c.Member.Id != postsByMemberId));
+                        .Where(x => x.User.Id == postsByMemberId && x.User.UserName != "editor" && x.Favourites.Any(c => c.Member.Id != postsByMemberId));
 
 
         }
@@ -229,7 +229,7 @@
             var query = _context.Post
                             .Include(x => x.Topic.Category)
                             .Include(x => x.User)
-                            .Where(x => x.Pending != true)
+                            .Where(x => x.Pending != true && x.User.UserName != "editor")
                             .Where(x => allowedCatIds.Contains(x.Topic.Category.Id));
 
             // Start the predicate builder
@@ -271,7 +271,7 @@
             var results = _context.Post
                                   .Include(x => x.User)
                                   .Include(x => x.Topic)
-                                  .Where(x => x.Topic.Id == topicId && !x.IsTopicStarter && x.Pending != true);
+                                  .Where(x => x.Topic.Id == topicId && !x.IsTopicStarter && x.Pending != true && x.User.UserName != "editor");
 
             // Sort what order the posts are sorted in
             switch (order)
@@ -298,7 +298,7 @@
             var query = _context.Post
                 .Include(x => x.Topic.Category)
                 .Include(x => x.User)
-                .Where(x => x.Pending == true && allowedCatIds.Contains(x.Topic.Category.Id))
+                .Where(x => x.Pending == true && allowedCatIds.Contains(x.Topic.Category.Id) && x.User.UserName != "editor")
                 .OrderBy(x => x.DateCreated);
             return await PaginatedList<Post>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
         }
@@ -356,7 +356,7 @@
                 .Include(x => x.Topic.LastPost.User)
                 .Include(x => x.User)
                 .Where(x => x.User.Id == memberId)
-                .Where(x => x.IsSolution && x.Pending != true)
+                .Where(x => x.IsSolution && x.Pending != true && x.User.UserName != "editor")
                 .Where(x => allowedCatIds.Contains(x.Topic.Category.Id))
                 .OrderByDescending(x => x.DateCreated)
                 .ToList();

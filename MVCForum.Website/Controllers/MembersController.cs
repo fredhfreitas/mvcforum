@@ -122,6 +122,11 @@
             return Redirect(user.NiceUrl);
         }
 
+        public virtual ActionResult LogOnSmall()
+        {
+            return PartialView();
+        }
+
         /// <summary>
         ///     Ban a member
         /// </summary>

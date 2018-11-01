@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MvcForum.Web</RootNamespace>
     <AssemblyName>MvcForum.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <FileUpgradeFlags>
@@ -112,6 +112,7 @@
     <Compile Include="ViewModels\Admin\AdminLanguageViewModels.cs" />
     <Compile Include="ViewModels\Admin\AdminViewModels.cs" />
     <Compile Include="ViewModels\Category\SectionListViewModel.cs" />
+    <Compile Include="ViewModels\Contact\ContactFormModel.cs" />
     <Compile Include="ViewModels\GenericMessageViewModel.cs" />
     <Compile Include="ViewModels\Admin\LogViewModels.cs" />
     <Compile Include="ViewModels\Admin\PermissionsViewModels.cs" />
@@ -1093,13 +1094,13 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_GenericMessage.cshtml" />
     <Content Include="Views\Badge\AllBadges.cshtml" />
-    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\_Index.cshtml" />
     <Content Include="Views\Category\ListCategorySideMenu.cshtml" />
     <Content Include="Views\Category\ListMainCategories.cshtml" />
     <Content Include="Views\Category\Show.cshtml" />
     <Content Include="Views\Closed\Index.cshtml" />
     <Content Include="Views\Home\Activity.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\2index.cshtml" />
     <Content Include="Views\Topic\LatestTopics.cshtml" />
     <Content Include="Views\Home\Leaderboard.cshtml" />
     <Content Include="Views\Members\AdminMemberProfileTools.cshtml" />
@@ -1176,6 +1177,31 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Views\Category\ListSections.cshtml" />
+    <Content Include="Views\Home\index.cshtml" />
+    <Content Include="Views\Shared\_LayoutDefault.cshtml" />
+    <Content Include="Views\Shared\_rodape.cshtml" />
+    <Content Include="Views\Shared\_topo.cshtml" />
+    <Content Include="Views\Shared\_menu.cshtml" />
+    <Content Include="Views\Members\LogOnSmall.cshtml" />
+    <Content Include="Views\Search\Busca.cshtml" />
+    <Content Include="Views\Topic\TopicosRecentes.cshtml" />
+    <Content Include="Views\Topic\TopicosMaisVistos.cshtml" />
+    <Content Include="Views\Post\GetPostByGuid.cshtml" />
+    <Content Include="Views\Topic\TopicosDestacados.cshtml" />
+    <Content Include="Views\Category\index.cshtml" />
+    <Content Include="Views\Category\ListaCategorias.cshtml" />
+    <Content Include="Views\Shared\_CategoryCustom.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Shared\_LayoutRightSideBarDefault.cshtml" />
+    <Content Include="Views\Home\UniversoRetro.cshtml" />
+    <Content Include="Views\Topic\TopicosDestacadosShow.cshtml" />
+    <Content Include="Views\Home\TopicosDestacados.cshtml" />
+    <Content Include="Views\Home\TopicosMaisVistos.cshtml" />
+    <Content Include="Views\Home\TopicosRecentes.cshtml" />
+    <Content Include="Views\Home\TopicosFotos.cshtml" />
+    <Content Include="Views\Topic\TopicosMaisVistosShow.cshtml" />
+    <Content Include="Views\Topic\TopicosRecentesShow.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\StorageProviders\" />

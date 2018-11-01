@@ -189,10 +189,32 @@
             if (SettingsService.GetSettings().EnableSpamReporting)
             {
                 var post = _postService.Get(id);
-                return View(new ReportPostViewModel { PostId = post.Id, PostCreatorUsername = post.User.UserName });
+                return View(new PostViewModel { Post = post });
             }
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
         }
+
+        [AllowAnonymous]
+        public virtual ActionResult GetPostByGuid(string value)
+        {            
+            var post = _postService.Get(Guid.Parse(value));
+            var viewModel = new PostViewModel
+            {
+               Post = post
+            };
+            return PartialView(viewModel);
+        }
+
+        //[AllowAnonymous]
+        //public virtual ActionResult GetByPostByTopic(string value)
+        //{
+        //    var posts = _postService.GetPostsByTopic(Guid.Parse(value));
+        //    var viewModel = new PostViewModel 
+        //    {
+        //        Posts = posts
+        //    };
+        //    return PartialView(viewModel);
+        //}
 
         [HttpPost]
         public virtual ActionResult Report(ReportPostViewModel viewModel)

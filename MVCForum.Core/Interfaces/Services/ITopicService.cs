@@ -11,7 +11,7 @@
 
     public partial interface ITopicService : IContextService
     {
-        IList<Topic> GetAll(List<Category> allowedCategories);
+        IList<Topic> GetAll(List<Category> allowedCategories);      
         IList<SelectListItem> GetAllSelectList(List<Category> allowedCategories, int amount);
         IList<Topic> GetHighestViewedTopics(int amountToTake, List<Category> allowedCategories);
 
@@ -25,6 +25,15 @@
         IList<Topic> GetTodaysTopics(int amountToTake, List<Category> allowedCategories);
 
         Task<PaginatedList<Topic>> GetRecentTopics(int pageIndex, int pageSize, int amountToTake,
+            List<Category> allowedCategories);
+
+        Task<PaginatedList<Topic>> GetTopicosRecentes(int pageIndex, int pageSize, int amountToTake,
+            List<Category> allowedCategories);
+
+        Task<PaginatedList<Topic>> GetTopicosMaisVistos(int pageIndex, int pageSize, int amountToTake,
+            List<Category> allowedCategories);
+
+        Task<PaginatedList<Topic>> GetTopicosDestacados(int pageIndex, int pageSize, int amountToTake,
             List<Category> allowedCategories);
 
         IList<Topic> GetRecentRssTopics(int amountToTake, List<Category> allowedCategories);

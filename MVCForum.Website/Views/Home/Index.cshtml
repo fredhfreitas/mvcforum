@@ -1,32 +1,39 @@
-﻿@{
-    Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
     ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
     ViewBag.MetaDesc = Html.Settings().MetaDesc;
 }
 
+<div class="row">
+    <div class="col-md-9">
+        @*Destaque*@
+        <div>  @Html.Action("GetPostByGuid", "Post", new { value = "711AF7E5-F8A4-449B-A16D-A98200048CA8" })</div>
+        <div>
+            topicos destacados
+            @Html.Action("TopicosDestacados", "Topic", new { Values = "16" })
+            <a href="/home/topicosDestacados">Ver todos</a>
+        </div>
+    </div>
+    <div class="col-md-3 sidelayoutsection">
+        <div class="main-side-box clearfix">
+            <div>
+                topicos mais vistos
+                @Html.Action("TopicosMaisVistos", "Topic", new { Values = "4" })
+                <a href="/home/topicosMaisVistos">Ver todos</a>
+            </div>
+            <div>
+                topicos recentes
+                @Html.Action("TopicosRecentes", "Topic", new { Values = "4" })
+                <a href="/home/TopicosRecentes">Ver todos</a>
+            </div>
+            @*<div>anuncios</div>*@
+            @*<div>videos</div>*@
+            <div>
+                fotos
+                @Html.Action("GetPostByGuid", "Post", new { value = "D4880976-70DA-474C-8533-A9820006A639" })
 
-@section side
-{
-    @Html.Partial("_CommonSideNav")
-}
-
-@* ### Remove ME - Not needed, just for our forum ### *@
-@Html.Partial("_DocumentationBlock")
-@* ### Remove ME - Not needed, just for our forum ### *@
-
-@* Check forum.config to change this *@
-
-@{
-    switch (ForumConfiguration.Instance.ForumIndexView)
-    {
-        case "Categories":
-            @Html.Action("ListMainCategories", "Category")
-            break;
-        case "Sections":
-            @Html.Action("ListSections", "Category")
-            break;
-        case "Topics":
-            @Html.Action("LatestTopics", "Topic")
-            break;
-    }
-}
+            </div>
+        </div>
+    </div>
+</div>

@@ -66,7 +66,7 @@
         public async Task<int> SaveChanges()
         {
             return await _context.SaveChangesAsync();
-        }
+        }      
 
         /// <summary>
         /// Get all topics
@@ -81,7 +81,7 @@
                                 .Include(x => x.User)
                                 .Include(x => x.Poll)
                                 .AsNoTracking()
-                                .Where(x => allowedCatIds.Contains(x.Category.Id) && x.Pending != true)
+                                .Where(x => allowedCatIds.Contains(x.Category.Id) && x.Pending != true && x.User.UserName != "editor")
                                 .ToList();
         }
 
@@ -92,7 +92,7 @@
                 var allowedCatIds = allowedCategories.Select(x => x.Id);
                 return _context.Topic.AsNoTracking()
                                     .Include(x => x.Category)
-                                    .Where(x => allowedCatIds.Contains(x.Category.Id) && x.Pending != true)
+                                    .Where(x => allowedCatIds.Contains(x.Category.Id) && x.Pending != true && x.User.UserName != "editor")
                                     .OrderByDescending(x => x.CreateDate)
                                     .Take(amount)
                                     .Select(x => new SelectListItem
@@ -114,7 +114,7 @@
                                 .Include(x => x.Poll)
                                 .AsNoTracking()
                             .Where(x => x.Pending != true)
-                            .Where(x => allowedCatIds.Contains(x.Category.Id))
+                            .Where(x => allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                             .OrderByDescending(x => x.Views)
                             .Take(amountToTake)
                             .ToList();
@@ -140,7 +140,7 @@
                 .Include(x => x.LastPost)
                 .Include(x => x.Posts)
                 .Include(x => x.User)
-                .Where(x => allowedCatIds.Contains(x.Category.Id))
+                .Where(x => allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                 .OrderByDescending(x => x.Posts.Count(c => c.DateCreated >= from && c.DateCreated <= to))
                 .ThenByDescending(x => x.Posts.Select(v => v.VoteCount).Sum())
                 .ThenByDescending(x => x.Views)
@@ -276,7 +276,7 @@
                                 .Include(x => x.LastPost.User)
                                 .Include(x => x.User)
                                 .AsNoTracking()
-                        .Where(c => c.CreateDate >= DateTime.Today && c.Pending != true)
+                        .Where(c => c.CreateDate >= DateTime.Today && c.Pending != true && c.User.UserName != "editor")
                         .Where(x => allowedCatIds.Contains(x.Category.Id))
                         .OrderByDescending(x => x.CreateDate)
                         .Take(amountToTake)
@@ -290,7 +290,7 @@
                 .Include(x => x.Category)
                 .Include(x => x.User)
                 .Include(x => x.Posts)
-                .Where(x => x.CreateDate <= datefrom && !x.Solved && x.Posts.Count > 1 && x.SolvedReminderSent != true)
+                .Where(x => x.CreateDate <= datefrom && !x.Solved && x.Posts.Count > 1 && x.SolvedReminderSent != true && x.User.UserName != "editor")
                 .Select(x => new MarkAsSolutionReminder
                 {
                     Topic = x,
@@ -319,8 +319,81 @@
                 .Include(x => x.User)
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
-                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id))
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                 .OrderByDescending(x => x.LastPost.DateCreated);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Returns a paged list of topics, ordered by most recent
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <param name="allowedCategories"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetTopicosRecentes(int pageIndex, int pageSize, int amountToTake, List<Category> allowedCategories)
+        {
+            // get the category ids
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.Category)
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName !=  "editor")
+                .OrderByDescending(x => x.LastPost.DateCreated);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Returns a paged list of topics, ordered by most recent
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <param name="allowedCategories"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetTopicosMaisVistos(int pageIndex, int pageSize, int amountToTake, List<Category> allowedCategories)
+        {
+            // get the category ids
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.Category)
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .OrderByDescending(x => x.Views);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        public async Task<PaginatedList<Topic>> GetTopicosDestacados(int pageIndex, int pageSize, int amountToTake, List<Category> allowedCategories)
+        {
+            // get the category ids
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.Category)
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .OrderByDescending(x => x.Views).ThenByDescending(x=>x.Posts.Count);
 
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
@@ -385,7 +458,7 @@
                                 .Include(x => x.Category)
                                 .Include(x => x.LastPost.User)
                                 .Include(x => x.User)
-                    .Where(x => postIds.Contains(x.LastPost.Id) && allowedCatIds.Contains(x.Category.Id))
+                    .Where(x => postIds.Contains(x.LastPost.Id) && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                     .Where(x => x.Pending != true)
                     .ToList();
         }
@@ -408,7 +481,7 @@
                         .Include(x => x.Poll)
                         .Include(x => x.Tags)
                         .Where(x => x.Category.Id == categoryId)
-                        .Where(x => x.Pending != true)
+                        .Where(x => x.Pending != true && x.User.UserName != "editor")
                         .OrderByDescending(x => x.IsSticky)
                         .ThenByDescending(x => x.LastPost.DateCreated);
 
@@ -436,7 +509,7 @@
                             .Include(x => x.Poll)
                             .Include(x => x.Tags)
                             .AsNoTracking()
-                            .Where(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id))
+                            .Where(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                             .OrderBy(x => x.LastPost.DateCreated);
 
             // Return a paged list
@@ -497,7 +570,7 @@
                                 .Include(x => x.LastPost.User)
                                 .Include(x => x.User)
                                 .Include(x => x.Poll)
-                            .Where(x => x.Category.Id == categoryId)
+                            .Where(x => x.Category.Id == categoryId && x.User.UserName != "editor")
                             .Where(x => x.Pending != true)
                             .OrderByDescending(x => x.LastPost.DateCreated)
                             .Take(amountToTake)
@@ -527,7 +600,7 @@
                 .Include(x => x.User)
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
-                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id))
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                 .OrderByDescending(x => x.IsSticky)
                 .ThenByDescending(x => x.LastPost.DateCreated)
                 .Where(e => e.Tags.Any(t => t.Slug.Equals(tag)));
@@ -566,7 +639,7 @@
                             .Include(x => x.User)
                             .Include(x => x.Tags)
                             .AsNoTracking()
-                            .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id))
+                            .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                             .Where(x => x.Posts.Any(p => p.Pending != true));
 
             // Loop through each word and see if it's in the post
@@ -593,7 +666,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => topicIds.Contains(x.Id))
-                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id))
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                 .OrderByDescending(x => x.LastPost.DateCreated);
 
             // Return a paged list
@@ -633,7 +706,7 @@
                                 .Include(x => x.User)
                                 .Include(x => x.Poll)
                                 .Include(x => x.Tags)
-                            .Where(x => topicIds.Contains(x.Id))
+                            .Where(x => topicIds.Contains(x.Id) && x.User.UserName != "editor")
                             .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id))
                             .OrderByDescending(x => x.LastPost.DateCreated)
                             .Take(amountToTake)
@@ -656,6 +729,7 @@
                     .Include(x => x.User)
                     .Include(x => x.Poll)
                     .Include(x => x.Tags)
+                    //.Where  (x => x.User.UserName != "editor")
                     .FirstOrDefault(x => x.Slug == slug);
         }
 
@@ -689,7 +763,7 @@
                 .Include(x => x.User)
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
-                .Where(x => topicIds.Contains(x.Id) && allowedCatIds.Contains(x.Category.Id))
+                .Where(x => topicIds.Contains(x.Id) && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                 .OrderByDescending(x => x.LastPost.DateCreated)
                 .ToList();
         }
@@ -732,7 +806,7 @@
                 return _context.Topic
                     .Include(x => x.Category)
                     .AsNoTracking()
-                    .Count(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id));
+                    .Count(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor");
       
 
         }
@@ -839,7 +913,7 @@
                                 .Include(x => x.Poll)
                                 .AsNoTracking()
                                 .Where(x => x.Category.Id == categoryId)
-                                .Where(x => x.Pending != true)
+                                .Where(x => x.Pending != true && x.User.UserName != "editor")
                                 .ToList();
 
             return results;
@@ -857,7 +931,7 @@
                 .Include(x => x.LastPost.User)
                 .Include(x => x.User)
                 .Include(x => x.Poll)
-                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id))
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                 .OrderByDescending(x => x.IsSticky)
                 .ThenByDescending(x => x.LastPost.DateCreated);
 
@@ -872,7 +946,7 @@
                                 .Include(x => x.LastPost.User)
                                 .Include(x => x.User)
                                 .Include(x => x.Poll)
-                            .Where(x => x.Slug.Contains(slug))
+                            .Where(x => x.Slug.Contains(slug) && x.User.UserName != "editor")
                             .ToList();
         }
 

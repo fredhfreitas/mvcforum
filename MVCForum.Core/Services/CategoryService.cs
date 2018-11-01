@@ -150,14 +150,14 @@
         {
             return _context.Category.AsNoTracking()
                 .Include(x => x.ParentCategory)
-                .Include(x => x.Section)
+                .Include(x => x.Section)                
                 .Where(cat => cat.ParentCategory == null)
                 .OrderBy(x => x.SortOrder)
                 .Select(x => new CategorySummary
                 {
                     Category = x,
-                    TopicCount = x.Topics.Count,
-                    PostCount = x.Topics.SelectMany(p => p.Posts).Count(), // TODO - Should this be a seperate call?
+                    TopicCount = x.Topics.Where(u => u.User.UserName != "editor").Count(),
+                    PostCount = x.Topics.SelectMany(p => p.Posts).Where(u=>u.User.UserName != "editor").Count(), // TODO - Should this be a seperate call?
                     MostRecentTopic = x.Topics.OrderByDescending(t => t.LastPost.DateCreated).FirstOrDefault() // TODO - Should this be a seperate call?
                 })
                 .ToList();

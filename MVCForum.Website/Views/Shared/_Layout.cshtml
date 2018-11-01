@@ -39,12 +39,12 @@
 </head>
 
 <body class="@TempData[Constants.GlobalClass].ToString() loggedin-@(User.Identity.IsAuthenticated.ToString().ToLower())">
-    
+
     <nav class="pushy pushy-left">
         <ul>
             @if (User.Identity.IsAuthenticated)
             {
-                @Html.Action("SideAdminPanel", "Members", new { isDropDown  = false})
+                @Html.Action("SideAdminPanel", "Members", new { isDropDown = false })
             }
             else
             {
@@ -55,10 +55,10 @@
                 <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
             }
             <li><a href="@Url.Action("Index", "Category")">@Html.LanguageString("Category.AllCategories")</a></li>
-            @Html.Partial("SubNavigation")
+            @*@Html.Partial("SubNavigation")*@
         </ul>
     </nav>
-    <div class="site-overlay"></div>    
+    <div class="site-overlay"></div>
 
     <header>
 
@@ -72,29 +72,30 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                        <img src="@Url.Content($"{theme.ThemePath}/content/images/logo.png")" alt="@Html.Lang("Site.MvcForum")" class="logoimg"/>                        
+                        @Html.Partial("_topo")
+                        @*<img src="@Url.Content($"{theme.ThemePath}/content/images/logo.png")" alt="@Html.Lang("Site.MvcForum")" class="logoimg"/>*@
                     </a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="mvcforum-nav">
-    
-                    <ul class="nav navbar-nav navbar-right">
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            if (Html.Settings().SuspendRegistration != true)
+                @*<div class="collapse navbar-collapse" id="mvcforum-nav">
+
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (!User.Identity.IsAuthenticated)
                             {
-                                <li><a class="auto-register" href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
+                                if (Html.Settings().SuspendRegistration != true)
+                                {
+                                    <li><a class="auto-register" href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
+                                }
+                                <li><a class="auto-logon" href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
                             }
-                            <li><a class="auto-logon" href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
-                        }                        
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            @Html.Action("SideAdminPanel", "Members", new { isDropDown = true })
-                        }
-                    </ul>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @Html.Action("SideAdminPanel", "Members", new { isDropDown = true })
+                            }
+                        </ul>
 
 
-                </div>
+                    </div>*@
             </div>
         </nav>
     </header>
@@ -104,7 +105,8 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul>
-                        @Html.Partial("SubNavigation")
+                        @Html.Partial("_menu")
+                        @*@Html.Partial("SubNavigation")*@
                     </ul>
                 </div>
             </div>
@@ -121,42 +123,13 @@
 
         </div>
     </section>
+    @RenderSection("Footer", false)
+    @Html.Partial("_rodape")
 
-
-    <footer>
-        <div class="container">
-
-            @RenderSection("Footer", false)
-
-            <div class="row">
-                <div class="col-sm-6">
-                    @Html.Action("GetMainStats", "Stats")
-                </div>
-                <div class="col-sm-6">
-                    @Html.Action("GetCurrentActiveMembers", "Members")
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="licenceblock">
-                        <!-- ########################## IMPORTANT - PLEASE DO NOT REMOVE WITHOUT LICENSE ###########################
-
-                            If you would like to remove the powered by notice, then please vist http://www.mvcforum.com/license -->
-
-                        <p>&copy; @DateTime.UtcNow.Year - @Html.LanguageString("Layout.PoweredBy") <a rel="nofollow" href="http://www.mvcforum.com">MvcForum.com</a></p>
-
-                        <!--########################## IMPORTANT - PLEASE DO NOT REMOVE WITHOUT LICENSE ########################### -->
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </footer>
     @Html.Partial("_SlideOutPanel")
     @if (!string.IsNullOrEmpty(Html.Settings().CustomFooterCode))
     {
         @Html.Raw(Html.Settings().CustomFooterCode)
-    }    
+    }
 </body>
 </html>

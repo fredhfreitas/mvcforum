@@ -69,6 +69,27 @@
             return View();
         }
 
+        public ActionResult Categoria()
+        {
+            return View();
+        }
+
+        [ChildActionOnly]
+        public virtual PartialViewResult ListaCategorias()
+        {
+            // TODO - OutputCache and add clear to post/topic/category delete/create/edit
+
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+            var catViewModel = new CategoryListSummaryViewModel
+            {
+                AllPermissionSets =
+                    ViewModelMapping.GetPermissionsForCategories(_categoryService.GetAllMainCategoriesInSummary(),
+                        _roleService, loggedOnUsersRole)
+            };
+            return PartialView(catViewModel);
+        }
+
         [ChildActionOnly]
         public virtual PartialViewResult ListMainCategories()
         {
