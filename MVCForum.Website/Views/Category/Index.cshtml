@@ -1,15 +1,23 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
-    ViewBag.Title = Html.Raw(Html.LanguageString("Category.AllCategories"));
+   Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
+   ViewBag.Title = Html.Raw(Html.LanguageString("Category.AllCategories"));
 }
 @section side
 {
-    @*@Html.Action("SideSearch", "Search")*@
-    @*@Html.Action("PopularTags", "Tag", new { amountToTake = 20})
-        @Html.Action("CurrentWeekHighPointUsers", "Point")*@
-    <h3 class="title-bar">Tópicos <span>mais vistos</span></h3>
-    @Html.Action("TopicosMaisVistos", "Topic", new { Values = "4" })
-    <a href="/home/topicosMaisVistos" class="btn btn-primary">Ver todos</a>
+   @*@Html.Action("SideSearch", "Search")*@
+   @*@Html.Action("PopularTags", "Tag", new { amountToTake = 20})
+       @Html.Action("CurrentWeekHighPointUsers", "Point")*@
+
+    <div class="topics side">
+        <h3 class="title-bar">Tópicos <span>mais vistos</span></h3>
+        @Html.Action("TopicosMaisVistos", "Topic", new { Values = "4" })
+        <a href="/home/topicosMaisVistos" class="btn btn-primary">Ver todos</a>
+    </div>
+    <div class="topics side">
+        <h3 class="title-bar">Tópicos <span>recentes</span></h3>
+        @Html.Action("TopicosRecentes", "Topic", new { Values = "4" })
+        <a href="/home/topicosRecentes" class="btn btn-primary">Ver todos</a>
+    </div>
 }
 
 

@@ -5,13 +5,24 @@
 
 @section side
 {
-    @Html.Action("GetNoticiaByGuid", "Post", new { value = "028B824F-6900-4FB3-8897-A984002E732D", total = 10 })
-    <br />
-    <a href="/noticias">Ver todas</a>
+    <div class="topics side">
+        <h3 class="title-bar">Notícias <span>recentes</span></h3>
+        @Html.Action("GetNoticiaByGuid", "Post", new { value = "028B824F-6900-4FB3-8897-A984002E732D", total = 10 })
+        <a class="btn btn-primary" href="/noticias">Ver todas</a>
+    </div>
 }
-
+    <div class="row default-header">
+        <div class="col-md-12">
+            <h3 class="title-bar">Mídia</h3>
+        </div>
+    </div>
+    <div class="row header-btns">
+        <div class="col-md-12">
+            <a href="#" class="btn btn-primary btn-universo active">Fotos</a>
+            <!-- <a href="#" class="btn btn-primary btn-universo">Vídeos</a> -->
+        </div>
+    </div>
     <div class="postedin">
-        <h3 class="title-bar">Fotos</h3>
         @*@Html.Action("GetPostByGuid", "Post", new { value = "d4880976-70da-474c-8533-a9820006a639" })*@
 
         @*@Html.Action("TopicsMemberHasPostedIn", "Topic")*@

@@ -1,24 +1,21 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
     ViewBag.Title = Html.Lang("PostedIn.PageTitle");
 }
 
-@section side
-{
-    @*@Html.Partial("_CommonSideNav")*@
-}
-
-<div >
-
-    @*<h1>@ViewBag.Title</h1>*@
-    <h1>Novo Tópico</h1>
-
-    <span>O que deseja fazer?</span>
-
-    @*@Html.Action("NovoTopico", "Topic")*@
-    <br />
-    <a href="../topic/CompartilharFoto" id="linkCompartilharFoto">Compartilhar uma foto</a> 
-    <a href="../topic/CompartilharTexto" id="linkCompartilharFoto">Compartilhar uma texto</a> 
-    <a href="../topic/NovoTopico" id="linkCompartilharFoto">Criar um novo tópico</a>
-
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="title-bar">Novo Tópico</h1>
+    </div>
+</div>
+<div class="row bordered">
+    <div class="col-md-12">
+        @*<h1>@ViewBag.Title</h1>*@
+        <h4>O que deseja fazer?</h4>
+        @*@Html.Action("NovoTopico", "Topic")*@
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-3"><a class="btn btn-secondary btn-create" href="../topic/CompartilharFoto" id="linkCompartilharFoto">Compartilhar uma foto</a> </div>
+    <div class="col-md-3"><a class="btn btn-secondary btn-create" href="../topic/CompartilharTexto" id="linkCompartilharFoto">Compartilhar uma texto</a> </div>
+    <div class="col-md-3"><a class="btn btn-secondary btn-create" href="../topic/NovoTopico" id="linkCompartilharFoto">Criar um novo tópico</a></div>
 </div>

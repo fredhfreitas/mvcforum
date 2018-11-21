@@ -18,10 +18,14 @@
         counter = @(Model.PollAnswers != null ? Model.PollAnswers.Count : 0);
     </script>
 }
+<div class="row default-header">
+    <div class="col-md-12">
+        <h1 class="title-bar">Compartilhar texto</h1>
+    </div>
+</div>
+<div class="row sharephoto">
 
-<div class="row">
-
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-12">
         <div class="createtopicholder">
 
             @using (Html.BeginForm("CompartilharTexto", "Topic", FormMethod.Post, new { enctype = "multipart/form-data" }))

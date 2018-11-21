@@ -2,7 +2,7 @@
 @model MvcForum.Web.ViewModels.Member.MemberFrontEndEditViewModel
 
 @{
-    Layout = "~/Views/Shared/_LayoutFullWidth.cshtml";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
     ViewBag.Title = Html.LanguageString("Members.EditProfile");
     var settings = Html.Settings();
 }
@@ -16,6 +16,9 @@
                 ShowUserMessage("Error: " + xhr.status + " " + thrownError);
             }
         });
+        $(document).ready ( function () {
+            $('.username-readonly').html($('#UserName').val());
+        });
     </script>
 
 }
@@ -26,23 +29,43 @@
     @*@Html.Partial("~/Views/Badge/AllBadgesUser.cshtml")*@
 
 </div>
-
+<div class="row default-header">
+    <div class="col-md-12">
+        <h3 class="title-bar">@ViewBag.Title</h3>
+    </div>
+</div>
 <div class="row">
-
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-7">
         @using (Html.BeginForm("Edit", "Members", FormMethod.Post, new { enctype = "multipart/form-data", @class = "editmemberform" }))
         {
             @Html.HiddenFor(x => Model.Id)
-
             @Html.ValidationSummary(true)
-
             <fieldset>
-                <legend>@ViewBag.Title</legend>
-
+                @if (!Model.DisableFileUploads)
+                {
+                    <div class="row membereditavatar">
+                        <div class="col-md-4">
+                            <img src="@AppHelpers.MemberImage(Model.Avatar, Model.Email, Model.Id, ForumConfiguration.Instance.GravatarProfileSize)" alt="@Model.UserName">
+                        </div>
+                        <div class="col-md-8">
+                            <span class="username-readonly"></span>
+                            @*@Html.LabelFor(x => x.Files)*@
+                            <div class="input-group">
+                                <input type="text" class="form-control" readonly="" placeholder="Editar foto do perfil">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-default btn-file">
+                                        @Html.LanguageString("Post.Browse") <input type="file" name="files" id="files" value="">
+                                    </span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(x => x.Files)
+                        </div>
+                    </div>
+                }
                 <p class="changepasswordtext">
                     @Html.Raw(string.Format(Html.LanguageString("Members.ChangePassword.Link"), string.Format("<a href=\"{0}\">{1}</a>", Url.Action("ChangePassword"), Html.LanguageString("Members.ChangePassword.Title"))))
                 </p>
-
+                <h4>Dados Pessoais:</h4>
                 <div class="form-group">
                     @Html.LabelFor(x => x.UserName)
                     @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
@@ -54,27 +77,6 @@
                     @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email" })
                     @Html.ValidationMessageFor(x => x.Email)
                 </div>
-
-                @if (!Model.DisableFileUploads)
-                {
-                    <div class="row membereditavatar">
-                        <div class="col-md-2">
-                            <img src="@AppHelpers.MemberImage(Model.Avatar, Model.Email, Model.Id, ForumConfiguration.Instance.GravatarProfileSize)" alt="@Model.UserName">
-                        </div>
-                        <div class="col-md-10">
-                            @Html.LabelFor(x => x.Files)
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn btn-default btn-file">
-                                        @Html.LanguageString("Post.Browse") <input type="file" name="files" id="files" value="">
-                                    </span>
-                                </span>
-                                <input type="text" class="form-control" readonly="">
-                            </div>
-                            @Html.ValidationMessageFor(x => x.Files)
-                        </div>
-                    </div>
-                }
 
                 <div class="form-group">
                     @Html.LabelFor(x => x.Age)
@@ -155,7 +157,7 @@
 
 
                 </div>
-
+                <h4>Dados da Retro:</h4>
                 <div id="retro1">
                     <div class="form-group">
                         Marca
@@ -177,7 +179,7 @@
                         @Html.TextBoxFor(x => Model.Empresa1, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.Empresa1)
                     </div>
-                    <a href="#" onclick="ShowItem(2);">Adicionar outra retro[+]</a>
+                    <a href="#" class="btn btn-secondary" onclick="ShowItem(2, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
                 </div>
 
                 <div id="retro2" style="display:none">
@@ -201,7 +203,7 @@
                         @Html.TextBoxFor(x => Model.Empresa2, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.Empresa2)
                     </div>
-                    <a href="#" onclick="ShowItem(3);">Adicionar outra retro[+]</a>
+                    <a href="#" class="btn btn-secondary" onclick="ShowItem(3, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
                 </div>
 
                 <div id="retro3" style="display:none">
@@ -225,7 +227,7 @@
                         @Html.TextBoxFor(x => Model.Empresa3, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.Empresa3)
                     </div>
-                    <a href="#" onclick="ShowItem(4);">Adicionar outra retro[+]</a>
+                    <a href="#" class="btn btn-secondary" onclick="ShowItem(4, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
                 </div>
 
                 <div id="retro4" style="display:none">
@@ -249,7 +251,7 @@
                         @Html.TextBoxFor(x => Model.Empresa4, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.Empresa4)
                     </div>
-                    <a href="#" onclick="ShowItem(5);">Adicionar outra retro[+]</a>
+                    <a href="#" class="btn btn-secondary" onclick="ShowItem(5, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
                 </div>
 
                 <div id="retro5" style="display:none">
@@ -285,24 +287,24 @@
                 </div>
 
                 <div class="submit-holder">
-                    <button type="submit" class="btn-mvc-green btn-mvc-large">@Html.LanguageString("Buttons.Save")</button>
+                    <button type="submit" class="btn btn-primary">@Html.LanguageString("Buttons.Save")</button>
                 </div>
             </fieldset>
         }
         <script>
-            function ShowItem(item) {
-
+            function ShowItem(item, e) {
+                e.preventDefault();
                 var x = document.getElementById("retro" + item);
-
-
                 if (x.style.display === "none") {
                     x.style.display = "block";
-
                 } else {
-
                     x.style.display = "none";
                 }
             }
         </script>
+    </div>
+
+    <div class="col-md-4 col-md-offset-1">
+        @Html.Action("GetActiveMembers", "Members")
     </div>
 </div>

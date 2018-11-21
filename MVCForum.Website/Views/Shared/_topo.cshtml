@@ -68,7 +68,7 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <span>Olá, @User.Identity.Name</span>
+                        <span class="hidden">Olá, @User.Identity.Name</span>
 
                         <a class="btn btn-secondary pull-right" href="@Url.Action("LogOff", "Members")">Log Off</a>
                         @*@Html.Action("SideAdminPanel", "Members", new { isDropDown = true })*@

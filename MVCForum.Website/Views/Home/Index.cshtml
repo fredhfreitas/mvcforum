@@ -24,18 +24,18 @@
 <div class="row homesection">
     <div class="col-md-8">
         <h3 class="title-bar">Tópicos <span>destacados</span></h3>
-        @Html.Action("TopicosDestacados", "Topic", new { Values = "16" })
+        @Html.Action("TopicosDestacados", "Topic", new { Values = "8" })
         <div class="clearfix"></div>
         <a href="/home/topicosDestacados" class="btn btn-primary btn-full">Ver todos</a>
     </div>
     <div class="col-md-4 sidelayoutsection">
         <div class="main-side-box clearfix">
-            <div>
+            <div class="topics side">
                 <h3 class="title-bar">Tópicos <span>mais vistos</span></h3>
                 @Html.Action("TopicosMaisVistos", "Topic", new { Values = "4" })
                 <a href="/home/topicosMaisVistos" class="btn btn-primary">Ver todos</a>
             </div>
-            <div>
+            <div class="topics side">
                 <h3 class="title-bar">Tópicos <span>recentes</span></h3>
                 @Html.Action("TopicosRecentes", "Topic", new { Values = "4" })
                 <a href="/home/TopicosRecentes" class="btn btn-primary">Ver todos</a>

@@ -51,8 +51,25 @@
 {
     @Html.Partial("_CommonSideNav")
 }
-
-@Html.Action("GetTopicBreadcrumb", "Topic", new { topic = Model.Topic })
+<div class="row default-header">
+    <div class="col-md-12">
+        <h3 class="title-bar">Tópico</h3>
+    </div>
+</div>
+<div class="row topic-sub-header">
+    <div class="col-md-12">
+        @Html.Action("GetTopicBreadcrumb", "Topic", new { topic = Model.Topic })
+    </div>
+    <div class="col-md-6">
+        
+    </div>
+    <div class="col-md-6">
+        <ul class="view-comments-topic">
+            <li><i class="far fa-eye"></i> @Model.Views.KiloFormat() @Html.Lang("Topic.Views")</li>
+            <li><i class="far fa-comment-alt"></i> @Html.Lang("Topic.LastPost") @DatesUi.GetPrettyDate(Model.Topic.LastPost.DateCreated.ToString())</li>
+        </ul>
+    </div>
+</div>
 <div class="topicshow">
 
     <div class="topicheading">
@@ -64,22 +81,15 @@
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     @Html.LanguageString("Topic.Subscribe")
                 </a>
-                <a @Html.Raw(unSubscribe) href="#" class="emailunsubscription" data-id="@Model.Topic.Id" data-type="topic">
+                <a @Html.Raw(unSubscribe) href="#" class="emailunsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                     @Html.LanguageString("Topic.UnSubscribe")
                 </a>
             }
         </div>
-
         <h1>@Html.Raw(Model.Topic.Name)</h1>
+        <!-- <ul class="topicinfo">
 
-
-        <ul class="topicinfo">
-
-            @if (Model.Topic.IsSticky)
-            {
-                <li><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> @Html.Lang("Topic.IsSticky")</li>
-            }
             @if (Model.Topic.IsLocked)
             {
                 <li><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Html.Lang("Topic.IsLocked")</li>
@@ -101,13 +111,7 @@
 
             <li><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> @Html.Lang("Topic.LastPost") @DatesUi.GetPrettyDate(Model.Topic.LastPost.DateCreated.ToString())</li>
 
-            @if (Model.Topic.Solved)
-            {
-                <li><span class="glyphicon glyphicon glyphicon-ok green-colour" aria-hidden="true"></span> @Html.Lang("Topic.IsSolved")</li>
-            }
-
-        </ul>
-
+        </ul> -->
     </div>
 
     @if (Html.Settings().EnablePolls == true && Model.Poll != null)
@@ -124,9 +128,9 @@
         {
             <div class="row topicstarterpostbeginpostsheading">
                 <div class="col-md-8 hidden-xs topicstarterpostcomments">
-                    @(Model.TotalCount) @Html.LanguageString("Topic.CommentsDetails")
+                    <h5>@Html.LanguageString("Topic.CommentsDetails")</h5>
                 </div>
-                <div class="col-md-4 topicpostorderfilter">
+                <div class="col-md-4 topicpostorderfilter hidden">
                     @if ((Model.TotalCount - 1) > 0)
                     {
                         <text> @Html.LanguageString("PostFilter.OrderBy")

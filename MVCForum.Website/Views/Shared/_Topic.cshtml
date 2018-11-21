@@ -7,25 +7,122 @@
 }
 @if (!Model.Permissions[ForumConfiguration.Instance.PermissionDenyAccess].IsTicked)
 {
-    <div class="@(@ViewContext.RouteData.Values["action"].Equals("TopicosDestacados") ? "col-md-6" : "col-md-12")">
-        <div class="topic-item topicrow topicsticky-@(Model.Topic.IsSticky.ToString().ToLower()) topiclocked-@(Model.Topic.IsLocked.ToString().ToLower()) topicsolved-@(Model.Topic.Solved.ToString().ToLower())">
+    if (@ViewContext.RouteData.Values["action"].Equals("TopicosDestacados") || @ViewContext.RouteData.Values["action"].Equals("TopicsMemberHasPostedIn")) {
+        <div class="@( @ViewContext.RouteData.Values["action"].Equals("TopicosDestacados") || @ViewContext.RouteData.Values["action"].Equals("TopicsMemberHasPostedIn") ? "col-md-6" : "col-md-12")">
+            <div class="topic-item topicrow topicsticky-@(Model.Topic.IsSticky.ToString().ToLower()) topiclocked-@(Model.Topic.IsLocked.ToString().ToLower()) topicsolved-@(Model.Topic.Solved.ToString().ToLower())">
 
-            <div class="rowcreater hidden">
-                <a href="@Model.Topic.User.NiceUrl">
-                    <img src="@Model.Topic.User.MemberImage(ForumConfiguration.Instance.GravatarTopicSize)" alt="@Model.Topic.User.UserName">
-                </a>
-                @if (Model.MemberIsOnline)
+                <div class="rowcreater hidden">
+                    <a href="@Model.Topic.User.NiceUrl">
+                        <img src="@Model.Topic.User.MemberImage(ForumConfiguration.Instance.GravatarTopicSize)" alt="@Model.Topic.User.UserName">
+                    </a>
+                    @if (Model.MemberIsOnline)
+                    {
+                        <span class="label label-success">
+                            @Html.Lang("Post.MemberIsOnline")
+                        </span>
+                    }
+                </div>
+
+                @if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success)
                 {
-                    <span class="label label-success">
-                        @Html.Lang("Post.MemberIsOnline")
-                    </span>
+                    <div class="topic-image">
+                        @Html.Raw((Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Value))
+                    </div>
                 }
+                else
+                {
+                    <div class="topic-image text-image">
+                        <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">@Html.Raw(Model.Topic.Name)</a>
+                    </div>
+                }
+                <div class="topic-info-side">
+                    @if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success) {
+                        <div class="topic-title">
+                            <h4>
+                                <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">
+                                    @*@if (Model.Topic.IsSticky)
+                                    {
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    }
+                                    @if (Model.Topic.IsLocked)
+                                    {
+                                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                                    }
+                                    @if (Model.Topic.Poll != null)
+                                    {
+                                        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                                    }*@
+                                    @Html.Raw(Model.Topic.Name)
+                                </a>
+                            </h4>
+                        </div>
+                    }
+                    @if (Model.ShowUnSubscribedLink)
+                    {
+                        <p>
+                            <a href="#" class="emailunsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                @Html.LanguageString("Topic.UnSubscribe")
+                            </a>
+                        </p>
+                    }
+                    else if (Model.Topic.Tags.Any())
+                    {
+                        <!-- <div class="tagsinput clearfix">
+                            @foreach (var tag in Model.Topic.Tags)
+                            {
+                                <span class="tag"><span><a href="@Html.Raw(tag.NiceUrl)">@Html.Raw(tag.Tag)</a></span></span>
+                            }
+                        </div> -->
+                    }
+
+                    <div class="topic-info-actions">
+                        <div class="avatar">
+                            <a href="@Html.Raw(Model.LastPostPermaLink)">
+                                <img src="@Model.Topic.LastPost.User.MemberImage(ForumConfiguration.Instance.GravatarLatestBySize)" class="latestby" alt="@Model.Topic.LastPost.User.UserName">
+                            </a> 
+                        </div>
+                        <div class="name-date">
+                            <p>
+                                <!-- <a href="@Html.Raw(Model.LastPostPermaLink)">@Html.LanguageString("Topic.LatestBy")</a>  -->
+                                <a href="@Model.Topic.LastPost.User.NiceUrl">@Model.Topic.LastPost.User.UserName</a> 
+                                <span>@DatesUi.GetPrettyDate(Model.Topic.LastPost.DateCreated.ToString()).</span>
+                            </p>
+                        </div>
+                        <div class="view-comment">
+                            <span class="stats topicviews"><i class="far fa-eye"></i> @Model.Views.KiloFormat()</span>
+                            <span class="stats topicanswers"><i class="far fa-comment-alt"></i> @Model.Answers.KiloFormat()</span>
+                        </div>
+                        <!-- <span class="stats topicupvotes"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> @Model.VotesUp.KiloFormat()</span>
+                        <span class="stats topicdownvotes"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> @Model.VotesDown.KiloFormat()</span> -->
+                        @if (Model.Topic.Solved)
+                        {
+                            <span class="stats topicsolved"><span class="glyphicon glyphicon-ok green-colour" aria-hidden="true"></span></span>
+                        }
+                    </div>
+                </div>
             </div>
+        </div>
 
-            @if (ViewContext.RouteData.Values["action"].Equals("TopicosDestacados"))
-            {
+    } else {
 
-                if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success)
+        <div class="@( @ViewContext.RouteData.Values["action"].Equals("TopicosDestacados") || @ViewContext.RouteData.Values["action"].Equals("TopicsMemberHasPostedIn") ? "col-md-6" : "col-md-12")">
+            <div class="topic-item side topicrow topicsticky-@(Model.Topic.IsSticky.ToString().ToLower()) topiclocked-@(Model.Topic.IsLocked.ToString().ToLower()) topicsolved-@(Model.Topic.Solved.ToString().ToLower())">
+
+                <div class="rowcreater hidden">
+                    <a href="@Model.Topic.User.NiceUrl">
+                        <img src="@Model.Topic.User.MemberImage(ForumConfiguration.Instance.GravatarTopicSize)" alt="@Model.Topic.User.UserName">
+                    </a>
+                    @if (Model.MemberIsOnline)
+                    {
+                        <span class="label label-success">
+                            @Html.Lang("Post.MemberIsOnline")
+                        </span>
+                    }
+                </div>
+
+                
+                @if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success)
                 {
                     <div class="topic-image">
                         @Html.Raw((Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Value))
@@ -37,71 +134,68 @@
                         <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">@Html.Raw(Model.Topic.Name)</a>
                     </div>
                 }               
-            }
-            @if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success) {
                 <div class="topic-title">
                     <h4>
                         <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">
-                                @if (Model.Topic.IsSticky)
-                                {
-                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                                }
-                                @if (Model.Topic.IsLocked)
-                                {
-                                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                                }
-                                @if (Model.Topic.Poll != null)
-                                {
-                                    <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-                                }
-                                @Html.Raw(Model.Topic.Name)
+                            @*@if (Model.Topic.IsSticky)
+                            {
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            }
+                            @if (Model.Topic.IsLocked)
+                            {
+                                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                            }
+                            @if (Model.Topic.Poll != null)
+                            {
+                                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                            }*@
+                            @Html.Raw(Model.Topic.Name)
                         </a>
                     </h4>
                 </div>
-            }
-            @if (Model.ShowUnSubscribedLink)
-            {
-                <p>
-                    <a href="#" class="emailunsubscription" data-id="@Model.Topic.Id" data-type="topic">
-                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                        @Html.LanguageString("Topic.UnSubscribe")
-                    </a>
-                </p>
-            }
-            else if (Model.Topic.Tags.Any())
-            {
-                <!-- <div class="tagsinput clearfix">
-                    @foreach (var tag in Model.Topic.Tags)
-                    {
-                        <span class="tag"><span><a href="@Html.Raw(tag.NiceUrl)">@Html.Raw(tag.Tag)</a></span></span>
-                    }
-                </div> -->
-            }
-
-            <div class="topic-info-actions">
-                <div class="avatar">
-                    <a href="@Html.Raw(Model.LastPostPermaLink)">
-                        <img src="@Model.Topic.LastPost.User.MemberImage(ForumConfiguration.Instance.GravatarLatestBySize)" class="latestby" alt="@Model.Topic.LastPost.User.UserName">
-                    </a> 
-                </div>
-                <div class="name-date">
-                    <p>
-                        <!-- <a href="@Html.Raw(Model.LastPostPermaLink)">@Html.LanguageString("Topic.LatestBy")</a>  -->
-                        <a href="@Model.Topic.LastPost.User.NiceUrl">@Model.Topic.LastPost.User.UserName</a> 
-                        <span>@DatesUi.GetPrettyDate(Model.Topic.LastPost.DateCreated.ToString()).</span>
-                    </p>
-                </div>
-                <div class="view-comment">
-                    <span class="stats topicviews"><i class="far fa-eye"></i> @Model.Views.KiloFormat()</span>
-                    <span class="stats topicanswers"><i class="far fa-comment-alt"></i> @Model.Answers.KiloFormat()</span>
-                </div>
-                <!-- <span class="stats topicupvotes"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> @Model.VotesUp.KiloFormat()</span>
-                <span class="stats topicdownvotes"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> @Model.VotesDown.KiloFormat()</span> -->
-                @if (Model.Topic.Solved)
+                @if (Model.ShowUnSubscribedLink)
                 {
-                    <span class="stats topicsolved"><span class="glyphicon glyphicon-ok green-colour" aria-hidden="true"></span></span>
+                    <p>
+                        <a href="#" class="emailunsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                            @Html.LanguageString("Topic.UnSubscribe")
+                        </a>
+                    </p>
                 }
+                else if (Model.Topic.Tags.Any())
+                {
+                    <!-- <div class="tagsinput clearfix">
+                        @foreach (var tag in Model.Topic.Tags)
+                        {
+                            <span class="tag"><span><a href="@Html.Raw(tag.NiceUrl)">@Html.Raw(tag.Tag)</a></span></span>
+                        }
+                    </div> -->
+                }
+
+                <div class="topic-info-actions">
+                    <div class="avatar hidden">
+                        <a href="@Html.Raw(Model.LastPostPermaLink)">
+                            <img src="@Model.Topic.LastPost.User.MemberImage(ForumConfiguration.Instance.GravatarLatestBySize)" class="latestby" alt="@Model.Topic.LastPost.User.UserName">
+                        </a> 
+                    </div>
+                    <div class="name-date">
+                        <p>
+                            <!-- <a href="@Html.Raw(Model.LastPostPermaLink)">@Html.LanguageString("Topic.LatestBy")</a>  -->
+                            <a href="@Model.Topic.LastPost.User.NiceUrl">@Model.Topic.LastPost.User.UserName</a> | <span>@DatesUi.GetPrettyDate(Model.Topic.LastPost.DateCreated.ToString()).</span>
+                        </p>
+                    </div>
+                    <div class="view-comment">
+                        <span class="stats topicviews"><i class="far fa-eye"></i> @Model.Views.KiloFormat()</span>
+                        <span class="stats topicanswers"><i class="far fa-comment-alt"></i> @Model.Answers.KiloFormat()</span>
+                    </div>
+                    <!-- <span class="stats topicupvotes"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> @Model.VotesUp.KiloFormat()</span>
+                    <span class="stats topicdownvotes"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> @Model.VotesDown.KiloFormat()</span> -->
+                    @if (Model.Topic.Solved)
+                    {
+                        <span class="stats topicsolved"><span class="glyphicon glyphicon-ok green-colour" aria-hidden="true"></span></span>
+                    }
+                </div>
             </div>
         </div>
-    </div>
+    }
 }

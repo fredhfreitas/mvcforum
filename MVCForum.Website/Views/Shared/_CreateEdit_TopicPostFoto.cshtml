@@ -11,26 +11,28 @@
 
 @if (Model.IsTopicStarter)
 {
-    <div class="col-md-5 col-md-offset-1 topiccategory">
+    <div class="col-md-4 col-md-offset-4 topiccategory">
 
         @if (Model.Id == Guid.Empty)
         {
             <div class="form-group createuploadfiles">
-                @Html.LabelFor(x => x.Files)
+                @*@Html.LabelFor(x => x.Files)*@
+                <span class="title-step">Compartilhar uma foto</span>
                 <div class="input-group">
+                    <input type="text" class="form-control" readonly="">
                     <span class="input-group-btn">
                         <span class="btn btn-default btn-file">
                             @Html.LanguageString("Post.Browse") <input type="file" name="files" id="files" multiple="multiple" value="">
                         </span>
                     </span>
-                    <input type="text" class="form-control" readonly="">
                 </div>
                 @Html.ValidationMessageFor(x => x.Files)
             </div>
         }
     </div>
 }
-<div id="myDIV" style="display:none">
+<div id="myDIV" class="row" style="display:none">
+    <div class="col-md-6 col-md-offset-3">
     @if (Model.IsTopicStarter)
     {
         @*<div class="row paddedrow">
@@ -46,8 +48,10 @@
                 }
             </div>*@
         <br />
-        <div>
-            <img id="imagem" src="" title="imagem" />
+        <div class="row image-preview">
+            <div class="col-md-10 col-md-offset-1">
+                <img id="imagem" src="" title="imagem" />
+            </div>
         </div>
         <div class="paddedrow topicname">
             <div class="form-group">
@@ -137,7 +141,7 @@
     </div>
 
     <div class="row" >
-        <div class="col-md-6 createtopicbuttonholder">
+        <div class="col-md-6 col-md-offset-3 createtopicbuttonholder">
             <div class="submit-holder">
                 <button type="submit" class="btn btn-primary btn-full">
                     @if (Model.Id == Guid.Empty)
@@ -180,10 +184,16 @@
 
 
     @Html.HiddenFor(x => x.IsPostEdit)
-
+    </div>
 </div>
-<div>
-    <a id="anterior" href="#" onclick="window.history.back();">Anterior</a> <a id="proximo" href="#" onclick="myFunction()">Proximo</a>
+<div class="clearfix"></div>
+<div class="row btns-create-topic-holder">
+    <div class="col-md-3 col-md-offset-3 btns-create-topic">
+        <a id="anterior" class="btn btn-primary " href="#" onclick="window.history.back();">Anterior</a>
+    </div>
+    <div class="col-md-3 btns-create-topic">
+        <a id="proximo" class="btn btn-primary" href="#" onclick="myFunction()">Proximo</a>
+    </div>
 </div>
 <script>
     $('#files').change(function (event) {

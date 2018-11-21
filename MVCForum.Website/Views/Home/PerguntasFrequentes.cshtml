@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutRightSideBarDefault.cshtml";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
     ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
 }
 
@@ -16,5 +16,39 @@
     @*@Html.Action("GetPostByGuid", "Post", new { value = "6f05bced-2c7f-4216-82f5-a982000762dc" })*@
 
     @*@Html.Action("TopicsMemberHasPostedIn", "Topic")*@
+
+    <div class="row default-header">
+        <div class="col-md-12">
+            <h3 class="title-bar">Perguntas frequentes</h3>
+        </div>
+    </div>
+    <div class="row faqs">
+        <div class="col-md-12">
+            <span>Consulte aqui as respostas para as dúvidas mais frequentes</span>
+        </div>
+        <div class="col-md-12">
+            <a href="#" class="collapse-link" data-toggle="collapse" data-target="#faq1">1. O QUE É O CLUBE DA RETRO? <i class="fas fa-chevron-down"></i></a>
+            <div id="faq1" class="collapse">
+                <p>O Clube da Retro é uma comunidade que tem como objetivo promover o contato e a troca de informações e experiências sobre retros tanto no mundo real como no mundo virtual. Nesse portal é possível realizar a troca de informações, postagens (mensagens, fotos, vídeos etc.). É aberto ao público e direcionado a qualquer um que se interesse pela troca de conteúdo focado em Retroescavadeiras. Por meio do cadastro o particiante pode fazer posts de forma identificada e, futuramente ter acesso a benefícios.</p>
+            </div>
+            <!-- | --->
+            <a href="#" class="collapse-link" data-toggle="collapse" data-target="#faq2">2. QUEM PODE PARTICIPAR DO CLUBE E DO PORTAL? <i class="fas fa-chevron-down"></i></a>
+            <div id="faq2" class="collapse">
+                <p>Qualquer pessoa pode se inscrever no portal e participar do Clube. Se você tem uma retro ou se interessa pelo tema, nós queremos ouvir suas histórias</p>
+            </div>
+            <!-- | --->
+            <a href="#" class="collapse-link" data-toggle="collapse" data-target="#faq3">3. PRECISO PAGAR PARA PARTICIPAR? <i class="fas fa-chevron-down"></i></a>
+            <div id="faq3" class="collapse">
+                <p>Não. O Clube da Retro é uma iniciativa totalmente gratuita, focada na troca de informação e experiências entre os usuários</p>
+            </div>
+            <!-- | --->
+            <a href="#" class="collapse-link" data-toggle="collapse" data-target="#faq4">4. EXISTEM ENCONTROS / EVENTOS DO CLUBE DA RETRO, FORA DA INTERNETE? <i class="fas fa-chevron-down"></i></a>
+            <div id="faq4" class="collapse">
+                <p>Sim, o clube promoverá eventos no mundo real. O Portal serve como espaço sempre aberto para o contato e a troca de informações, mas teremos um calendário de eventos regionais, organizados para que os participantes do Clube possam se conhecer e falar bastante sobre o assunto preferido: Retroescavadeiras.</p>
+            </div>
+            <!-- | --->
+            
+        </div>
+    </div>
 
 </div>

@@ -36,7 +36,7 @@
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 @Html.LanguageString("Topic.Subscribe")
             </a>
-            <a @Html.Raw(unSubscribe) href="#" class="emailunsubscription" data-id="@Model.TagId" data-type="tag">
+            <a @Html.Raw(unSubscribe) href="#" class="emailunsubscription btn btn-primary" data-id="@Model.TagId" data-type="tag">
                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                 @Html.LanguageString("Topic.UnSubscribe")
             </a>

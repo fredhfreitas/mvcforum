@@ -14,11 +14,9 @@
         Html.RenderPartial("_Topic", topic);
     }
 
-    
+    @if (Model.TotalPages > 1)
+    {
+        @Html.Pager(Convert.ToInt32(Model.PageIndex), Html.Settings().TopicsPerPage, totalCount, null, "Index", "Home")
+    }
 
-        @if (Model.TotalPages > 1)
-        {
-            @Html.Pager(Convert.ToInt32(Model.PageIndex), Html.Settings().TopicsPerPage, totalCount, null, "Index", "Home")
-        }
-
-    </div>
+</div>

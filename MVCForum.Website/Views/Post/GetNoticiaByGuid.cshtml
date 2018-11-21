@@ -1,9 +1,13 @@
 ﻿@model List<MvcForum.Core.Models.Entities.Post>
-
-
-@foreach (var post in Model)
-{
-    <a href="/noticias/@post.Id">
-        @Html.Raw(HttpUtility.HtmlDecode(post.PostContent))
-    </a>
-}
+<div class="categories-box">
+    <ul>
+        @foreach (var post in Model)
+        {
+            <li>
+                <a href="/noticias/@post.Id">
+                    @Html.Raw(HttpUtility.HtmlDecode(post.PostContent))
+                </a>
+            </li>
+        }
+    </ul>
+</div>

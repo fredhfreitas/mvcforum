@@ -65,7 +65,8 @@
         {
             <img src="@AppHelpers.CategoryImage(Model.Category.Image, Model.Category.Id,110)" alt="@Model.Category" class="categoryimage" />
         }
-        <h1>@Html.Raw(Model.Category.Name)</h1>
+        <h1 class="title-bar">@Html.Raw(Model.Category.Name)</h1>
+        <div class="clearfix"></div>
         <p>@Html.Raw(Model.Category.Description.ConvertPostContent())</p>
     </div>
 
@@ -81,7 +82,7 @@
     @if (Model.TotalCount > 0)
     {
         foreach (var topic in Model.Topics)
-        {
+        {   
             Html.RenderPartial("_Topic", topic);
         }
 

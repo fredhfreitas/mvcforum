@@ -10,128 +10,66 @@
     var upVotes = Model.Votes.Where(x => x.Amount > 0).ToList();
 }
 <div class="post solution-@Model.Post.IsSolution.ToString().ToLower() post-@postId" data-id="@postId">
-
-    <div class="rowcreater hidden-xs">
-        <a id="comment-@postId"></a>
-        <a href="@Model.Post.User.NiceUrl">
-            <img src="@Model.Post.User.MemberImage(ForumConfiguration.Instance.GravatarPostSize)" alt="@Model.Post.User.UserName">
-        </a>
-        @if (Model.Post.User.Roles.Any(x => x.RoleName.Contains(Constants.AdminRoleName)))
-        {
-            <span class="label label-default">
-                @Html.Lang("Admin")
-            </span>
-        }
-        @if (Model.MemberIsOnline)
-        {
-            <span class="label label-success">
-                @Html.Lang("Post.MemberIsOnline")
-            </span>
-        }
-        @if (Model.IsTrustedUser)
-        {
-            <span class="label label-success">
-                @Html.Lang("Post.IsTrustedUser")
-            </span>
-        }
-    </div>
-
     <div class="rowdetails clearfix">
-
-
-        @if (Html.CurrentMember() != null && !Model.MinimalPost)
-        {
-            <div class="postadmin">
-                <button class="postoptions btn-mvc btn-mvc-fullwidth">@Html.LanguageString("Post.Options")</button>
-                <ul class="clearfix postadminlist">
-                    <li>
-                        <a class="btn-mvc btn-mvc-small btn-mvc-fullwidth" href="?quote=@Model.Post.Id#createpost">
-                            @Html.LanguageString("Post.Quote")
-                        </a>
-                    </li>
-
-                    @if (Model.Post.User.Id != loggedOnUserId && loggedOnUserId != Guid.Empty && Html.Settings().EnableSpamReporting)
-                    {
-                        <li>
-                            <a class="btn-mvc btn-mvc-small btn-mvc-fullwidth" href="@Url.Action("Report", "Post", new { id = Model.Post.Id })">
-                                @Html.LanguageString("Post.Report")
-                            </a>
-                        </li>
-                    }
-
-                    @if (Model.Post.User.Id == loggedOnUserId || Model.Permissions[ForumConfiguration.Instance.PermissionDeletePosts].IsTicked)
-                    {
-                        <li>
-                                @using (Html.BeginForm("DeletePost", "Post", FormMethod.Post, new {@class = "form-login"}))
-                                {
-                                    <button class="btn-mvc btn-mvc-small btn-mvc-fullwidth" onclick="return confirm('@(Html.LanguageString("Post.DeleteConfirmation"))')" type="submit">@Html.LanguageString("Post.Delete")</button>
-                                    @Html.Hidden("id", Model.Post.Id)
-                                }
-                            @*<a class="btn-mvc btn-mvc-small btn-mvc-fullwidth" onclick="return confirm('@(Html.LanguageString("Post.DeleteConfirmation"))')" href="@Url.Action("DeletePost", "Post", new {id = Model.Post.Id})">
-                                @Html.LanguageString("Post.Delete")
-                            </a>*@
-                        </li>
-                    }
-
-                    @if (Model.Post.User.Id == loggedOnUserId || Model.Permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
-                    {
-                        <li>
-                            <a class="btn-mvc btn-mvc-small btn-mvc-fullwidth" href="@Url.Action("EditPostTopic", "Topic", new { id = Model.Post.Id })">
-                                @Html.LanguageString("Post.Edit")
-                            </a>
-                        </li>
-                    }
-
-                    @if (!Model.Post.IsTopicStarter && Model.Permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
-                    {
-                        <li>
-                            <a class="btn-mvc btn-mvc-small btn-mvc-fullwidth" href="@Url.Action("MovePost", "Post", new { id = Model.Post.Id })">
-                                @Html.LanguageString("Post.Move")
-                            </a>
-                        </li>
-                    }
-
-                    @if ((Model.Post.User.Id == loggedOnUserId && Model.Post.User.DisableFileUploads != true || User.IsInRole(Constants.AdminRoleName)) && Model.Permissions[ForumConfiguration.Instance.PermissionAttachFiles].IsTicked)
-                    {
-                        <li>
-                            <a class="btn-mvc btn-mvc-small btn-mvc-fullwidth postshowattach" href="#">
-                                @Html.LanguageString("Post.Attach")
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
-        }
-
-
-        <div class="postdetails@(Html.CurrentMember() == null ? " postdetails-guest" : "")">
-            <div class="postbodytop">
-                @if (Model.ShowTopicName)
+        <div class="row user-topic-details">
+            <div class="col-md-6">
+                <!-- Usr -->
+                <a id="comment-@postId"></a>
+                <a class="usr-avatar" href="@Model.Post.User.NiceUrl">
+                    <img class="usr-avatar" src="@Model.Post.User.MemberImage(ForumConfiguration.Instance.GravatarPostSize)" alt="@Model.Post.User.UserName">
+                </a>
+                @*@if (Model.Post.User.Roles.Any(x => x.RoleName.Contains(Constants.AdminRoleName)))
                 {
-                    <p><a href="@Model.ParentTopic.NiceUrl">@Model.ParentTopic.Name</a></p>
+                    <span class="label label-default">
+                        @Html.Lang("Admin")
+                    </span>
                 }
-                <a class="postmember-@postId" href="@Html.Raw(Model.Post.User.NiceUrl)">@Html.Raw(Model.Post.User.UserName)</a>
-                @Html.LanguageString("Post.PostedThis")
-                @DatesUi.GetPrettyDate(Model.Post.DateCreated.ToString())
-                @if (isAdmin && !string.IsNullOrEmpty(Model.Post.IpAddress))
+                @if (Model.MemberIsOnline)
                 {
-                    <text> - @Model.Post.IpAddress</text>
+                    <span class="label label-success">
+                        @Html.Lang("Post.MemberIsOnline")
+                    </span>
                 }
-                <span class="hidden-xs">
-                    @if (Html.Settings().DisplayEditedBy && Model.Post.DateEdited > Model.Post.DateCreated)
+                @if (Model.IsTrustedUser)
+                {
+                    <span class="label label-success">
+                        @Html.Lang("Post.IsTrustedUser")
+                    </span>
+                }*@
+            
+                <div class="postbodytop">
+                    @if (Model.ShowTopicName)
                     {
-                        if (Model.Permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
+                        <p><a href="@Model.ParentTopic.NiceUrl">@Model.ParentTopic.Name</a></p>
+                    }
+                    <a class="postmembername postmember-@postId" href="@Html.Raw(Model.Post.User.NiceUrl)">@Html.Raw(Model.Post.User.UserName)</a>
+                    @*@Html.LanguageString("Post.PostedThis")*@
+                    <span class="postmemberpostedin">@DatesUi.GetPrettyDate(Model.Post.DateCreated.ToString())</span>
+                    @if (isAdmin && !string.IsNullOrEmpty(Model.Post.IpAddress))
+                    {
+                        <text> - @Model.Post.IpAddress</text>
+                    }
+                    <span class="hidden-xs">
+                        @if (Html.Settings().DisplayEditedBy && Model.Post.DateEdited > Model.Post.DateCreated)
                         {
-                            <text> - <a href="@Url.Action("GetPostEditHistory", "Post", new {id = Model.Post.Id})" class="showpostedithistory" data-name="@Html.Lang("PostEdit.Panel.Name")">@Html.LanguageString("Post.LastEdited")  @DatesUi.GetPrettyDate(Model.Post.DateEdited.ToString())</a></text>
+                            if (Model.Permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
+                            {
+                                <text> - <a href="@Url.Action("GetPostEditHistory", "Post", new {id = Model.Post.Id})" class="showpostedithistory" data-name="@Html.Lang("PostEdit.Panel.Name")">@Html.LanguageString("Post.LastEdited")  @DatesUi.GetPrettyDate(Model.Post.DateEdited.ToString())</a></text>
+                            }
+                            else
+                            {
+                                <text> - @Html.LanguageString("Post.LastEdited")  @DatesUi.GetPrettyDate(Model.Post.DateEdited.ToString())</text>
+                            }
                         }
-                        else
-                        {
-                            <text> - @Html.LanguageString("Post.LastEdited")  @DatesUi.GetPrettyDate(Model.Post.DateEdited.ToString())</text>
-    }
-}
-                </span>
+                    </span>
+                </div>
+                <!-- Usr -->
             </div>
+            <div class="col-md-6">
 
+            </div>
+        </div>
+        <div class="postdetails@(Html.CurrentMember() == null ? " postdetails-guest" : "")">
             <div id="postcontent-@postId" class="postcontent">
                 <p>@Html.Raw(Model.Post.PostContent.ConvertPostContent())</p>
 
@@ -145,13 +83,13 @@
             {
                 <div class="postsocial">
                     <ul>
-                        <li class="permalink">
+                        <li class="permalink hidden">
                             <a href="@Html.Raw(Model.PermaLink)">
                                 #@Html.Lang("Post.Permalink")
                             </a>
                         </li>
                         <li>
-                            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                            <i class="far fa-thumbs-up"></i>
                             @if (Html.Settings().EnablePoints)
                             {
                                 <span class="count">@upVotes.Count.KiloFormat()</span>
@@ -167,7 +105,7 @@
                         @if (!Html.Settings().DisableDislikeButton)
                         {
                             <li>
-                                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                                <i class="far fa-thumbs-down"></i>
                                 @if (Html.Settings().EnablePoints)
                                 {
                                     <span class="count">@downVotes.Count.KiloFormat()</span>
@@ -181,7 +119,7 @@
                             </li>
                         }
                         <li>
-                            <span class="glyphicon @(Model.MemberHasFavourited ? "glyphicon glyphicon-star" : "glyphicon-star-empty")" aria-hidden="true"></span>
+                            <i class="@(Model.MemberHasFavourited ? "fas fa-star" : "far fa-star")" aria-hidden="true"></i>
                             <span class="count">@Model.Favourites.Count</span>
                             @if (Html.CurrentMember() != null && Model.Post.User.Id != loggedOnUserId)
                             {
@@ -191,7 +129,7 @@
                             }
                         </li>
 
-                        @if (Html.Settings().EnableMarkAsSolution)
+                        @*@if (Html.Settings().EnableMarkAsSolution)
                         {
                             if (Model.ParentTopic.Solved && Model.Post.IsSolution)
                             {
@@ -199,7 +137,7 @@
                                     <span class="glyphicon glyphicon-ok green-colour" aria-hidden="true"></span>
                                 </li>
                             }
-                            else if (!Model.ParentTopic.Solved && !Model.Post.IsTopicStarter && Html.CurrentMember() != null && (Model.ParentTopic.User.Id == loggedOnUserId || User.IsInRole(Constants.AdminRoleName)))
+                            <!-- else if (!Model.ParentTopic.Solved && !Model.Post.IsTopicStarter && Html.CurrentMember() != null && (Model.ParentTopic.User.Id == loggedOnUserId || User.IsInRole(Constants.AdminRoleName)))
                             {
                                 <li>
                                     <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
@@ -207,7 +145,7 @@
                                         @Html.LanguageString("Post.IsSolution")
                                     </a>
                                 </li>
-                            }
+                            } -->
                         }
 
                         @if (Html.CurrentMember() != null && Model.Post.User.Id != loggedOnUserId && !Model.Post.IsTopicStarter)
@@ -218,7 +156,7 @@
                                     @Html.LanguageString("Post.Reply")
                                 </a>
                             </li>
-                        }
+                        }*@
                     </ul>
 
                 </div>
@@ -288,10 +226,73 @@
                 </div>
             }
 
-            @Html.Partial("_PostLikedBy", new PostLikedByViewModel { Post = Model.Post, Votes = upVotes })
+            @*@Html.Partial("_PostLikedBy", new PostLikedByViewModel { Post = Model.Post, Votes = upVotes })*@
 
         </div>
 
+        @if (Html.CurrentMember() != null && !Model.MinimalPost)
+        {
+            <div class="postadmin">
+                <button class="postoptions btn-mvc btn-mvc-fullwidth">@Html.LanguageString("Post.Options")</button>
+                <ul class="clearfix postadminlist">
+                    <li>
+                        <a class="btn btn-gray" href="?quote=@Model.Post.Id#createpost">
+                            @Html.LanguageString("Post.Quote")
+                        </a>
+                    </li>
+
+                    @if (Model.Post.User.Id != loggedOnUserId && loggedOnUserId != Guid.Empty && Html.Settings().EnableSpamReporting)
+                    {
+                        <li>
+                            <a class="btn btn-gray" href="@Url.Action("Report", "Post", new { id = Model.Post.Id })">
+                                @Html.LanguageString("Post.Report")
+                            </a>
+                        </li>
+                    }
+
+                    @if (Model.Post.User.Id == loggedOnUserId || Model.Permissions[ForumConfiguration.Instance.PermissionDeletePosts].IsTicked)
+                    {
+                        <li>
+                                @using (Html.BeginForm("DeletePost", "Post", FormMethod.Post, new {@class = "form-login"}))
+                                {
+                                    <button class="btn btn-gray" onclick="return confirm('@(Html.LanguageString("Post.DeleteConfirmation"))')" type="submit">@Html.LanguageString("Post.Delete")</button>
+                                    @Html.Hidden("id", Model.Post.Id)
+                                }
+                            @*<a class="btn btn-gray" onclick="return confirm('@(Html.LanguageString("Post.DeleteConfirmation"))')" href="@Url.Action("DeletePost", "Post", new {id = Model.Post.Id})">
+                                @Html.LanguageString("Post.Delete")
+                            </a>*@
+                        </li>
+                    }
+
+                    @if (Model.Post.User.Id == loggedOnUserId || Model.Permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
+                    {
+                        <li>
+                            <a class="btn btn-gray" href="@Url.Action("EditPostTopic", "Topic", new { id = Model.Post.Id })">
+                                @Html.LanguageString("Post.Edit")
+                            </a>
+                        </li>
+                    }
+
+                    @if (!Model.Post.IsTopicStarter && Model.Permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
+                    {
+                        <li>
+                            <a class="btn btn-gray" href="@Url.Action("MovePost", "Post", new { id = Model.Post.Id })">
+                                @Html.LanguageString("Post.Move")
+                            </a>
+                        </li>
+                    }
+
+                    @if ((Model.Post.User.Id == loggedOnUserId && Model.Post.User.DisableFileUploads != true || User.IsInRole(Constants.AdminRoleName)) && Model.Permissions[ForumConfiguration.Instance.PermissionAttachFiles].IsTicked)
+                    {
+                        <li>
+                            <a class="btn btn-gray postshowattach" href="#">
+                                @Html.LanguageString("Post.Attach")
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
 
 
 

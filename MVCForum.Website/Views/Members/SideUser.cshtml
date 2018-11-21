@@ -35,9 +35,5 @@ else
 
 @helper DropDownContents()
 {
-    
-    <li>
-        <a href="@Url.Action("Edit", "Members", new { id = Model.CurrentUser.Id })">Olá, @Model.CurrentUser.UserName</a>
-    </li>
-    
+    <a class="btn btn-primary" style="margin-left: 90px;" href="@Url.Action("Edit", "Members", new { id = Model.CurrentUser.Id })">Olá, @Model.CurrentUser.UserName</a>
 }

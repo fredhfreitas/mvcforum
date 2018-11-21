@@ -8,12 +8,12 @@
 
 <div class="latesttopics row">
 
-
-    @foreach (var topic in Model.Topics)
-    {
-        Html.RenderPartial("_FotosUsuarios", topic);
-    }
-
+    <div class="topics row">
+        @foreach (var topic in Model.Topics)
+        {
+            Html.RenderPartial("_FotosUsuarios", topic);
+        }
+    </div>
     @if (Model.TotalPages > 1)
     {
         @Html.Pager(Convert.ToInt32(Model.PageIndex), Html.Settings().TopicsPerPage, totalCount, null, "UniversoRetro", "Home")
