@@ -30,6 +30,9 @@
         Task<PaginatedList<Topic>> GetTopicosRecentes(int pageIndex, int pageSize, int amountToTake,
             List<Category> allowedCategories);
 
+        Task<PaginatedList<Post>> GetTopicosNoticias(int pageIndex, int pageSize, int amountToTake,
+            List<Category> allowedCategories);
+
         Task<PaginatedList<Topic>> GetTopicosMaisVistos(int pageIndex, int pageSize, int amountToTake,
             List<Category> allowedCategories);
 

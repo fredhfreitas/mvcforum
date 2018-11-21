@@ -1,0 +1,42 @@
+﻿@using MvcForum.Core.ExtensionMethods
+@using MvcForum.Web.Application.ExtensionMethods
+@model MvcForum.Web.ViewModels.Category.CategoryViewModel
+
+
+@if (!Model.Permissions[ForumConfiguration.Instance.PermissionDenyAccess].IsTicked)
+{
+
+
+    <div class="categoryrow row">
+        <div class="col-md-10">
+            <h2>
+                <a href="@Model.Category.NiceUrl">@Html.Raw(Model.Category.Name)</a>
+            </h2>
+            @if (Model.ShowUnSubscribedLink)
+            {
+                <p>
+                    <a href="#" class="emailunsubscription" data-id="@Model.Category.Id" data-type="category">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        @Html.LanguageString("Notification.UnSubscribe")
+                    </a>
+                </p>
+            }
+            else
+            {
+                <p>@Html.Raw(Model.Category.Description.ConvertPostContent())</p>
+            }
+
+        </div>
+        <div class="categoryrowfooter col-md-2">     
+            <h4>Tópicos:</h4>
+            <span>@Html.Raw(@Model.TopicCount)</span>
+
+            <!-- <div class="col-md-2 col-xs-6 catcomments">
+                @Model.PostCount @Html.LanguageString("Topic.CommentsDetails")
+            </div>
+            <div class="col-md-7 col-xs-12 catmostrecent">
+               Total: @Html.Raw(@Model.TopicCount)           
+            </div> -->
+        </div>
+    </div>
+}

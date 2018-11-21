@@ -1,0 +1,9 @@
+﻿@model List<MvcForum.Core.Models.Entities.Post>
+
+
+@foreach (var post in Model)
+{
+    <a href="/noticias/@post.Id">
+        @Html.Raw(HttpUtility.HtmlDecode(post.PostContent))
+    </a>
+}

@@ -63,7 +63,10 @@
             _postService = postService;
             _roleService = roleService;
         }
-
+        //public ActionResult Index(string redirectToController)
+        //{
+        //    return this.RedirectPermanent(redirectToController);
+        //}
         public ActionResult Index()
         {
             return View();

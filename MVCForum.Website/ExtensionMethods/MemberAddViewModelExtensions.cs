@@ -21,7 +21,37 @@
                 Email = viewModel.Email,
                 Password = viewModel.Password,
                 IsApproved = viewModel.IsApproved,
-                Comment = viewModel.Comment
+                Comment = viewModel.Comment,
+                Estado = viewModel.Estado,
+                Cidade = viewModel.Cidade,
+                FuncaoEmpresario = viewModel.FuncaoEmpresario,
+                FuncaoOperador = viewModel.FuncaoOperador,
+                FuncaoMecanico = viewModel.FuncaoMecanico,
+                FuncaoOutro = viewModel.FuncaoOutro,
+                Marca1 = viewModel.Marca1,
+                Modelo1 = viewModel.Modelo1,
+                AnoFabricacao1 = viewModel.AnoFabricacao1,
+                Empresa1 = viewModel.Empresa1,
+
+                Marca2 = viewModel.Marca2,
+                Modelo2 = viewModel.Modelo2,
+                AnoFabricacao2 = viewModel.AnoFabricacao2,
+                Empresa2 = viewModel.Empresa2,
+
+                Marca3 = viewModel.Marca3,
+                Modelo3 = viewModel.Modelo3,
+                AnoFabricacao3 = viewModel.AnoFabricacao3,
+                Empresa3 = viewModel.Empresa3,
+
+                Marca4 = viewModel.Marca4,
+                Modelo4 = viewModel.Modelo4,
+                AnoFabricacao4 = viewModel.AnoFabricacao4,
+                Empresa4 = viewModel.Empresa4,
+
+                Marca5 = viewModel.Marca5,
+                Modelo5 = viewModel.Modelo5,
+                AnoFabricacao5 = viewModel.AnoFabricacao5,
+                Empresa5 = viewModel.Empresa5
             };
 
             if (viewModel.LoginType == LoginType.Facebook)

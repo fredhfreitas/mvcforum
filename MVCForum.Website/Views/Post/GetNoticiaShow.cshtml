@@ -1,0 +1,10 @@
+﻿@model MvcForum.Web.ViewModels.Post.PostViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutFullWidth.cshtml";
+    ViewBag.Title = Html.LanguageString("News");
+}
+@if (Model.Post != null)
+{
+    <div>@Html.Raw(HttpUtility.HtmlDecode(@Model.Post.Topic.Name))</div>
+    <div> @Html.Raw(HttpUtility.HtmlDecode(@Model.Post.PostContent)) </div>
+}

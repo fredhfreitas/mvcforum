@@ -205,6 +205,30 @@
             return PartialView(viewModel);
         }
 
+        [AllowAnonymous]
+        public virtual ActionResult GetNoticiaShow(string value)
+        {
+            var post = _postService.Get(Guid.Parse(value));
+            var viewModel = new PostViewModel
+            {
+                Post = post
+            };
+            return PartialView(viewModel);
+        }
+
+        [AllowAnonymous]
+        public virtual ActionResult GetNoticiaByGuid(string value, int total)
+        {
+            var post = _postService.GetByTopic(Guid.Parse(value));
+            //var viewModel = new PostViewModel
+            //{
+            //    Post = post
+            //};
+           
+            return PartialView(total > 0 ? post.Take(total).ToList<Post>() : post);
+        }
+
+        
         //[AllowAnonymous]
         //public virtual ActionResult GetByPostByTopic(string value)
         //{

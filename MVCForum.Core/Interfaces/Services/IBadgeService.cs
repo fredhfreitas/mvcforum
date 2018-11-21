@@ -69,5 +69,7 @@
         IEnumerable<Badge> GetAll();
 
         Badge Add(Badge newBadge);
+
+        IEnumerable<Badge> GetAllUser(Guid userID);
     }
 }

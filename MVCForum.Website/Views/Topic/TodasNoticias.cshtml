@@ -1,0 +1,27 @@
+﻿@using MvcForum.Web.Application.ExtensionMethods
+@model MvcForum.Web.ViewModels.Post.ShowMorePostsViewModel
+@{
+    Layout = null;
+    var totalCount = Convert.ToInt32(Model.TotalCount);
+    ViewBag.Canonical = Html.Raw(AppHelpers.CanonicalPagingTag(totalCount, Html.Settings().TopicsPerPage, Html));
+}
+
+<div class="latesttopics">
+
+
+    @foreach (var post in Model.Posts)
+    {
+    <div>
+
+        <a href="/noticias/@post.Post.Id">
+            @Html.Raw(HttpUtility.HtmlDecode(post.Post.PostContent))
+        </a><br/>
+    </div>
+    }
+
+    @if (Model.TotalPages > 1)
+    {
+        @Html.Pager(Convert.ToInt32(Model.PageIndex), Html.Settings().TopicsPerPage, totalCount, null, "TodasNoticias", "Home")
+    }
+
+</div>

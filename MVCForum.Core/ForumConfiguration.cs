@@ -92,6 +92,7 @@
         public string CategoryUrlIdentifier => GetConfig("CategoryUrlIdentifier");
 
         public string TopicUrlIdentifier => GetConfig("TopicUrlIdentifier");
+        public string Noticia => GetConfig("Noticia");
         public string TagsUrlIdentifier => GetConfig("TagsUrlIdentifier");
         public string MemberUrlIdentifier => GetConfig("MemberUrlIdentifier");
 

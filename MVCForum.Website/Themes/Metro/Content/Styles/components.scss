@@ -1,0 +1,87 @@
+@import 'colors';
+
+.btn-primary, .btn-secondary {
+  min-width: 122px;
+  min-height: 44px;
+  color: $black !important;
+  text-transform: uppercase;
+  line-height: 44px;
+  padding: 0 20px;
+  margin-top: 30px;
+  -webkit-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.11);
+  -moz-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.11);
+  box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.11);
+  font-weight: 500;
+  font-size: 1em;
+}
+.btn-primary {
+  background: $orange;
+  border-color: $orange;
+  &:hover, &:active, &:focus {
+    background: $white !important;
+    border-color: $orange !important;
+    color: $black !important;
+  }
+}
+.btn-secondary {
+  background: $white;
+  border-color: $orange;
+  color: $black !important;
+  &:hover, &:active, &:focus {
+    background: $orange !important;
+    border-color: $orange !important;
+  }
+}
+.btn-full {
+  width: 100%;
+  margin-bottom: 30px;
+}
+.title-bar {
+  display: block;
+  width: fit-content;
+  padding-right: 40px;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1;
+  color: rgba($color: #000, $alpha: 0.6);
+  background: url(../images/bg-title.png) no-repeat bottom right;
+  span {
+    font-weight: 300;
+    display: block;
+  }
+}
+.view-count, .comment-count {
+    font-size: 14px;
+    color: $orange;
+    margin-left: 20px;
+    i, .glyphicon {
+        color: #373A3C;
+    }
+}
+
+label {
+  font-size: 16px;
+  color: $light-black;
+}
+.form-control {
+  height: 40px;
+}
+.pesquisar.input-group {
+  display: flex;
+}
+.dropdown-menu {
+  border: none;
+  background: $orange;
+  box-shadow: none;
+  li {
+    display: block !important;
+  }
+}
+.createuploadfiles {
+  .input-group {
+    display: table;
+  }
+  .form-control {
+    height: 34px;
+  }
+}

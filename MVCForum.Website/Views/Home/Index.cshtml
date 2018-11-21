@@ -4,33 +4,46 @@
     ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
     ViewBag.MetaDesc = Html.Settings().MetaDesc;
 }
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script>
+    setTimeout(function () {
+        $('.slider-destaque').slick({
+            prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-arrow-left"></i></button>',
+            nextArrow: '<button type="button" class="slick-next"><i class="fas fa-arrow-right"></i></button>'
+        });
+    }, 100);
+</script>
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         @*Destaque*@
-        <div>  @Html.Action("GetPostByGuid", "Post", new { value = "711AF7E5-F8A4-449B-A16D-A98200048CA8" })</div>
-        <div>
-            topicos destacados
-            @Html.Action("TopicosDestacados", "Topic", new { Values = "16" })
-            <a href="/home/topicosDestacados">Ver todos</a>
-        </div>
+        @Html.Action("GetPostByGuid", "Post", new { value = "711AF7E5-F8A4-449B-A16D-A98200048CA8" })
     </div>
-    <div class="col-md-3 sidelayoutsection">
+</div>
+<div class="row homesection">
+    <div class="col-md-8">
+        <h3 class="title-bar">Tópicos <span>destacados</span></h3>
+        @Html.Action("TopicosDestacados", "Topic", new { Values = "16" })
+        <div class="clearfix"></div>
+        <a href="/home/topicosDestacados" class="btn btn-primary btn-full">Ver todos</a>
+    </div>
+    <div class="col-md-4 sidelayoutsection">
         <div class="main-side-box clearfix">
             <div>
-                topicos mais vistos
+                <h3 class="title-bar">Tópicos <span>mais vistos</span></h3>
                 @Html.Action("TopicosMaisVistos", "Topic", new { Values = "4" })
-                <a href="/home/topicosMaisVistos">Ver todos</a>
+                <a href="/home/topicosMaisVistos" class="btn btn-primary">Ver todos</a>
             </div>
             <div>
-                topicos recentes
+                <h3 class="title-bar">Tópicos <span>recentes</span></h3>
                 @Html.Action("TopicosRecentes", "Topic", new { Values = "4" })
-                <a href="/home/TopicosRecentes">Ver todos</a>
+                <a href="/home/TopicosRecentes" class="btn btn-primary">Ver todos</a>
             </div>
             @*<div>anuncios</div>*@
             @*<div>videos</div>*@
             <div>
-                fotos
+                <h3 class="title-bar">Fotos</h3>
                 @Html.Action("GetPostByGuid", "Post", new { value = "D4880976-70DA-474C-8533-A9820006A639" })
 
             </div>

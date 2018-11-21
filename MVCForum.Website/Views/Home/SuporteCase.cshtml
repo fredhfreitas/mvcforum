@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
+    ViewBag.Title = Html.Lang("PostedIn.PageTitle");
+}
+
+@section side
+{
+    @Html.Partial("_CommonSideNav")
+}
+
+<div>
+    <label>Consulte aqui as suas dúvidas mais frequentes:</label>
+
+    @Html.Partial("~/Views/Search/Busca.cshtml")
+
+</div>

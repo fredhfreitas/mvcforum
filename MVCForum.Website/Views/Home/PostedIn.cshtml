@@ -8,9 +8,9 @@
     @Html.Partial("_CommonSideNav")
 }
 
-<div class="postedin">
+<div class="postedin row">
 
-    <h1>@ViewBag.Title</h1>
+    <h3 class="title-bar">@ViewBag.Title</h3>
 
     @Html.Action("TopicsMemberHasPostedIn", "Topic")
 

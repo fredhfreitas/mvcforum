@@ -1,0 +1,10 @@
+﻿@model MvcForum.Web.ViewModels.Post.PostViewModel
+
+
+@*implementar o carrocel do destaque*@
+@if (Model.Post != null)
+{
+<div class="">    
+    @Html.Raw(HttpUtility.HtmlDecode(@Model.Post.PostContent))
+</div>
+}

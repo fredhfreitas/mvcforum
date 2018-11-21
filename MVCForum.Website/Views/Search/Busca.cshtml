@@ -1,0 +1,11 @@
+﻿@using MvcForum.Web.Application.ExtensionMethods
+
+    @using (Html.BeginForm("Index", "Search", FormMethod.Get))
+    {
+        <div class="input-group pesquisar">
+            @Html.TextBox("term", null, new { @class = "form-control", placeholder = "Pesquisar" })
+            <div class="input-group-append">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    }

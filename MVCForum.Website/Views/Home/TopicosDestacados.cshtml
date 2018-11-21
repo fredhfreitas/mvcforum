@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
+    ViewBag.Title = Html.Lang("PostedIn.PageTitle");
+}
+
+@section side
+{
+    @Html.Partial("_CommonSideNav")
+}
+
+<div class="postedin">
+
+    @*<h1>@ViewBag.Title</h1>*@
+    <h1>Tópicos Destacados</h1>
+
+    @Html.Action("TopicosDestacadosShow", "Topic")
+
+</div>

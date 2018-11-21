@@ -212,6 +212,22 @@
 
             return Redirect(user.NiceUrl);
         }
+        
+
+
+        /// <summary>
+        ///     Show current active members
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public virtual PartialViewResult GetActiveMembers()
+        {
+            var viewModel = new ActiveMembersViewModel
+            {
+                ActiveMembers = MembershipService.GetAll()
+            };
+            return PartialView(viewModel);
+        }
 
         /// <summary>
         ///     Show current active members
@@ -919,6 +935,37 @@
             return PartialView(viewModel);
         }
 
+        [Authorize]
+        public virtual PartialViewResult SideUser(bool isDropDown)
+        {
+            var privateMessageCount = 0;
+            var moderateCount = 0;
+            var settings = SettingsService.GetSettings();
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+            if (loggedOnReadOnlyUser != null)
+            {
+                var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
+                privateMessageCount = _privateMessageService.NewPrivateMessageCount(loggedOnReadOnlyUser.Id);
+                var pendingTopics = _topicService.GetPendingTopics(allowedCategories, loggedOnUsersRole);
+                var pendingPosts = _postService.GetPendingPosts(allowedCategories, loggedOnUsersRole);
+                moderateCount = pendingTopics.Count + pendingPosts.Count;
+            }
+
+            var canViewPms = settings.EnablePrivateMessages && loggedOnReadOnlyUser != null &&
+                             loggedOnReadOnlyUser.DisablePrivateMessages != true;
+            var viewModel = new ViewAdminSidePanelViewModel
+            {
+                CurrentUser = loggedOnReadOnlyUser,
+                NewPrivateMessageCount = canViewPms ? privateMessageCount : 0,
+                CanViewPrivateMessages = canViewPms,
+                ModerateCount = moderateCount,
+                IsDropDown = isDropDown
+            };
+
+            return PartialView(viewModel);
+        }
+
         /// <summary>
         ///     Member profile tools
         /// </summary>
@@ -1295,5 +1342,11 @@
         {
             return View();
         }
+
+        //[HttpGet]
+        //public virtual ViewResult AllBadgesUser()
+        //{
+        //    return View();
+        //}
     }
 }

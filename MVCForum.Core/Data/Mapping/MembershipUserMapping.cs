@@ -40,7 +40,7 @@
             Property(x => x.Website).IsOptional().HasMaxLength(100);
             Property(x => x.Twitter).IsOptional().HasMaxLength(60);
             Property(x => x.Facebook).IsOptional().HasMaxLength(60);
-            Property(x => x.Avatar).IsOptional().HasMaxLength(500);
+            Property(x => x.Avatar).IsOptional().HasMaxLength(500);           
             Property(x => x.FacebookAccessToken).IsOptional().HasMaxLength(1000);
             Property(x => x.FacebookId).IsOptional();
             Property(x => x.MicrosoftAccessToken).IsOptional().HasMaxLength(1000);
@@ -59,6 +59,41 @@
             Property(x => x.MiscAccessToken).IsOptional().HasMaxLength(250);
             Property(x => x.Latitude).IsOptional().HasMaxLength(40);
             Property(x => x.Longitude).IsOptional().HasMaxLength(40);
+
+            Property(x => x.Cidade).IsOptional().HasMaxLength(500);
+            Property(x => x.Estado).IsOptional().HasMaxLength(500);
+
+            Property(x => x.FuncaoEmpresario).IsOptional().HasMaxLength(500);
+            Property(x => x.FuncaoOperador).IsOptional().HasMaxLength(500);
+            Property(x => x.FuncaoMecanico).IsOptional().HasMaxLength(500);
+            Property(x => x.FuncaoOutro).IsOptional().HasMaxLength(500);
+
+            Property(x => x.Marca1).IsOptional().HasMaxLength(500);
+            Property(x => x.Modelo1).IsOptional().HasMaxLength(500);
+            Property(x => x.AnoFabricacao1).IsOptional().HasMaxLength(500);
+            Property(x => x.Empresa1).IsOptional().HasMaxLength(500);
+
+            Property(x => x.Marca2).IsOptional().HasMaxLength(500);
+            Property(x => x.Modelo2).IsOptional().HasMaxLength(500);
+            Property(x => x.AnoFabricacao2).IsOptional().HasMaxLength(500);
+            Property(x => x.Empresa2).IsOptional().HasMaxLength(500);
+
+            Property(x => x.Marca3).IsOptional().HasMaxLength(500);
+            Property(x => x.Modelo3).IsOptional().HasMaxLength(500);
+            Property(x => x.AnoFabricacao3).IsOptional().HasMaxLength(500);
+            Property(x => x.Empresa3).IsOptional().HasMaxLength(500);
+
+            Property(x => x.Marca4).IsOptional().HasMaxLength(500);
+            Property(x => x.Modelo4).IsOptional().HasMaxLength(500);
+            Property(x => x.AnoFabricacao4).IsOptional().HasMaxLength(500);
+            Property(x => x.Empresa4).IsOptional().HasMaxLength(500);
+
+            Property(x => x.Marca5).IsOptional().HasMaxLength(500);
+            Property(x => x.Modelo5).IsOptional().HasMaxLength(500);
+            Property(x => x.AnoFabricacao5).IsOptional().HasMaxLength(500);
+            Property(x => x.Empresa5).IsOptional().HasMaxLength(500);
+
+
             Property(x => x.LastActivityDate).IsOptional();
             Property(x => x.HasAgreedToTermsAndConditions).IsOptional();
 

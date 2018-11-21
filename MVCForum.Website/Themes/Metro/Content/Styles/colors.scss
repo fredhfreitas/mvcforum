@@ -1,0 +1,11 @@
+$orange: #FAA21B;
+$black: #000;
+$white: #FFF;
+$light-black: rgba($color: #000, $alpha: 0.6);
+
+a.clr-orange {
+    color: $orange;
+    &:hover {
+        color: lighten($color: $orange, $amount: 10%)
+    }
+}

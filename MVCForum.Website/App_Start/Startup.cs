@@ -51,7 +51,7 @@ namespace MvcForum.Web
 
             // Add Hangfire
             // TODO - Do I need this dashboard?
-            //app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire");
             app.UseHangfireServer();
 
             // Get services needed

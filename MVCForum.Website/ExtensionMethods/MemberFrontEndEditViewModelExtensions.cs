@@ -54,7 +54,40 @@
                 DisableFileUploads = user.DisableFileUploads == true,
                 Avatar = user.Avatar,
                 DisableEmailNotifications = user.DisableEmailNotifications == true,
-                AmountOfPoints = user.TotalPoints
+                AmountOfPoints = user.TotalPoints,
+                Estado = user.Estado,
+                Cidade = user.Cidade,
+                                
+                FuncaoEmpresario = user.FuncaoEmpresario,
+                FuncaoOperador = user.FuncaoOperador,
+                FuncaoMecanico = user.FuncaoMecanico,
+                FuncaoOutro = user.FuncaoOutro,
+
+
+                Marca1 = user.Marca1,
+                Modelo1 = user.Modelo1,
+                AnoFabricacao1 = user.AnoFabricacao1,
+                Empresa1 = user.Empresa1,
+
+                Marca2 = user.Marca2,
+                Modelo2 = user.Modelo2,
+                AnoFabricacao2 = user.AnoFabricacao2,
+                Empresa2 = user.Empresa2,
+
+                Marca3 = user.Marca3,
+                Modelo3 = user.Modelo3,
+                AnoFabricacao3 = user.AnoFabricacao3,
+                Empresa3 = user.Empresa3,
+
+                Marca4 = user.Marca4,
+                Modelo4 = user.Modelo4,
+                AnoFabricacao4 = user.AnoFabricacao4,
+                Empresa4 = user.Empresa4,
+
+                Marca5 = user.Marca5,
+                Modelo5 = user.Modelo5,
+                AnoFabricacao5 = user.AnoFabricacao5,
+                Empresa5 = user.Empresa5,
             };
             return viewModel;
         }

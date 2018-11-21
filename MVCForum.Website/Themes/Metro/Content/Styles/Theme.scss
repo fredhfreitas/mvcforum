@@ -5,6 +5,7 @@ $color-global-yellow: #f2f226;
 $color-global-grey-blue: #ecf0f1;
 
 $link-color: #2470bb;
+$nav-color: #FFF;
 
 $border-color: $color-global-grey-blue; 
 
@@ -23,16 +24,17 @@ $media-query-medium: 991px;
 $media-query-small: 767px;
 $media-query-mobile: 600px;
 
+@import 'colors';
+
 // Mixins
 
 @mixin standard-button() { display: inline-block; padding: 7px 20px; margin-bottom: 0; font-size: 14px; font-weight: normal; line-height: 14px; text-align: center; white-space: nowrap; vertical-align: middle; -ms-touch-action: manipulation; touch-action: manipulation; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -o-user-select: none; user-select: none; background-image: none; border: 1px solid transparent; -ms-border-radius: 3px; border-radius: 3px; text-decoration: none; background-color: #efefef; color: #333; }
 
 //  Bootstrap overides
 
-input.form-control, textarea.form-control, select.form-control { -ms-border-radius: 0; border-radius: 0; }
-.navbar { min-height: 40px; }
+.navbar { min-height: 50px; }
 
-.navbar-default { background: $color-global-blue; border: none; -ms-border-radius: 0; border-radius: 0; color: #fff;
+.navbar-default { background: $nav-color; border: none; -ms-border-radius: 0; border-radius: 0; color: #fff;
     .navbar-nav {
         > li {
             > a, > a:visited { color: #fff; padding-top: 10px; padding-bottom: 10px;
@@ -40,14 +42,17 @@ input.form-control, textarea.form-control, select.form-control { -ms-border-radi
             }
         }
         > .open {
-            > a, > a:visited, > a:hover, > a:focus { background-color: darken($color-global-blue, 8%) !important; color: #fff; }
+            > a, > a:visited, > a:hover, > a:focus { background-color: $orange !important; color: #fff; }
         }
     }
 }
-.navbar-brand { padding-top: 5px; padding-bottom: 5px; height: auto; color: #fff; font-weight: bold;
+.navbar-brand { padding-top: 5px; padding-bottom: 5px; height: 74px; color: #fff; font-weight: bold; margin-top: 20px; margin-bottom: 20px;
+    @media only screen and (min-width: 320px) and (max-width: 767px) {
+        margin: -45px 0 0 0;
+    }
     &:hover, &:focus { color: #efefef; }
 }
-.dropdown-menu { -ms-border-radius: 0; border-radius: 0; }
+.dropdown-menu { -ms-border-radius: 0; border-radius: 0; padding: 0; margin: 4px 0 0;}
 .navbar-toggle { padding: 7px 8px; background-color: #ddd; }
 .navbar-toggle:hover, .navbar-toggle:focus { background-color: #d3d3d3 !important; }
 span.label-success { background-color: $color-global-green; }
@@ -56,7 +61,7 @@ pre { border-radius: 0; }
 blockquote {font-style:italic;}
 .textarea {min-height:150px;}
 .panel-group .panel {border-radius:0;}
-
+.auto-register { margin-right: 10px;}
 // Main
 
 body {
@@ -65,8 +70,8 @@ body {
 
     &.loggedin-true {
         @media (max-width: $media-query-medium) {
-            .main-section { position: relative; padding-top: 62px;
-                .createtopicbutton { position: absolute; top: 0; left: 0; right: 0;
+            .main-section { position: relative; padding-top: 50px;
+                .createtopicbutton { position: absolute; top: 0; left: 0; right: 0; padding: 0 15px;
                     .btn-mvc-green { margin-left: 15px; margin-right: 15px; width: auto; }
                 }
             }
@@ -209,13 +214,16 @@ a, a:visited { color: $link-color;
 
 section.content-strip {
     margin-top: -20px;
-    margin-bottom: 20px;
-    background: $color-global-grey-blue;
+    background: $white;
     color: $font-lighter-base-color;
-    ul { margin: 0; padding: 0; text-align: left;
-        li { margin: 0; padding: 0; list-style: none; display: inline-block; text-align: center;
-            a, a:visited { display: block; color: $font-base-color; padding: 7px 18px 9px 18px; border-top: 5px transparent solid;
-                &:hover, &:focus, &.active { background-color: #fff; border-color: darken($border-color, 12%); }
+    .sub-nav-container {
+        background: $orange;
+    }
+    ul:not(.dropdown-menu) { margin: 0; padding: 0; text-align: left; height: 80px;
+        li { margin: 0; padding: 0; list-style: none; display: inline-block; text-align: center; margin-top: 15px;
+            a, a:visited { display: block; color: $font-base-color; padding: 7px 18px 9px 18px; border-top: 5px transparent solid; font-size: 18px; text-transform: uppercase;
+                &:hover, &:focus, &.active { color: $light-black; text-decoration: none; }
+                i { color: $white; font-size: 14px; margin-left: 10px; }
             }
         }
     }
@@ -248,12 +256,12 @@ section.content-strip {
 // Side Boxes - Category
 
 .categories-box {
-    ul { padding: 0; margin: 0;
-        li { margin: 2px 0; list-style: none;
-            a, a:visited { border-left: 5px $border-color solid; padding-left: 8px; }
+    ul { padding: 0; margin: 45px 0 0 0;
+        li { margin: 3px 0; list-style: none; height: 46px; background: $white; border-radius: 6px;
+            a, a:visited { line-height: 46px; display: block; margin-left: 35px; text-transform: capitalize; font-size: 16px; }
             ul { padding-left: 15px;
                 li {
-                    a, a:visited { font-size: 12px; }
+                    a, a:visited { font-size: 14px; }
                 }
             }
         }
@@ -444,19 +452,39 @@ section.content-strip {
 }
 
 // Category Rows
-
-.categoryrow { border-bottom: 1px #f2f2f2 solid; padding: 15px 0 15px 0;
-    h2 { border-left: 5px #83b6b9 solid; padding-left: 8px; }
-    a, a:visited { color: #2c2c2c;
+.total-topics { text-align: center; display: block; font-weight: 300; font-size: 16px;
+    span { font-weight: 500; color: $orange; }
+}
+.categoryrow { background: $white; border-radius: 6px; margin-bottom: 30px; padding: 20px 20px 35px 20px;
+    a, a:visited { color: $orange; font-size: 20px; font-weight: 700;
         &:hover, &:focus { }
     }
     &:last-child { border: none; }
+    p {
+        font-size: 18px;
+        color: $light-black;
+        font-weight: 400;
+    }
 }
 .categoryrowfooter { color: #B3B3B3; font-size: 13px; font-weight: 300; padding-bottom: 10px;
+    &:before { content: ''; height: 75px; width: 1px; background: #707070; display: block; position: absolute; top: 35%;}
     .catmostrecent {
         a, a:visited { font-weight: 400;
             &:hover, &:focus { }
         }
+    }
+    h4 {
+        font-size: 20px;
+        font-weight: 500;
+        color: $black;
+        text-align: center;
+    }
+    span {
+        display: block;
+        text-align: center;
+        font-size: 20px;
+        color: $orange;
+        margin-top: 40px;
     }
 }
 
@@ -616,11 +644,11 @@ section.content-strip {
 
 .tagsinput { padding: 0 0 8px 10px; width: auto !important; min-height: 10px !important; height: auto !important; }
 span {
-    &.tag { display: inline-block; line-height: 19px; height: 19px; position: relative; -ms-border-radius: 0 3px 3px 0; border-radius: 0 3px 3px 0; background-color: lighten($color-global-blue, 9%); color: #fff; font-size: 10px; margin-right: 6px; padding: 0 4px 0 2px; text-transform: uppercase;
-        .badge { background-color: $color-global-blue; font-size: 10px; margin-top: -1px; }
-        &:before { content: ""; float: left; position: absolute; top: 0; left: -6px; width: 0; height: 0; border-color: transparent lighten($color-global-blue, 9%) transparent transparent; border-style: solid; border-width: 9px 6px 9px 0; }
-        &:hover { background-color: $color-global-blue;
-            &:before { border-color: transparent $color-global-blue transparent transparent; }
+    &.tag { display: inline-block; line-height: 19px; height: 19px; position: relative; -ms-border-radius: 0 3px 3px 0; border-radius: 0 3px 3px 0; background-color: $orange; color: #fff; font-size: 10px; margin-right: 6px; padding: 0 4px 0 2px; text-transform: uppercase;
+        .badge { background-color: $white; font-size: 10px; margin-top: -1px; color: $black; }
+        &:before { content: ""; float: left; position: absolute; top: 0; left: -6px; width: 0; height: 0; border-color: transparent $orange transparent transparent; border-style: solid; border-width: 9px 6px 9px 0; }
+        &:hover { background-color: lighten($color: $orange, $amount: 10%);
+            &:before { border-color: transparent lighten($color: $orange, $amount: 10%) transparent transparent; }
         }
         a, a:visited { color: #fff; text-decoration: none; display: block; line-height: 18px; height: 18px; }
     }

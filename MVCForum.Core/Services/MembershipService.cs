@@ -295,6 +295,7 @@
             // Add the roles
             newUser.Roles = new List<MembershipRole> { settings.NewMemberStartingRole };
 
+            
             // Set dates
             newUser.CreateDate = newUser.LastPasswordChangedDate = DateTime.UtcNow;
             newUser.LastLockoutDate = (DateTime)SqlDateTime.MinValue;

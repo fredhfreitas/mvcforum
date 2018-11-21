@@ -12,10 +12,11 @@
     using ViewModels.Badge;
 
     public partial class BadgeController : BaseController
-    {
+    {       
         private readonly IBadgeService _badgeService;
         private readonly IFavouriteService _favouriteService;
         private readonly IPostService _postService;
+        private readonly IMembershipService _membershipService;
 
         /// <summary>
         ///     Constructor
@@ -32,7 +33,7 @@
         /// <param name="context"></param>
         public BadgeController(ILoggingService loggingService, IBadgeService badgeService, IPostService postService,
             IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService,
-            ISettingsService settingsService, IFavouriteService favouriteService, ICacheService cacheService,
+            ISettingsService settingsService, IFavouriteService favouriteService, IMembershipService _membershipService, ICacheService cacheService,
             IMvcForumContext context)
             : base(loggingService, membershipService, localizationService, roleService,
                 settingsService, cacheService, context)
@@ -40,6 +41,7 @@
             _badgeService = badgeService;
             _postService = postService;
             _favouriteService = favouriteService;
+            _membershipService = membershipService;
         }
 
 
@@ -258,6 +260,28 @@
             };
 
             return View(badgesListModel);
+        }
+        [ChildActionOnly]
+        public ActionResult AllBadgesUser()
+        {
+            var loggedOnUser = User.GetMembershipUser(MembershipService, false);
+
+            var allBadges = _badgeService.GetAllUser(loggedOnUser.Id).ToList();
+
+            // Localise the badge names
+            foreach (var item in allBadges)
+            {
+                var partialKey = string.Concat("Badge.", item.Name);
+                item.DisplayName = LocalizationService.GetResourceString(string.Concat(partialKey, ".Name"));
+                item.Description = LocalizationService.GetResourceString(string.Concat(partialKey, ".Desc"));
+            }
+
+            var badgesListModel = new AllBadgesViewModel
+            {
+                AllBadges = allBadges
+            };
+
+            return PartialView(badgesListModel);
         }
     }
 }

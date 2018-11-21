@@ -131,7 +131,34 @@ namespace MvcForum.Core.Services.Migrations
                                 DisableFileUploads = c.Boolean(),
                                 HasAgreedToTermsAndConditions = c.Boolean(),
                                 Latitude = c.String(maxLength: 40),
-                                Longitude = c.String(maxLength: 40)
+                                Longitude = c.String(maxLength: 40),
+                                Estado = c.String(maxLength: 500),
+                                Cidade = c.String(maxLength: 500),
+                                Funcao = c.String(maxLength: 500),
+                                Marca1 = c.String(maxLength: 500),
+                                Modelo1 = c.String(maxLength: 500),
+                                AnoFabricacao1 = c.String(maxLength: 500),
+                                Empresa1 = c.String(maxLength: 500),
+
+                                Marca2 = c.String(maxLength: 500),
+                                Modelo2 = c.String(maxLength: 500),
+                                AnoFabricacao2 = c.String(maxLength: 500),
+                                Empresa2 = c.String(maxLength: 500),
+
+                                Marca3 = c.String(maxLength: 500),
+                                Modelo3 = c.String(maxLength: 500),
+                                AnoFabricacao3 = c.String(maxLength: 500),
+                                Empresa3 = c.String(maxLength: 500),
+
+                                Marca4 = c.String(maxLength: 500),
+                                Modelo4 = c.String(maxLength: 500),
+                                AnoFabricacao4 = c.String(maxLength: 500),
+                                Empresa4 = c.String(maxLength: 500),
+
+                                Marca5 = c.String(maxLength: 500),
+                                Modelo5 = c.String(maxLength: 500),
+                                AnoFabricacao5 = c.String(maxLength: 500),
+                                Empresa5 = c.String(maxLength: 500)
                             })
                         .PrimaryKey(t => t.Id)
                         .Index(t => t.UserName, unique: true, name: "IX_MembershipUser_UserName")

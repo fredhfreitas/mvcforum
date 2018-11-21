@@ -475,6 +475,18 @@
             };
         }
 
+        public static PostViewModel CreatePostViewModel(Post post)
+        {   // Check for online status
+            var date = DateTime.UtcNow.AddMinutes(-Constants.TimeSpanInMinutesToShowMembers);
+
+            return new PostViewModel
+            {
+                
+                Post = post,
+                
+            };
+        }
+
         /// <summary>
         ///     Maps the posts for a specific topic
         /// </summary>
@@ -494,13 +506,35 @@
             foreach (var post in posts)
             {
                 var id = post.Id;
-                var postVotes = votes.ContainsKey(id) ? votes[id] : new List<Vote>();
-                var postFavs = favourites.ContainsKey(id) ? favourites[id] : new List<Favourite>();
+                List<Vote> postVotes = null;
+                if (votes != null)
+                    postVotes = votes.ContainsKey(id) ? votes[id] : new List<Vote>();
+                else
+                    postVotes = new List<Vote>();
+                List<Favourite> postFavs = null;
+
+                if(favourites != null)  
+                postFavs = favourites.ContainsKey(id) ? favourites[id] : new List<Favourite>();
+                else postFavs = new List<Favourite>();
+
                 viewModels.Add(
                     CreatePostViewModel(post, postVotes, permission, topic, loggedOnUser, settings, postFavs));
             }
             return viewModels;
         }
+
+        public static List<PostViewModel> CreatePostViewModels(IEnumerable<Post> posts)
+        {
+            var viewModels = new List<PostViewModel>();
+            foreach (var post in posts)
+            {
+                viewModels.Add(
+                    CreatePostViewModel(post));
+            }
+            return viewModels;
+        }
+
+        
 
         /// <summary>
         ///     Maps posts from any topic must be pre filtered by checked the user has access to them
@@ -529,6 +563,8 @@
             }
             return viewModels;
         }
+
+        
 
         #endregion
     }

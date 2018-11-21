@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutRightSideBarDefault.cshtml";
+    ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
+}
+
+@section side
+{
+    @*@Html.Partial("_CommonSideNav")*@
+    @*@Html.Action("GetPostByGuid", "Post", new { value = "f7d90b4f-3bb9-440a-91af-a98200078c59" })*@
+    
+    @Html.Action("GetActiveMembers", "Members")
+}
+
+<div class="postedin">
+
+    @Html.Action("GetPostByGuid", "Post", new { value = "6f05bced-2c7f-4216-82f5-a982000762dc" })
+
+    @*@Html.Action("TopicsMemberHasPostedIn", "Topic")*@
+
+</div>

@@ -32,7 +32,7 @@
     <div class="widgetright">
         @if (Html.CurrentMember() != null && Html.Settings().EnableEmailSubscriptions)
         {
-            <a @Html.Raw(subScribe) href="#" class="emailsubscription" data-id="@Model.TagId" data-type="tag">
+            <a @Html.Raw(subScribe) href="#" class="emailsubscription btn btn-primary" data-id="@Model.TagId" data-type="tag">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 @Html.LanguageString("Topic.Subscribe")
             </a>

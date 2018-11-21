@@ -292,6 +292,42 @@
             return await PaginatedList<Post>.CreateAsync(results.AsNoTracking(), pageIndex, pageSize);
         }
 
+        /// <summary>
+        /// Returns a paged list of posts by a topic id
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <param name="topicId"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Post>> GetPagedPostsByTopicAndUser(int pageIndex, int pageSize, int amountToTake, Guid topicId, PostOrderBy order)
+        {
+            // Get the topics using an efficient
+            var results = _context.Post
+                                  .Include(x => x.User)
+                                  .Include(x => x.Topic)
+                                  .Where(x => x.Topic.Id == topicId && !x.IsTopicStarter && x.Pending != true);
+
+            // Sort what order the posts are sorted in
+            switch (order)
+            {
+                case PostOrderBy.Newest:
+                    results = results.OrderByDescending(x => x.DateCreated);
+                    break;
+
+                case PostOrderBy.Votes:
+                    results = results.OrderByDescending(x => x.VoteCount).ThenBy(x => x.DateCreated);
+                    break;
+
+                default:
+                    results = results.OrderBy(x => x.DateCreated);
+                    break;
+            }
+
+            return await PaginatedList<Post>.CreateAsync(results.AsNoTracking(), pageIndex, pageSize);
+        }
+
         public async Task<PaginatedList<Post>> GetPagedPendingPosts(int pageIndex, int pageSize, List<Category> allowedCategories)
         {
             var allowedCatIds = allowedCategories.Select(x => x.Id);
@@ -484,6 +520,42 @@
             return await pipeline.Process(piplineModel);
         }
 
+        public async Task<IPipelineProcess<Post>> EditPostFoto(Post post, bool isTopicStarter, string postedContent)
+        {
+            // Get the pipelines
+            var postCreatePipes = ForumConfiguration.Instance.PipelinesPostUpdate;
+
+            // Set the post to topic starter
+            post.IsTopicStarter = isTopicStarter;
+
+            // The model to process
+            var piplineModel = new PipelineProcess<Post>(post);
+
+            // Add the files for the post
+            //piplineModel.ExtendedData.Add(Constants.ExtendedDataKeys.PostedFiles, files);
+            //piplineModel.ExtendedData.Add(Constants.ExtendedDataKeys.Name, postedTopicName);
+            piplineModel.ExtendedData.Add(Constants.ExtendedDataKeys.Content, postedContent);
+            piplineModel.ExtendedData.Add(Constants.ExtendedDataKeys.Username, HttpContext.Current.User.Identity.Name);
+
+            // Get instance of the pipeline to use
+            var pipeline = new Pipeline<IPipelineProcess<Post>, Post>(_context);
+
+            // Register the pipes 
+            var allPostPipes = ImplementationManager.GetInstances<IPipe<IPipelineProcess<Post>>>();
+
+            // Loop through the pipes and add the ones we want
+            foreach (var pipe in postCreatePipes)
+            {
+                if (allPostPipes.ContainsKey(pipe))
+                {
+                    pipeline.Register(allPostPipes[pipe]);
+                }
+            }
+
+            // Process the pipeline
+            return await pipeline.Process(piplineModel);
+        }
+
         /// <inheritdoc />
         public async Task<IPipelineProcess<Post>> Move(Post post, Guid? newTopicId, string newTopicTitle, bool moveReplyToPosts)
         {
@@ -554,6 +626,17 @@
                 .Include(x => x.Topic.LastPost.User)
                 .Include(x => x.User)
                 .FirstOrDefault(x => x.Id == postId);
+        }
+
+        public IList<Post> GetByTopic(Guid topicId)
+        {
+            return _context.Post                
+                .Include(x => x.Topic)
+                //.Include(x => x.User)
+                //.AsNoTracking()
+                .Where(x => x.Topic.Id == topicId && !x.IsTopicStarter)
+                .OrderByDescending(x => x.DateCreated)
+                .ToList();
         }
 
         public IList<Post> GetPostsByTopics(List<Guid> topicIds, List<Category> allowedCategories)

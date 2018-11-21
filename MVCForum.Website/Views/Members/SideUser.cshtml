@@ -1,0 +1,43 @@
+﻿@model MvcForum.Web.ViewModels.Admin.ViewAdminSidePanelViewModel
+
+@if (Model.IsDropDown)
+{
+    @*<li class="dropdown">
+            <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown">
+                @Html.LanguageString("SideBox.MyTools")
+                @if (Model.NewPrivateMessageCount > 0 || Model.ModerateCount > 0)
+                {
+                    if (Model.ModerateCount > 0)
+                    {
+                        <span class="badge">@Model.ModerateCount</span>
+                    }
+                    if (Model.NewPrivateMessageCount > 0)
+                    {
+                        <span class="badge">@Model.NewPrivateMessageCount</span>
+                    }
+                }
+                else
+                {
+                    <span class="caret"></span>
+                }
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                @Html.Raw(DropDownContents())
+            </ul>
+        </li>*@
+}
+else
+{
+    @Html.Raw(DropDownContents())
+}
+
+
+
+@helper DropDownContents()
+{
+    
+    <li>
+        <a href="@Url.Action("Edit", "Members", new { id = Model.CurrentUser.Id })">Olá, @Model.CurrentUser.UserName</a>
+    </li>
+    
+}

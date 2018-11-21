@@ -12,7 +12,7 @@
     @Html.Partial("_CommonSideNav")
 }
 
-<h2>@Html.LanguageString("Search.Searching"): @Model.Term - @Model.TotalCount @Html.LanguageString("Search.Results")</h2>
+<h2 class="title-bar">@Html.LanguageString("Search.Searching"): @Model.Term<span>@Model.TotalCount @Html.LanguageString("Search.Results")</span></h2>
 
 @if (Model.Posts.Any())
 {

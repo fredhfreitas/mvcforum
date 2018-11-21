@@ -51,7 +51,7 @@
             }*@
             @if (Model.User != null && Html.Settings().EnableEmailSubscriptions)
             {
-                <a @Html.Raw(subScribe) href="#" class="emailsubscription" data-id="@Model.Category.Id" data-type="category">
+                <a @Html.Raw(subScribe) href="#" class="emailsubscription btn btn-primary" data-id="@Model.Category.Id" data-type="category">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     @Html.LanguageString("Notification.Subscribe")
                 </a>

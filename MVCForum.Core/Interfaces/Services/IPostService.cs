@@ -28,6 +28,9 @@
         Task<PaginatedList<Post>> GetPagedPostsByTopic(int pageIndex, int pageSize, int amountToTake, Guid topicId,
             PostOrderBy order);
 
+        Task<PaginatedList<Post>> GetPagedPostsByTopicAndUser(int pageIndex, int pageSize, int amountToTake, Guid topicId,
+            PostOrderBy order);
+
         Task<PaginatedList<Post>> GetPagedPendingPosts(int pageIndex, int pageSize, List<Category> allowedCategories);
         IList<Post> GetPendingPosts(List<Category> allowedCategories, MembershipRole usersRole);
         int GetPendingPostsCount(List<Category> allowedCategories);
@@ -46,7 +49,9 @@
         IList<Post> GetPostsByMember(Guid memberId, List<Category> allowedCategories);
         IList<Post> GetAllSolutionPosts(List<Category> allowedCategories);
         IList<Post> GetPostsByTopic(Guid topicId);
+        IList<Post> GetByTopic(Guid topicId);
         IEnumerable<Post> GetAllWithTopics(List<Category> allowedCategories);
         bool PassedPostFloodTest(MembershipUser user);
+        Task<IPipelineProcess<Post>> EditPostFoto(Post post, bool isTopicStarter, string postedContent);
     }
 }

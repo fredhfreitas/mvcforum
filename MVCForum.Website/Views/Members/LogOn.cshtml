@@ -14,7 +14,7 @@
         {
             <div class="mainlogonform">
 
-                <h3>@ViewBag.Title</h3>
+                <h3 class="title-bar">@ViewBag.Title</h3>
 
                 @using (Html.BeginForm("LogOn", "Members", FormMethod.Post, new { @class = "form-login" }))
                 {
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="submit-holder">
-                        <button type="submit" class="btn-mvc-green btn-mvc-large">@Html.LanguageString("Buttons.LogOn")</button>
+                        <button type="submit" class="btn-mvc-green btn-mvc-large btn btn-primary">@Html.LanguageString("Buttons.LogOn")</button>
                     </div>
 
                     @Html.HiddenFor(x => x.ReturnUrl)

@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
+    ViewBag.Title = Html.Lang("PostedIn.PageTitle");
+}
+
+@section side
+{
+    @*@Html.Partial("_CommonSideNav")*@
+}
+
+<div >
+
+    @*<h1>@ViewBag.Title</h1>*@
+    <h1>Novo Tópico</h1>
+
+    <span>O que deseja fazer?</span>
+
+    @*@Html.Action("NovoTopico", "Topic")*@
+    <br />
+    <a href="../topic/CompartilharFoto" id="linkCompartilharFoto">Compartilhar uma foto</a> 
+    <a href="../topic/CompartilharTexto" id="linkCompartilharFoto">Compartilhar uma texto</a> 
+    <a href="../topic/NovoTopico" id="linkCompartilharFoto">Criar um novo tópico</a>
+
+</div>

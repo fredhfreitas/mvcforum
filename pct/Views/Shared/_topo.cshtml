@@ -1,0 +1,88 @@
+﻿
+@using MvcForum.Core.Models.General
+@using MvcForum.Web.Application.ExtensionMethods
+
+
+@{
+    // Global Stuff
+    var themeName = Html.Settings().Theme;
+    var theme = new Theme
+    {
+        ThemeName = themeName,
+        ThemePath = string.Concat(ForumConfiguration.Instance.ThemeRootFolder, themeName)
+    };
+    TempData[Constants.GlobalClass] = Convert.ToBoolean(PageData[Constants.IsMobileDevice]) ? "mobile" : "desktop";
+    TempData[Constants.CurrentAction] = ViewContext.RouteData.GetRequiredString("action").ToLower();
+    TempData[Constants.CurrentController] = ViewContext.RouteData.GetRequiredString("controller").ToLower();
+}
+
+<header>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+
+
+            <button type="button" class="navbar-toggle menu-btn">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                        <img width="262" src="@Url.Content($"{theme.ThemePath}/Content/images/logo.svg")" alt="@Html.Lang("Site.MvcForum")" class="logoimg" />
+                    </a>
+                </div>
+                <div class="col-md-4 hidden-xs">
+                    @Html.Partial("~/Views/Search/Busca.cshtml")
+                </div>
+                <div class="col-md-4 hidden-xs">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-primary pull-right">Login</a>
+                        if (Html.Settings().SuspendRegistration != true)
+                        {
+                            <a class="auto-register btn btn-primary pull-right" href="@Url.Action("Register", "Members")">Registrar</a>
+                        }
+                    }
+                    else
+                    {
+                        @Html.Action("SideUser", "Members", new { isDropDown = false })
+                    }
+                    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="title-bar">Login</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    @if (!User.Identity.IsAuthenticated)
+                                    {
+                                        @*@RenderPage("~/Views/Members/LogOnSmall.cshtml")*@
+                                        @Html.Action("LogOnSmall", "Members")
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <span>Olá, @User.Identity.Name</span>
+
+                        <a class="btn btn-secondary pull-right" href="@Url.Action("LogOff", "Members")">Log Off</a>
+                        @*@Html.Action("SideAdminPanel", "Members", new { isDropDown = true })*@
+                    }
+                </div>
+            </div>
+
+
+            <div class="collapse navbar-collapse" id="mvcforum-nav">
+
+                <ul class="nav navbar-nav navbar-right"></ul>
+
+
+            </div>
+        </div>
+    </nav>
+</header>

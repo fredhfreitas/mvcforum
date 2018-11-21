@@ -361,6 +361,32 @@
         /// <param name="amountToTake"></param>
         /// <param name="allowedCategories"></param>
         /// <returns></returns>
+        public async Task<PaginatedList<Post>> GetTopicosNoticias(int pageIndex, int pageSize, int amountToTake, List<Category> allowedCategories)
+        {
+            // get the category ids
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            var guid = Guid.Parse("028B824F-6900-4FB3-8897-A984002E732D");
+            // Get the topics using an efficient
+            var query = _context.Post
+                
+                .Include(x => x.User)
+                .Include(x => x.Topic)
+                
+                .Where(x =>  x.Topic.Id == guid)
+                .OrderByDescending(x => x.DateCreated);
+
+            // Return a paged list
+            return await PaginatedList<Post>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Returns a paged list of topics, ordered by most recent
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <param name="allowedCategories"></param>
+        /// <returns></returns>
         public async Task<PaginatedList<Topic>> GetTopicosMaisVistos(int pageIndex, int pageSize, int amountToTake, List<Category> allowedCategories)
         {
             // get the category ids

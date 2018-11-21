@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
@@ -302,6 +303,16 @@
         {
             return _context.Badge.ToList();
         }
+
+        public IEnumerable<Badge> GetAllUser(Guid userID)
+        {
+            
+            var dados = _context.Badge.SqlQuery(@"SELECT * FROM Badge WHERE Id IN (
+             SELECT Badge_Id FROM MembershipUser_Badge WHERE MembershipUser_Id = @MembershipUser_Id)", new SqlParameter("@MembershipUser_Id", Convert.ToString(userID))).ToList();
+
+            return dados;            
+        }
+
 
         public Badge Add(Badge newBadge)
         {

@@ -15,56 +15,231 @@
 
             @if (Html.Settings().DisableStandardRegistration != true)
             {
-                <div class="mainregisterform">
+            <div class="mainregisterform">
 
-                    <h3>@ViewBag.Title</h3>
+                <h3>@ViewBag.Title</h3>
 
-                    @using (Html.BeginForm("Register", "Members", FormMethod.Post, new { @class = "form-register" }))
+                @using (Html.BeginForm("Register", "Members", FormMethod.Post, new { @class = "form-register" }))
+                {
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.UserName)
+                        @Html.TextBoxFor(x => Model.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.UserName)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.Cidade)
+                        @Html.TextBoxFor(x => Model.Cidade, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Cidade)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.Estado)
+                        @Html.TextBoxFor(x => Model.Estado, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Estado)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.Password)
+                        @Html.PasswordFor(x => Model.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Password)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.ConfirmPassword)
+                        @Html.PasswordFor(x => Model.ConfirmPassword, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Email)
+                        @Html.TextBoxFor(x => x.Email, new { type = "email", @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Email)
+                    </div>
+
+                    <div class="form-group">
+                        <p>
+                            @{string Empresário = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Empresário");}
+                            @Html.RadioButtonFor(model => model.FuncaoEmpresario, "Empresário", new { id = Empresário, name = "imp_tx_tipo", value = "Empresário", @class = "with-gap" })
+                            <label for="Empresário">Empresário</label>
+                        </p>
+                        <p>
+                            @{string Operador = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Operador");}
+                            @Html.RadioButtonFor(model => model.FuncaoOperador, "Operador", new { id = Operador, name = "imp_tx_tipo", value = "Operador", @class = "with-gap" })
+                            <label for="Operador">Operador</label>
+                        </p>
+                        <p>
+                            @{string Mecânico = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Mecânico");}
+                            @Html.RadioButtonFor(model => model.FuncaoMecanico, "Mecânico", new { id = Mecânico, name = "imp_tx_tipo", value = "Mecânico", @class = "with-gap" })
+                            <label for="Mecânico">Mecânico</label>
+                        </p>
+
+                        <div class="form-group">
+                            Outro
+                            @Html.TextBoxFor(x => Model.FuncaoOutro, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.FuncaoOutro)
+                        </div>
+
+                        
+                    </div>
+
+                    <div id="retro1">
+                        <div class="form-group">
+                            Marca
+                            @Html.TextBoxFor(x => Model.Marca1, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Marca1)
+                        </div>
+                        <div class="form-group">
+                            Modelo
+                            @Html.TextBoxFor(x => Model.Modelo1, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Modelo1)
+                        </div>
+                        <div class="form-group">
+                            Ano de Fabricação
+                            @Html.TextBoxFor(x => Model.AnoFabricacao1, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.AnoFabricacao1)
+                        </div>
+                        <div class="form-group">
+                            Empresa
+                            @Html.TextBoxFor(x => Model.Empresa1, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Empresa1)
+                        </div>
+                        <a href="#" onclick="ShowItem(2);">Adicionar outra retro[+]</a>
+                    </div>
+
+                    <div id="retro2" style="display:none">
+                        <div class="form-group">
+                            Marca
+                            @Html.TextBoxFor(x => Model.Marca2, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Marca2)
+                        </div>
+                        <div class="form-group">
+                            Modelo
+                            @Html.TextBoxFor(x => Model.Modelo2, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Modelo2)
+                        </div>
+                        <div class="form-group">
+                            Ano de Fabricação
+                            @Html.TextBoxFor(x => Model.AnoFabricacao2, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.AnoFabricacao2)
+                        </div>
+                        <div class="form-group">
+                            Empresa
+                            @Html.TextBoxFor(x => Model.Empresa2, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Empresa2)
+                        </div>
+                        <a href="#" onclick="ShowItem(3);">Adicionar outra retro[+]</a>
+                    </div>
+
+                    <div id="retro3" style="display:none">
+                        <div class="form-group">
+                            Marca
+                            @Html.TextBoxFor(x => Model.Marca3, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Marca3)
+                        </div>
+                        <div class="form-group">
+                            Modelo
+                            @Html.TextBoxFor(x => Model.Modelo3, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Modelo3)
+                        </div>
+                        <div class="form-group">
+                            Ano de Fabricação
+                            @Html.TextBoxFor(x => Model.AnoFabricacao3, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.AnoFabricacao3)
+                        </div>
+                        <div class="form-group">
+                            Empresa
+                            @Html.TextBoxFor(x => Model.Empresa3, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Empresa3)
+                        </div>
+                        <a href="#" onclick="ShowItem(4);">Adicionar outra retro[+]</a>
+                    </div>
+
+                    <div id="retro4" style="display:none">
+                        <div class="form-group">
+                            Marca
+                            @Html.TextBoxFor(x => Model.Marca4, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Marca4)
+                        </div>
+                        <div class="form-group">
+                            Modelo
+                            @Html.TextBoxFor(x => Model.Modelo4, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Modelo4)
+                        </div>
+                        <div class="form-group">
+                            Ano de Fabricação
+                            @Html.TextBoxFor(x => Model.AnoFabricacao4, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.AnoFabricacao4)
+                        </div>
+                        <div class="form-group">
+                            Empresa
+                            @Html.TextBoxFor(x => Model.Empresa4, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Empresa4)
+                        </div>
+                        <a href="#" onclick="ShowItem(5);">Adicionar outra retro[+]</a>
+                    </div>
+
+                    <div id="retro5" style="display:none">
+                        <div class="form-group">
+                            Marca
+                            @Html.TextBoxFor(x => Model.Marca5, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Marca5)
+                        </div>
+                        <div class="form-group">
+                            Modelo
+                            @Html.TextBoxFor(x => Model.Modelo5, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Modelo5)
+                        </div>
+                        <div class="form-group">
+                            Ano de Fabricação
+                            @Html.TextBoxFor(x => Model.AnoFabricacao5, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.AnoFabricacao5)
+                        </div>
+                        <div class="form-group">
+                            Empresa
+                            @Html.TextBoxFor(x => Model.Empresa5, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Empresa5)
+                        </div>
+                        
+                    </div>
+
+                    if (!string.IsNullOrEmpty(Html.Settings().SpamQuestion))
                     {
-                        @Html.ValidationSummary(true)
-                        @Html.AntiForgeryToken()
-
                         <div class="form-group">
-                            @Html.LabelFor(x => Model.UserName)
-                            @Html.TextBoxFor(x => Model.UserName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.UserName)
+                            <label for="SpamAnswer">@Html.Settings().SpamQuestion</label>
+                            @Html.TextBoxFor(x => x.SpamAnswer, new { @class = "form-control" })
                         </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(x => Model.Password)
-                            @Html.PasswordFor(x => Model.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Password)
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(x => Model.ConfirmPassword)
-                            @Html.PasswordFor(x => Model.ConfirmPassword, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(x => x.Email)
-                            @Html.TextBoxFor(x => x.Email, new { type = "email", @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Email)
-                        </div>
-
-                        if (!string.IsNullOrEmpty(Html.Settings().SpamQuestion))
-                        {
-                            <div class="form-group">
-                                <label for="SpamAnswer">@Html.Settings().SpamQuestion</label>
-                                @Html.TextBoxFor(x => x.SpamAnswer, new { @class = "form-control" })
-                            </div>
-                        }
-
-                        <div class="submit-holder">
-                            <button type="submit" class="btn-mvc-green btn-mvc-large">
-                                @Html.LanguageString("Members.Register")
-                            </button>
-                        </div>
-
-                        @Html.HiddenFor(x => x.ReturnUrl)
                     }
-                </div>
+
+
+
+                    <div class="submit-holder">
+                        <button type="submit" class="btn-mvc-green btn-mvc-large" id="btnRegister">
+                            @Html.LanguageString("Members.Register")
+                        </button>
+                    </div>
+
+                    @Html.HiddenFor(x => x.ReturnUrl)
+                }
+            </div>
+            <script>
+                function ShowItem(item) {
+                   
+                    var x = document.getElementById("retro" + item);
+                   
+
+                    if(x.style.display === "none") {
+                            x.style.display = "block";
+
+                    } else {
+                       
+                        x.style.display = "none";
+                    }
+                }
+            </script>
             }
         </div>
 

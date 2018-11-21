@@ -121,12 +121,28 @@
             return View();
         }
 
-        public virtual ActionResult TopicosMaisVistos()
+        
+        public virtual ActionResult NovoTopico()
+        {
+            return View();
+        }
+
+        public virtual ActionResult TodasNoticias()
         {
             return View();
         }
 
         public virtual ActionResult UniversoRetro()
+        {
+            return View();
+        }
+
+        public virtual ActionResult TopicosMaisVistos()
+        {
+            return View();
+        }
+
+        public virtual ActionResult PerguntasFrequentes()
         {
             return View();
         }

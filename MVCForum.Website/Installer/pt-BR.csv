@@ -1,0 +1,431 @@
+﻿Post.Label.IsStickyTopic,Tópico pegajoso
+Badge.AuthorMarkAsSolution.Desc,Esse selo é concedido a um usuário quando ele marca a postagem de outro usuário como a solução para seu tópico
+Topic.ShowMorePosts,Mostrar mais postagens
+Buttons.ChangePassword,Mudar senha
+Badge.PosterMarkAsSolution.Desc,Este emblema é concedido a um usuário quando sua postagem é marcada como a solução para um tópico
+Google.Error.EnabledButNotAddedKeys,"Você ativou os logins sociais, mas não adicionou o ID do Google e a chave secreta no arquivo forum.config"
+Favourites.NoMemberFavourites,Você não marcou nenhuma postagem
+Report.Admin,Admin
+Badge.YourPostFavouritedTenTimes.Name,Postagem Reconhecida
+Members.Points,Pontos
+PostFilter.Newest,O mais novo
+Badge.OneThousandPoints.Name,Mil ponteiro
+Members.ChangePassword.Link,Clique aqui se você quiser {0}
+Members.Errors.InvalidQuestion,"A pergunta de recuperação de senha fornecida é inválida. Por favor, verifique o valor e tente novamente."
+PM.Sent,Enviei:
+TinyMCE.InsertImage.SelectFile,Por favor selecione um arquivo
+PostEdit.None,Esta postagem não tem postagem de histórico de edição no momento
+Members.Label.CurrentPassword,senha atual
+Members.ProfileTitle, Perfil
+Badge.Padawan.Desc,Teve 10 ou mais postagens marcadas com sucesso como uma resposta
+Errors.NoPermission,Você não tem permissão para executar esta ação
+Badge.OneThousandPoints.Desc,Este emblema é concedido aos usuários que receberam 1000 pontos
+Badge.YourPostFavourited.Name,Post preferido
+Topic.InCategory, em
+Language.Change,Mudar idioma
+Date.JustNow,Agora mesmo
+Spam.FloodTestFailed,Você está postando muito rapidamente
+PM.SendingToQuickly,Você está tentando enviar mensagens para
+Badge.AuthorMarkAsSolution.Name,Sua pergunta resolvida
+Badge.JediMaster.Desc,Teve 50 ou mais postagens marcadas com sucesso como uma resposta
+Confirmation.DeleteMembersPosts,Você tem certeza? Isso excluirá todas as postagens e tópicos dos membros!
+Post.VoteDown,Antipatia
+SubscribedTopics.NothingToShow,Você não está seguindo para nenhum tópico
+Report.ReportSent,Relatório enviado
+Topic.Label.Tags,Adicionar etiqueta
+PM.BackToInbox,De volta à caixa de entrada
+PM.Subject,Sujeito
+PM.Delete,Excluir
+Members.BanUser,Banir usuário
+Post.Quote,Citar
+Members.LogOnMessage,Por favor insira seu nome de usuário e senha.
+Editor.NeedHelp,Precisa de ajuda para formatação?
+PM.LastActivity,ultima atividade
+Moderate.Posts,Postagens
+PM.OriginalMessage,mensagem original
+Members.NowRegisteredNeedApproval,Você está agora registrado. Mas o administrador do fórum deve autorizar sua conta
+Badge.JediMaster.Name,Mestre Jedi
+Topic.CommentsDetails,Comentários
+Members.MemberEmailAuthorisationNeeded,Enviámos-lhe um email de confirmação - clique no link de confirmação no seu email para aprovar a sua conta.
+Post.label.TopicCategory,Categoria de tópico
+Topic.Subscribe,Segue
+Post.VotedDown,Não gostei
+Leaderboard.ThisWeeksStars,Este semanas estrelas
+Category.SubCategoriesHeading,Subcategorias em
+Topic.IsPoll,Votação
+Badges.PageTitle,Distintivos
+Topic.TagThisTopic,Tag este tópico
+Rss.Category.Title,{0} discussões
+Post.Trusted,Confiável
+PM.UnableFindMember,Não é possível encontrar esse membro
+Post.MemberIsOnline,Conectados
+Topic.Views,Views
+Members.Errors.InvalidUserName,"O nome de usuário fornecido é inválido. Por favor, verifique o valor e tente novamente."
+Activity.ProfileUpdated,tem um perfil atualizado
+Category.CategoriesSideHeading,Categorias
+Post.UploadFileTooBig,O upload de arquivos é muito grande
+Badge.PostMentionsUmbraco.Desc,Este distintivo é atribuído a um usuário que menciona o Umbraco em sua última postagem
+Topic.IsSticky,Tópico é pegajoso
+PostEdit.Panel.Name,Publicar histórico de edição
+Layout.Nav.Leaderboard,Entre os melhores
+PM.NewPrivateMessageSubject,Nova mensagem privada
+Errors.NoPermissionPolls,Tópico criado. Mas você não tem permissão para criar enquetes
+Poll.Placeholder.TypeAnswerHere,Digite uma resposta de pesquisa aqui
+Members.Label.Website,Local na rede Internet
+Members.Errors.DuplicateEmail,"Um nome de usuário para esse endereço de e-mail já existe. Por favor, insira um endereço de e-mail diferente."
+Post.Upload,Fazer upload de arquivos
+Topic.IsSolved,Tópico resolvido
+Members.NewMemberRegistered,Novo membro registrado em {0} ({1})
+Members.Errors.PasswordIncorrect,O usuário ou senha fornecidos estão incorretos.
+PM.TalkToSelf,Conversar com você mesmo é um pouco estranho. não é?
+PM.Date,Encontro
+Points.ThisWeeksHighEarners,Este vencedores semanas de alta
+Members.Profile.Age,Era:
+Activity.ActivityTitle,Atividade
+Buttons.Report,Relatório
+PostEdit.EditedBy,Editado por
+Report.PostReported,Post reportado em
+Date.DaysAgo,{0} dias atrás
+Members.Label.UploadNewAvatar,Carregar uma nova imagem de perfil
+Badges.UnableToAward,"Não é possível premiar os crachás, pois a coleção de crachás é nula para o usuário {0}"
+Members.Label.Comment,Comente
+Members.Errors.LogonGeneric,Incapaz de entrar.
+Search.InTopic,No tópico
+Badge.Padawan.Name,Padawan
+Badge.UserVoteUp.Desc,Este crachá é concedido aos usuários depois que eles fazem seu primeiro voto
+Members.DateJoined,Data de inscrição
+Members.Profile.Badges,Distintivos
+Members.Profile.Twitter,Twitter
+Badge.FavouriteFirstPost.Name,Primeiro favorito
+Post.Move.PostTitle,Mover Post
+PM.AboutToExceedInboxSizeBody,Você está prestes a exceder sua permissão de caixa de entrada de mensagens privadas
+Stats.LatestMembers,Membros mais recentes:
+Members.Errors.Unknown,"Ocorreu um erro desconhecido. Por favor, verifique a sua entrada e tente novamente. Se o problema persistir, entre em contato com o administrador do sistema."
+PM.ShowMore,Mostrar mais mensagens
+PM.BlockedMessage,Não é possível enviar mensagem
+Members.Profile.Points,Pontos:
+Members.Label.Location,Localização
+Leaderboard.ThisYearsStars,Este anos rock stars
+Post.Move.Label.ReplyToPosts,Mover respostas e citações também
+Post.DeleteConfirmation,Tem certeza de que deseja excluir?
+Date.Yesterday,ontem
+LogOn.LogOn,Logon
+Members.MessageMe,Mensagem me
+PM.SentItemsOverCapcity,Seus itens enviados estão acima da capacidade - exclua mensagens para poder enviar
+Members.Label.DisableEmailNotifications,Desativar notificações por email
+Stats.FooterMainStatText,Nossos {0} membros postaram {1} vezes em {2} discussões
+PM.Read,Ler
+Layout.Nav.Badges,Distintivos
+Members.Label.RememberMe,Lembre de mim?
+Members.Label.NewPassword,Nova senha
+Search.Results,Resultados encontrados
+Twitter.Error.EnabledButNotAddedKeys,"Você ativou os logins sociais, mas não adicionou o ID do Twitter e a chave secreta no forum.config"
+Post.Move.Label.NewTopicTitle,Criar novo tópico
+SubNav.Latest,Mais recentes
+Members.Label.EmailAddressBlank,Insira o seu endereço de email
+Post.Delete,Excluir
+Post.Deleted,Postar excluído
+Members.Label.Twitter,URL do Twitter
+Moderate.NothingHere,Nada aqui no momento
+Members.LogonMicrosoftButton,Faça o login com a Microsoft
+Microsoft.Error.EnabledButNotAddedKeys,"Você ativou o login da Microsoft, mas não adicionou sua chave AppId ou Secret ao forum.config"
+Error.EmailIsBanned,O endereço de e-mail ou domínio que você está tentando usar é banido
+Topic.Deleted,Tópico excluído
+PM.ShowMoreLoading,Carregando...
+Activity.UserAwardedBadge,foi premiado com o
+Post.OthersLiked,e {0} outros
+Members.ResetPassword.Title,Pedido de redefinição de senha enviado
+Category.MostRecent,Mais recente:
+Buttons.Edit,Editar
+Members.ForgotPassword.Email,Você solicitou que sua senha seja redefinida em {0}. Sua nova senha está abaixo
+Post.VoteUp,Gostar
+Members.Errors.InvalidEmail,"O endereço de e-mail fornecido é inválido. Por favor, verifique o valor e tente novamente."
+Post.LastEdited,Última edição
+PM.AboutToExceedInboxSizeSubject,Permissão de caixa de entrada de mensagens privadas
+Topic.DiscussionTaggedWith,Discussões marcadas com:
+File.SuccessfullyDeleted,Arquivo excluído
+Layout.Nav.Home,Casa
+TermsAndConditions.Label.AgreeError,Você deve concordar com os Termos e Condições
+Topic.AlreadyAnswered,Perguntas que já podem ter sua resposta
+TinyMCE.InsertImage.ButtonClose,Perto
+Language.Changed,Idioma alterado
+Members.Profile.DiscussionActivity,Atividade de Discussão
+Badge.YourPostFavouritedTenTimes.Desc,Uma ou mais das suas postagens foram favorecidas por 10 ou mais pessoas
+Members.Errors.UserLockedOut,O usuário está bloqueado.
+Members.ForgotPassword.ErrorMessage,Erro ao redefinir a senha
+Members.UnableToGetEmailAddress,Não é possível obter acesso ao seu endereço de e-mail. Verifique suas permissões
+Topic.Comment,Responda
+Members.ForgotPassword.Subject,Resetar a senha
+TinyMCE.InsertImage.ImageDescription,Descrição da imagem
+Post.VotedUp,Gostei
+Favourites.PageTitle,Meus favoritos
+Topic.Comments,Respostas
+Post.IsSolution,É solução
+PM.CreatePrivateMessage,Criar mensagem privada
+Badge.YourPostFavourited.Desc,Você tem uma ou mais postagens que foram favorecidas por outro membro
+PM.From,De:
+Post.Label.TopicName,Nome do tópico
+Post.Permalink,Permalink
+Layout.Nav.Activity,Atividade
+TinyMCE.InsertImage.EnterValidUrl,"Por favor, insira um URL válido"
+Notifications.NoActiveMembers,Ninguém online no momento
+Home.LatestDiscussions,Últimas discussões
+Topic.Notification.NewTopics,Um novo tópico ou tag foi criado na categoria {0}
+Date.WeeksAgo,{0} semanas atrás
+Members.ResetPassword.Error,"Houve um erro ao redefinir sua senha. Por favor, tente novamente."
+Search.Searching,Procurando
+Members.MemberEmailAuthorisationNeededMessage,Clique no link no seu e-mail de confirmação para aprovar sua conta.
+Following.Categories,Categorias que você está seguindo
+Error.WrongAnswerRegistration,"Houve um erro com sua resposta. Por favor, tente novamente"
+PM.MessageSent,Mensagem enviada
+Badge.PosterVoteUp.Desc,Este emblema é concedido aos usuários após receberem o primeiro voto de outro usuário
+SubNav.Following,Segue
+Badge.TheGrouch.Desc,Este emblema é concedido aos usuários que votaram em outras postagens de usuários 10 ou mais vezes
+Badge.FavouriteFirstPost.Desc,Você tem favorecido seu primeiro post
+Topic.Label.TopicTitle,Título
+Badge.MemberForAYear.Desc,Este crachá é concedido a um usuário após o primeiro ano de aniversário
+Tags.NoCreatePermission,Você não tem permissão para criar novas tags,você só pode usar os existentes
+Activity.UserJoined,é um novo membro no fórum
+Members.ResetPassword.Text,Um email foi enviado com detalhes sobre como redefinir sua senha.
+Layout.CreateButton,Nova discussão
+Post.Edit,Editar
+Members.NowLoggedOut,você está desconectado agora
+Notification.Subscribe,Segue
+Rss.LatestActivity.Description,Discussões recentes
+Home.Rss,Rss
+Post.Report,Relatório
+PM.SentPrivateMessages,Mensagens Privadas Enviadas
+Following.PageTitle,Tópicos e Categorias
+Members.EditMember,Editar membro
+PM.NoMessages,Você atualmente não tem nenhuma mensagem privada
+Badge.PosterVoteUp.Name,Primeiro voto recebido
+Buttons.CreatePost,Adicionar postagem
+PostEdit.OriginalVersion,Original
+Topic.TitleFallBack,Tópico de discussão
+Report.Reason,Razão
+Post.Points,Pontos
+Badge.BadegEnumNoClass,O tipo de enumeração de crachá {0} não possui uma classe correspondente especificada.
+Members.NowApproved,Sua conta foi aprovada agora - Obrigado
+PM.NewPrivateMessageBody,{0} acabou de lhe enviar uma mensagem privada.
+Topic.Choose,Escolha o Tópico Existente
+PM.ReceivedPrivateMessages,Mensagens Particulares Recebidas
+Topic.Votes,Votos
+SlidePanel.CloseConfirmation,Tem certeza que quer fechar?
+Buttons.Search,Procurar
+Post.Options,Visualizar opções de postagem
+TinyMCE.InsertImage.MaxFileSize,Tamanho máximo do arquivo de imagem é 2mb
+Report.Report,Relatório
+Ajax.PleaseWait,"Por favor, espere..."
+Layout.Nav.Logon,Logon
+Topic.Label.PollCloseAfterDays,Enquete Fechar Após Quantidade Especificada De Dias? Deixe como 0 para desativar
+PM.RecipientUsername,Nome de Usuário Recipiente
+Admin,Admin
+Topic.Notification.Subject,Nova discussão sobre
+PM.Block,Quadra
+Post.TrustedUser,Usuário Confiável
+Topic.Label.UploadFiles,Fazer upload de arquivos
+Stats.FooterActiveUsersText,Membros atualmente online:
+PM.MessageSubject,Sujeito
+Facebook.Error.EnabledButNotAddedKeys,"Você ativou o login do Facebook, mas não adicionou sua chave AppId ou Secret ao forum.config"
+Members.Label.Facebook,Página do Facebook
+Post.PostedThis,Postou isso
+Members.Label.Signature,Assinatura
+Member.ProfileUpdated,Perfil atualizado
+Buttons.ResetPassword,Redefinir Senha
+Tasks.MarkAsSolutionReminderJob.EmailBody,"Seu tópico {0} em {1} tem {2} respostas, mas ainda não foi marcado como resolvido. Por favor, verifique novamente para ver se alguma resposta é apropriada e marque-a como a solução, se for o caso."
+Post.Move.Description,Mover postagem para um tópico existente,ou criar um novo.
+Members.Profile.Location,Localização:
+Buttons.LogOn,Logon
+Badge.PosterMarkAsSolution.Name,Post Selected As Answer
+Tasks.MarkAsSolutionReminderJob.Subject,Sua postagem em {0}
+Members.Label.Username,Nome de usuário
+Topic.CreateDiscussion,Criar discussão
+SideBox.MyTools,Minhas ferramentas
+Members.NowRegistered,Você está agora registrado
+Members.ChangePassword.Text,Novas senhas precisam ter no mínimo {0} caracteres de comprimento.
+Members.Errors.InvalidAnswer,"A resposta de recuperação de senha fornecida é inválida. Por favor, verifique o valor e tente novamente."
+Report.MemberReport,Relatório do membro
+Post.FilesUploaded,Arquivos enviados com sucesso
+Members.Profile.LastOnline,Último online
+PM.Send,Mandar
+Badge.Photogenic.Name,Fotogênico
+PM.Reply,Resposta
+Layout.Nav.Admin,Admin
+Date.OneHourAgo,1 hora atrás
+PostedIn.PageTitle,Tópicos e postagens que você postou em
+Post.Move.Label.Topic,Tópico
+Post.Move,Mover
+Topic.ShowMorePostsLoading,Carregando postagens ...
+Members.Users,Comercial
+Badges.AwardsPoints,Prêmios {0} pontos
+PostFilter.Standard,Padrão
+Report.Reporter,Repórter
+Moderate.AwaitingModeration,"Sua postagem está aguardando moderação. Uma vez aprovado, aparecerá no site"
+PM.To,Para
+Topic.HotTopics,Tópicos quentes
+Post.Posts,Postagens
+Post.Favourite,Favorito
+Topic.Label.Category,Escolher categoria
+PostFilter.OrderBy,Ordenar por:
+Members.Profile.IsSocialAccount,Conta Social
+StopWord.Error,Você tentou inserir uma palavra ou URL que não é permitida neste site
+Members.Errors.InvalidPassword,A senha fornecida é inválida. Por favor insira um valor de senha válido.
+Post.Notification.Subject,Novo post sobre
+Member.HasNewPrivateMessages,Você tem novas mensagens privadas não lidas
+Members.Errors.UserNotApproved,O usuário não foi aprovado.
+SubscribedCats.NothingToShow,Você não está seguindo para nenhuma categoria
+Members.ChangePassword.Title,Mudar senha
+Moderate.Title,Moderado
+Members.MemberEmailAuthorisation.EmailBody,"Você se registrou em {0} - Para continuar, você deve confirmar seu endereço de e-mail clicando no link abaixo. {1}"
+Members.EditProfile,Editar Perfil
+Members.Label.DateJoined,Data de inscrição
+Members.Label.Users,Comercial
+Topic.Label.SubscribeToTopic,Seja notificado de respostas?
+Post.Favourited,Favorito
+PostEdit.EditedVersion,Editado
+Members.UnBanUser,Usuário Unban
+Poll.Button.Vote,Submeter o voto
+Members.ChangePassword.Success,Senha alterada
+Members.ResetPassword.EmailText,"Uma solicitação foi feita para redefinir sua senha em {0}. Para redefinir sua senha, siga o link abaixo. Se você não fez essa solicitação, ignore este e-mail. Nenhuma outra ação é necessária e sua senha não será alterada."
+Post.LikedBy,Curtido por
+Members.SearchMembers,Procurar membros
+PM.NewPrivateMessage,Nova mensagem privada
+Members.NewMemberSubject,Novo membro registrado
+Confirmation.SrubAndBan,Você tem certeza de que quer fazer isso? Ele irá deletar todos os seus posts e depois os banirá
+Post.Updated,Post atualizado
+Badge.TheGrouch.Name,O rabugento
+Members.Label.UserIsApproved,Usuário é aprovado
+Layout.Nav.Utilities,Serviços de utilidade pública
+Leaderboard.LeaderboardTitle,Classificação global
+Tags.PopularTags,Tags populares
+Date.HoursAgo,{0} horas atrás
+Post.Reply,Resposta
+Category.AllCategories,todas as categorias
+Category.NoDiscussions,Atualmente não há discussões nesta categoria
+Notification.UnSubscribe,Deixar de seguir
+Post.AttachedFiles,Arquivos anexados
+PM.ReceivedItemsOverCapcity,{0} excedeu o tamanho da caixa de entrada - não foi possível enviar a mensagem
+Members.Admin,Admin
+Post.ReplyingTo,Respondendo a:
+Members.NowLoggedIn,Agora você está logado
+Report.MemberReported,Membro relatado
+Members.Errors.PasswordAttemptsExceeded,O número máximo de tentativas de senha foi excedido.
+Report.PostReport,Postar relatório
+Post.PleaseWait,"Por favor, espere..."
+Date.MinutesAgo,{0} minutos atrás
+Members.SuccessfulSrub,Tudo feito
+PM.Title,Mensagem:
+Members.Errors.UserRejected,"A solicitação de criação do usuário foi cancelada. Por favor, verifique a sua entrada e tente novamente. Se o problema persistir, entre em contato com o administrador do sistema."
+Rss.Category.Description,Últimas discussões acontecendo na categoria {0}
+Members.ForgotPassword.Title,Esqueceu a senha
+Members.ChangePassword.Error,A senha atual está incorreta ou a nova senha é inválida.
+PostFilter.Votes,Votos
+Buttons.Save,Salve ?
+Topic.PollClosed,Fechadas
+Badge.Photogenic.Desc,"Pequenas coisas, como o upload de uma foto de perfil, tornam a comunidade um lugar melhor. Obrigado!"
+SubNav.PostedIn,Postado em
+Layout.PoweredBy,Distribuído por
+Members.LogonFacebookButton,Entrar com o Facebook
+Members.Label.Roles,Papéis
+Members.CantUnlock,O usuário não existe - não pode desbloquear.
+Post.Label.LockTopic,Bloquear Tópico
+Topic.LatestBy,Últimas por
+Poll.Button.Remove,Remover a enquete do tópico
+Members.MemberEmailAuthorisationResend,Reenviar e-mail de confirmação
+Side.Search,Procurar
+Following.Topics,Tópicos que você está seguindo
+Members.Label.ConfirmNewPassword,Confirme a nova senha
+Moderate.Topics,Tópicos
+Members.Label.Age,Era
+TinyMCE.InsertImage.LabelUploadImage,Enviar Imagem
+Members.ResetPassword.SuccessText,Sua senha foi mudada.
+Post.UploadBannedFileExtension,Extensão de arquivo não permitida
+TinyMCE.InsertImage.ButtonTitle,Inserir Imagem
+Post.Notification.NewPosts,Uma nova postagem foi criada no tópico {0}
+Members.NowBanned,Membro agora é banido
+TermsAndConditions.Label.Agree,Li e aceito os Termos e Condições do site
+Errors.GenericMessage,"Desculpe, ocorreu um erro"
+Badge.PostMentionsUmbraco.Name,Umbraco Fan
+Topic.LastPost,Último Post
+Topic.StartedBy,Iniciado {0} até {1}
+Activity.Badge,Badge
+Post.Browse,Squeaky toy...
+Post.Attach,Anexar
+Badge.UserVoteUp.Name,Você deu seu primeiro voto para cima
+Members.ForgotPassword.SuccessMessage,Uma nova senha foi enviada ao seu e-mail
+Poll.Button.Create,Adicionar uma pesquisa a este tópico
+Members.ResetPassword.InvalidToken,"Esta solicitação é inválida ou expirou. Por favor, faça uma solicitação de redefinição de senha novamente."
+Members.LogonGoogleButton,Entre com o Google
+Buttons.Continue,Continuar
+Members.LoginOrText,Ou
+PM.Blocked,Bloqueado
+Members.Profile.Facebook,Facebook:
+PM.Create,Crio
+Site.MvcForum,MvcForum
+Search.NoResults,"Desculpe, nenhum resultado encontrado"
+Errors.NoAccess,Sem acesso
+TinyMCE.InsertImage.OnlyImages,Apenas JPEG, imagens PNG e GIF podem ser carregadas
+Members.MemberEmailAuthorisation.Subject,Confirmação de e-mail
+Moderate.NavText,Postagens Pendentes / Tópicos
+Members.AlreadyRegistered,Você já está registrado? Por que você quer fazer isso de novo?
+Badge.MemberForAYear.Name,Primeiro aniversário
+PM.PrivateMessages,Mensagens privadas
+Date.OneMinuteAgo,1 minuto atrás
+Report.ReportPostBy,Relatório por:
+Members.Profile.Joined,Ingressou:
+Members.Register,registo
+TinyMCE.InsertImage.Browse,Squeaky toy
+Members.Profile.Posts,Postagens:
+Side.Search.Go,Vai
+Badge.UnknownBadge,Tipo de selo desconhecido {0}
+PM.MemberIsOnline,Conectados
+Layout.Nav.Register,registo
+Topic.Category,Categoria
+Topic.UnSubscribe,Deixar de seguir
+Topic.OptionsHeading,Opções de tópico
+Members.NowUnBanned,Membro agora NÃO está proibido
+SubNav.Favourites,Meus favoritos
+Members.Label.ConfirmPassword,Confirme a Senha
+Members.Profile.Website,Local na rede Internet
+TinyMCE.InsertImage.ExternalImage,Imagem externa
+Rss.LatestActivity.Title,Últimas discussões do fórum
+Members.Errors.ProviderError,"O provedor de autenticação retornou um erro. Por favor, verifique a sua entrada e tente novamente. Se o problema persistir, entre em contato com o administrador do sistema."
+TermsAndConditions.PageTitle,Concorde com os Termos e Condições
+TinyMCE.InsertImage.ButtonOk,Está bem
+Errors.NothingToDisplay,Nada para exibir
+Members.DeleteAllPosts,Excluir todas as postagens
+Buttons.Send,Mandar
+Topic.IsLocked,Tópico está bloqueado
+Members.Label.EmailAddress,Endereço de e-mail (usado pelo Gravatar para mostrar sua imagem de Avatar)
+Members.Errors.DuplicateUserName,O nome do usuário já existe. Por favor insira um nome de usuário diferente.
+Members.SrubAndBan,Membro Scrub
+LogOn.LogOff,Sair
+Side.Search.SearchFor,Procurar por...
+Members.ForgotPassword.Link,Esqueceu sua senha?
+Members.Label.Password,Senha
+Ajax.PleaseWait &quot;Por favor, espere..."	
+Badge.Photogenic.Desc &quot;Pequenas coisas, como o upload de uma foto de perfil, tornam a comunidade um lugar melhor. Obrigado!"	
+Badges.UnableToAward &quot;N�o � poss�vel premiar os crach�s, pois a cole??o de crach?s ? nula para o usu?rio {0}"	
+Error.WrongAnswerRegistration &quot;Houve um erro com sua resposta. Por favor, tente novamente"	
+Errors.GenericMessage &quot;Desculpe, ocorreu um erro"	
+Facebook.Error.EnabledButNotAddedKeys &quot;Voc� ativou o login do Facebook, mas n?o adicionou sua chave AppId ou Secret ao forum.config"	
+Google.Error.EnabledButNotAddedKeys &quot;Voc� ativou os logins sociais, mas n?o adicionou o ID do Google e a chave secreta no arquivo forum.config"	
+Members.Errors.DuplicateEmail &quot;Um nome de usu�rio para esse endere�o de e-mail j� existe. Por favor, insira um endere?o de e-mail diferente."	
+Members.Errors.InvalidAnswer &quot;A resposta de recupera��o de senha fornecida � inv�lida. Por favor, verifique o valor e tente novamente."	
+Members.Errors.InvalidEmail &quot;O endere�o de e-mail fornecido � inv�lido. Por favor, verifique o valor e tente novamente."	
+Members.Errors.InvalidQuestion &quot;A pergunta de recupera��o de senha fornecida � inv�lida. Por favor, verifique o valor e tente novamente."	
+Members.Errors.InvalidUserName &quot;O nome de usu�rio fornecido � inv�lido. Por favor, verifique o valor e tente novamente."	
+Members.Errors.ProviderError &quot;O provedor de autentica��o retornou um erro. Por favor, verifique a sua entrada e tente novamente. Se o problema persistir, entre em contato com o administrador do sistema."	
+Members.Errors.Unknown &quot;Ocorreu um erro desconhecido. Por favor, verifique a sua entrada e tente novamente. Se o problema persistir, entre em contato com o administrador do sistema."	
+Members.Errors.UserRejected &quot;A solicita��o de cria��o do usu�rio foi cancelada. Por favor, verifique a sua entrada e tente novamente. Se o problema persistir, entre em contato com o administrador do sistema."	
+Members.MemberEmailAuthorisation.EmailBody &quot;Voc� se registrou em {0} - Para continuar, voc? deve confirmar seu endere?o de e-mail clicando no link abaixo. {1}"	
+Members.ResetPassword.EmailText &quot;Uma solicita��o foi feita para redefinir sua senha em {0}. Para redefinir sua senha, siga o link abaixo. Se voc? n?o fez essa solicita??o, ignore este e-mail. Nenhuma outra a??o ? necess?ria e sua senha n?o ser? alterada."	
+Members.ResetPassword.Error &quot;Houve um erro ao redefinir sua senha. Por favor, tente novamente."	
+Members.ResetPassword.InvalidToken &quot;Esta solicita��o � inv�lida ou expirou. Por favor, fa?a uma solicita??o de redefini??o de senha novamente."	
+Microsoft.Error.EnabledButNotAddedKeys &quot;Voc� ativou o login da Microsoft, mas n?o adicionou sua chave AppId ou Secret ao forum.config"	
+Moderate.AwaitingModeration &quot;Sua postagem est� aguardando modera��o. Uma vez aprovado, aparecer? no site"	
+Post.PleaseWait &quot;Por favor, espere..."	
+Search.NoResults &quot;Desculpe, nenhum resultado encontrado"	
+Tasks.MarkAsSolutionReminderJob.EmailBody &quot;Seu t�pico {0} em {1} tem {2} respostas, mas ainda n?o foi marcado como resolvido. Por favor, verifique novamente para ver se alguma resposta ? apropriada e marque-a como a solu??o, se for o caso."	
+TinyMCE.InsertImage.EnterValidUrl &quot;Por favor, insira um URL v?lido"	
+Twitter.Error.EnabledButNotAddedKeys &quot;Voc� ativou os logins sociais, mas n?o adicionou o ID do Twitter e a chave secreta no forum.config"	

@@ -3,7 +3,8 @@
     var allCats = Model.AllPermissionSets.Keys;
 }
 <div class="side-box categories-box">
-    <h5>@Html.LanguageString("Category.CategoriesSideHeading")</h5>
+    <!-- <h3 class="title-bar">@Html.LanguageString("Category.CategoriesSideHeading")</h3> -->
+    <h3 class="title-bar">Mais <span>categorias</span></h3>
 
     <ul>
         <li><a href="@Url.Action("Index")">@Html.LanguageString("Category.AllCategories")</a></li>

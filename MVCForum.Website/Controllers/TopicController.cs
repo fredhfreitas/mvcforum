@@ -31,13 +31,14 @@
         private readonly ITopicService _topicService;
         private readonly ITopicTagService _topicTagService;
         private readonly IVoteService _voteService;
+        private readonly IUploadedFileService _uploadService;
 
         public TopicController(ILoggingService loggingService, IMembershipService membershipService,
             IRoleService roleService, ITopicService topicService, IPostService postService,
             ICategoryService categoryService, ILocalizationService localizationService,
             ISettingsService settingsService, ITopicTagService topicTagService,
             IPollService pollService, IVoteService voteService, IFavouriteService favouriteService, ICacheService cacheService,
-            IMvcForumContext context, INotificationService notificationService)
+            IMvcForumContext context, INotificationService notificationService, IUploadedFileService uploadService)
             : base(loggingService, membershipService, localizationService, roleService,
                 settingsService, cacheService, context)
         {
@@ -49,6 +50,7 @@
             _voteService = voteService;
             _favouriteService = favouriteService;
             _notificationService = notificationService;
+            _uploadService = uploadService;
         }
 
 
@@ -87,7 +89,37 @@
 
             return PartialView("TopicsMemberHasPostedIn", viewModel);
         }
-                
+
+        [Authorize]
+        public virtual ActionResult CompartilharTexto()
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+            var allowedAccessCategories = AllowedCreateCategories(loggedOnUsersRole);
+
+            if (allowedAccessCategories.Any() && loggedOnReadOnlyUser.DisablePosting != true)
+            {
+                var viewModel = PrePareCreateEditTopicViewModel(allowedAccessCategories);
+                return View(viewModel);
+            }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        [Authorize]
+        public virtual ActionResult CompartilharFoto()
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+            var allowedAccessCategories = AllowedCreateCategories(loggedOnUsersRole);
+
+            if (allowedAccessCategories.Any() && loggedOnReadOnlyUser.DisablePosting != true)
+            {
+                var viewModel = PrePareCreateEditTopicViewModel(allowedAccessCategories);
+                return View(viewModel);
+            }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
         public virtual PartialViewResult TopicosDestacadosShow(int? p)
         {
             var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
@@ -374,7 +406,20 @@
             }
             return allowedAccessCategories;
         }
+        [Authorize]
+        public virtual ActionResult NovoTopico()
+        {
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+            var allowedAccessCategories = AllowedCreateCategories(loggedOnUsersRole);
 
+            if (allowedAccessCategories.Any() && loggedOnReadOnlyUser.DisablePosting != true)
+            {
+                var viewModel = PrePareCreateEditTopicViewModel(allowedAccessCategories);
+                return View(viewModel);
+            }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
         /// <summary>
         ///     Create topic view
         /// </summary>
@@ -393,7 +438,82 @@
             }
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<ActionResult> CompartilharTexto(CreateEditTopicViewModel topicViewModel)
+        {
+            // Get the user and roles
+            var loggedOnUser = User.GetMembershipUser(MembershipService, false);
+            var loggedOnUsersRole = loggedOnUser.GetRole(RoleService);
 
+            // Get the category
+            var category = _categoryService.Get(topicViewModel.Category);
+
+            // First check this user is allowed to create topics in this category
+            var permissions = RoleService.GetPermissions(category, loggedOnUsersRole);
+
+            // Now we have the category and permissionSet - Populate the optional permissions 
+            // This is just in case the viewModel is return back to the view also sort the allowedCategories
+            topicViewModel.OptionalPermissions = GetCheckCreateTopicPermissions(permissions);
+            topicViewModel.Categories =
+                _categoryService.GetBaseSelectListCategories(AllowedCreateCategories(loggedOnUsersRole));
+            topicViewModel.IsTopicStarter = true;
+            if (topicViewModel.PollAnswers == null)
+            {
+                topicViewModel.PollAnswers = new List<PollAnswer>();
+            }
+
+            if (ModelState.IsValid)
+            {
+                // See if the user has actually added some content to the topic
+                if (string.IsNullOrWhiteSpace(topicViewModel.Content))
+                {
+                    ModelState.AddModelError(string.Empty,
+                        LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+                else
+                {
+                    // Map the new topic (Pass null for new topic)
+                    var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
+
+                    // Run the create pipeline
+                    var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags,
+                        topicViewModel.SubscribeToTopic, topicViewModel.Content, null);
+                    if (createPipeLine.Successful == false)
+                    {
+                        // TODO - Not sure on this?
+                        // Remove the topic if unsuccessful, as we may have saved some items.
+                        await _topicService.Delete(createPipeLine.EntityToProcess);
+
+                        // Tell the user the topic is awaiting moderation
+                        ModelState.AddModelError(string.Empty, createPipeLine.ProcessLog.FirstOrDefault());
+                        return View(topicViewModel);
+                    }
+
+                    if (createPipeLine.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
+                    {
+                        var moderate = createPipeLine.ExtendedData[Constants.ExtendedDataKeys.Moderate] as bool?;
+                        if (moderate == true)
+                        {
+                            // Tell the user the topic is awaiting moderation
+                            TempData[Constants.MessageViewBagName] = new GenericMessageViewModel
+                            {
+                                Message = LocalizationService.GetResourceString("Moderate.AwaitingModeration"),
+                                MessageType = GenericMessages.info
+                            };
+
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+
+                    // Redirect to the newly created topic
+                    return Redirect($"{topic.NiceUrl}?postbadges=true");
+                }
+            }
+
+            return View(topicViewModel);
+        }
         /// <summary>
         ///     Creates a topic via the pipeline system
         /// </summary>
@@ -451,6 +571,106 @@
                         ModelState.AddModelError(string.Empty, createPipeLine.ProcessLog.FirstOrDefault());
                         return View(topicViewModel);
                     }
+
+                    if (createPipeLine.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
+                    {
+                        var moderate = createPipeLine.ExtendedData[Constants.ExtendedDataKeys.Moderate] as bool?;
+                        if (moderate == true)
+                        {
+                            // Tell the user the topic is awaiting moderation
+                            TempData[Constants.MessageViewBagName] = new GenericMessageViewModel
+                            {
+                                Message = LocalizationService.GetResourceString("Moderate.AwaitingModeration"),
+                                MessageType = GenericMessages.info
+                            };
+
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+
+                    // Redirect to the newly created topic
+                    return Redirect($"{topic.NiceUrl}?postbadges=true");
+                }
+            }
+
+            return View(topicViewModel);
+        }
+
+        /// <summary>
+        ///     Creates a topic via the pipeline system
+        /// </summary>
+        /// <param name="topicViewModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<ActionResult> CompartilharFoto(CreateEditTopicViewModel topicViewModel)
+        {
+            // Get the user and roles
+            var loggedOnUser = User.GetMembershipUser(MembershipService, false);
+            var loggedOnUsersRole = loggedOnUser.GetRole(RoleService);
+
+            // Get the category
+            var category = _categoryService.Get(topicViewModel.Category);
+
+            // First check this user is allowed to create topics in this category
+            var permissions = RoleService.GetPermissions(category, loggedOnUsersRole);
+
+            // Now we have the category and permissionSet - Populate the optional permissions 
+            // This is just in case the viewModel is return back to the view also sort the allowedCategories
+            topicViewModel.OptionalPermissions = GetCheckCreateTopicPermissions(permissions);
+            topicViewModel.Categories =
+                _categoryService.GetBaseSelectListCategories(AllowedCreateCategories(loggedOnUsersRole));
+            topicViewModel.IsTopicStarter = true;
+            if (topicViewModel.PollAnswers == null)
+            {
+                topicViewModel.PollAnswers = new List<PollAnswer>();
+            }
+
+            if (ModelState.IsValid)
+            {
+                topicViewModel.Content = "<span></span>";
+                // See if the user has actually added some content to the topic
+                if (string.IsNullOrWhiteSpace(topicViewModel.Content))
+                {
+                    ModelState.AddModelError(string.Empty,
+                        LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+                else
+                {
+                    // Map the new topic (Pass null for new topic)
+                    var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
+
+                    // Run the create pipeline
+                    var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags,
+                        topicViewModel.SubscribeToTopic, topicViewModel.Content, null);
+                    if (createPipeLine.Successful == false)
+                    {
+                        // TODO - Not sure on this?
+                        // Remove the topic if unsuccessful, as we may have saved some items.
+                        await _topicService.Delete(createPipeLine.EntityToProcess);
+
+                        // Tell the user the topic is awaiting moderation
+                        ModelState.AddModelError(string.Empty, createPipeLine.ProcessLog.FirstOrDefault());
+                        return View(topicViewModel);
+                    }
+
+                    var post = topic.Posts.FirstOrDefault();
+
+                    var filePath = _uploadService.GetAllByPost(post.Id).FirstOrDefault().FilePath;
+                    var imagem = string.Format("<img src=\"{0}\">", filePath.Replace("~", ""));
+                    //post.PostContent = imagem;
+
+
+                    //// Run the create pipeline
+                    //var editPipeLine = await _topicService.Edit(topic, null, topicViewModel.Tags,
+                    //    topicViewModel.SubscribeToTopic, topicViewModel.Content, null, null, 0);
+                    //EditPostTopic(topicViewModel);
+                    //var editPostPipe = await _postService.EditPostFoto(post, post.IsTopicStarter, post.PostContent);
+                    var postEdit = _postService.Get(post.Id);
+                    postEdit.PostContent = imagem;
+                    _pollService.SaveChanges();
+                    
 
                     if (createPipeLine.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
                     {
@@ -715,13 +935,23 @@
                     // Overide to show all posts
                     amountPerPage = int.MaxValue;
                 }
-
-                // Get the posts
-                var posts = await _postService.GetPagedPostsByTopic(pageIndex,
-                    amountPerPage,
-                    int.MaxValue,
-                    topic.Id,
-                    orderBy);
+                //GetPagedPostsByTopicAndUser
+                PaginatedList<Post> posts = null;
+                if (loggedOnUsersRole.RoleName != "Editores") {
+                    // Get the posts
+                     posts = await _postService.GetPagedPostsByTopic(pageIndex,
+                        amountPerPage,
+                        int.MaxValue,
+                        topic.Id,
+                        orderBy);
+                }
+                else {
+                    posts = await _postService.GetPagedPostsByTopicAndUser(pageIndex,
+                        amountPerPage,
+                        int.MaxValue,
+                        topic.Id,
+                        orderBy);
+                }
 
                 // Get the topic starter post
                 var starterPost = _postService.GetTopicStarterPost(topic.Id);
@@ -834,6 +1064,8 @@
 
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
         }
+
+        
 
         [HttpPost]
         public virtual PartialViewResult AjaxMorePosts(GetMorePostsViewModel getMorePostsViewModel)
@@ -991,7 +1223,27 @@
         }
 
         [ChildActionOnly]
-        public virtual ActionResult TopicosRecentes(int? p)
+        public virtual ActionResult TopicosRecentes(int? p, int Values)
+        {
+            MembershipUser membershipUser = base.User.GetMembershipUser(MembershipService);
+            MembershipRole role = membershipUser.GetRole(RoleService);
+            List<Category> allowedCategories = _categoryService.GetAllowedCategories(role);
+            Settings settings = SettingsService.GetSettings();
+            int pageIndex = p ?? 1;
+            PaginatedList<Topic> result = Task.Run(() => _topicService.GetTopicosRecentes(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, allowedCategories)).Result;
+            List<TopicViewModel> topics = ViewModelMapping.CreateTopicViewModels((Values == 0) ? result : result.Take(Values).ToList(), RoleService, role, membershipUser, allowedCategories, settings, _postService, _notificationService, _pollService, _voteService, _favouriteService);
+            ActiveTopicsViewModel model = new ActiveTopicsViewModel
+            {
+                Topics = topics,
+                PageIndex = pageIndex,
+                TotalCount = (Values == 4) ? 0 : result.TotalCount,
+                TotalPages = result.TotalPages
+            };
+            return PartialView(model);
+        }
+
+        [ChildActionOnly]
+        public virtual ActionResult TodasNoticias(int? p)
         {
             var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
             var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
@@ -1003,96 +1255,81 @@
             var pageIndex = p ?? 1;
 
             // Get the topics
-            var topics = Task.Run(() => _topicService.GetTopicosRecentes(pageIndex,
+            var topics = Task.Run(() => _topicService.GetTopicosNoticias(pageIndex,
                 settings.TopicsPerPage,
                 ForumConfiguration.Instance.ActiveTopicsListSize,
                 allowedCategories)).Result;
 
             // Get the Topic View Models
-            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
-                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
-                _pollService, _voteService, _favouriteService);
+            var topicViewModels = ViewModelMapping.CreatePostViewModels(topics);
 
             // create the view model
-            var viewModel = new ActiveTopicsViewModel
+            var viewModel = new ShowMorePostsViewModel
             {
-                Topics = topicViewModels,
-                PageIndex = pageIndex,
-                TotalCount = topics.TotalCount,
-                TotalPages = topics.TotalPages
+                Posts = topicViewModels
             };
 
             return PartialView(viewModel);
         }
 
         [ChildActionOnly]
-        public virtual ActionResult TopicosMaisVistos(int? p)
+        public virtual ActionResult TopicosMaisVistos(int? p, int Values)
         {
-            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
-            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
-
-            var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
-            var settings = SettingsService.GetSettings();
-
-            // Set the page index
-            var pageIndex = p ?? 1;
-
-            // Get the topics
-            var topics = Task.Run(() => _topicService.GetTopicosMaisVistos(pageIndex,
-                settings.TopicsPerPage,
-                ForumConfiguration.Instance.ActiveTopicsListSize,
-                allowedCategories)).Result;
-
-            // Get the Topic View Models
-            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
-                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
-                _pollService, _voteService, _favouriteService);
-
-            // create the view model
-            var viewModel = new ActiveTopicsViewModel
+            MembershipUser membershipUser = base.User.GetMembershipUser(MembershipService);
+            MembershipRole role = membershipUser.GetRole(RoleService);
+            List<Category> allowedCategories = _categoryService.GetAllowedCategories(role);
+            Settings settings = SettingsService.GetSettings();
+            int pageIndex = p ?? 1;
+            PaginatedList<Topic> result = Task.Run(() => _topicService.GetTopicosMaisVistos(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, allowedCategories)).Result;
+            List<TopicViewModel> topics = ViewModelMapping.CreateTopicViewModels((Values == 0) ? result : result.Take(Values).ToList(), RoleService, role, membershipUser, allowedCategories, settings, _postService, _notificationService, _pollService, _voteService, _favouriteService);
+            ActiveTopicsViewModel model = new ActiveTopicsViewModel
             {
-                Topics = topicViewModels,
+                Topics = topics,
                 PageIndex = pageIndex,
-                TotalCount = topics.TotalCount,
-                TotalPages = topics.TotalPages
+                TotalCount = (Values == 4) ? 0 : result.TotalCount,
+                TotalPages = result.TotalPages
             };
-
-            return PartialView(viewModel);
+            return PartialView(model);
         }
 
         [ChildActionOnly]
-        public virtual ActionResult TopicosDestacados(int? p)
+        public virtual ActionResult FotosUsuarios(int? p)
         {
-            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
-            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
-
-            var allowedCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
-            var settings = SettingsService.GetSettings();
-
-            // Set the page index
-            var pageIndex = p ?? 1;
-
-            // Get the topics
-            var topics = Task.Run(() => _topicService.GetTopicosDestacados(pageIndex,
-                settings.TopicsPerPage,
-                ForumConfiguration.Instance.ActiveTopicsListSize,
-                allowedCategories)).Result;
-
-            // Get the Topic View Models
-            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
-                loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
-                _pollService, _voteService, _favouriteService);
-
-            // create the view model
-            var viewModel = new ActiveTopicsViewModel
+            MembershipUser membershipUser = base.User.GetMembershipUser(MembershipService);
+            MembershipRole role = membershipUser.GetRole(RoleService);
+            List<Category> allowedCategories = _categoryService.GetAllowedCategories(role);
+            Settings settings = SettingsService.GetSettings();
+            int pageIndex = p ?? 1;
+            PaginatedList<Topic> result = Task.Run(() => _topicService.GetTopicosDestacados(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, allowedCategories)).Result;
+            List<TopicViewModel> topics = ViewModelMapping.CreateTopicViewModels(result, RoleService, role, membershipUser, allowedCategories, settings, _postService, _notificationService, _pollService, _voteService, _favouriteService);
+            ActiveTopicsViewModel model = new ActiveTopicsViewModel
             {
-                Topics = topicViewModels,
+                Topics = topics,
                 PageIndex = pageIndex,
-                TotalCount = topics.TotalCount,
-                TotalPages = topics.TotalPages
+                TotalCount = result.TotalCount,
+                TotalPages = result.TotalPages
             };
+            return PartialView(model);
+        }
 
-            return PartialView(viewModel);
+        [ChildActionOnly]
+        public virtual ActionResult TopicosDestacados(int? p, int Values)
+        {
+            MembershipUser membershipUser = base.User.GetMembershipUser(MembershipService);
+            MembershipRole role = membershipUser.GetRole(RoleService);
+            List<Category> allowedCategories = _categoryService.GetAllowedCategories(role);
+            Settings settings = SettingsService.GetSettings();
+            int pageIndex = p ?? 1;
+            PaginatedList<Topic> result = Task.Run(() => _topicService.GetTopicosDestacados(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, allowedCategories)).Result;
+            List<TopicViewModel> topics = ViewModelMapping.CreateTopicViewModels((Values == 0) ? result : result.Take(Values).ToList(), RoleService, role, membershipUser, allowedCategories, settings, _postService, _notificationService, _pollService, _voteService, _favouriteService);
+            ActiveTopicsViewModel model = new ActiveTopicsViewModel
+            {
+                Topics = topics,
+                PageIndex = pageIndex,
+                TotalCount = (Values == 4) ? 0 : result.TotalCount,
+                TotalPages = result.TotalPages
+            };
+            return PartialView(model);
         }
 
         [ChildActionOnly]

@@ -1,0 +1,30 @@
+﻿@using MvcForum.Web.ViewModels
+@using MvcForum.Web.ViewModels.Category
+@model CategoryListSummaryViewModel
+
+@{
+    Layout = null;
+}
+<div class="categoryindex">
+    <div class="row forum-header">
+        <div class="col-md-4">
+            <h3 class="title-bar">Categorias</h3>
+        </div>
+        <div class="col-md-4">
+            <p class="total-topics">Número de tópicos: <span>@Html.Action("Total", "Topic")</span></p>
+        </div>
+    </div>
+    @foreach (var cat in Model.AllPermissionSets.Keys)
+    {
+        var permissions = Model.AllPermissionSets[cat];
+
+        @Html.Partial("_CategoryCustom", new CategoryViewModel {
+                                                        Category = cat.Category,
+                                                        LatestTopic = cat.MostRecentTopic,
+                                                        Permissions = permissions,
+                                                        PostCount = cat.PostCount,
+                                                        TopicCount = cat.TopicCount
+                                                    })
+
+    }
+</div>
