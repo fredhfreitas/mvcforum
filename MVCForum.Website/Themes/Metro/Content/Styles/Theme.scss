@@ -47,9 +47,6 @@ $media-query-mobile: 600px;
     }
 }
 .navbar-brand { padding-top: 5px; padding-bottom: 5px; height: 74px; color: #fff; font-weight: bold; margin-top: 20px; margin-bottom: 20px;
-    @media only screen and (min-width: 320px) and (max-width: 767px) {
-        margin: -45px 0 0 0;
-    }
     &:hover, &:focus { color: #efefef; }
 }
 .dropdown-menu { -ms-border-radius: 0; border-radius: 0; padding: 0; margin: 4px 0 0;}
@@ -239,8 +236,12 @@ section.content-strip {
 
 // Breadcrumb
 
-.breadcrumb { background: none; padding: 0 0 15px 0; margin: -12px 0 0 0; font-size: 12px;
-    a, a:visited { color: $font-lighter-base-color; }
+.breadcrumb { background: none; padding: 0 0 15px 0; font-size: 12px;
+    li {
+        a, a:visited { color: #64696C; font-size: 16px; font-weight: 400; text-transform: uppercase; 
+            span { color: $orange; }
+        }
+    }
 }
 
 // Side Boxes
@@ -263,6 +264,12 @@ section.content-strip {
                 li {
                     a, a:visited { font-size: 14px; }
                 }
+            }
+            h2 {
+                text-transform: capitalize; font-size: 16px; line-height: 46px;
+            }
+            p {
+                display: none;
             }
         }
     }
@@ -386,8 +393,14 @@ section.content-strip {
         &:hover, &:focus { color: #000; }
     }
 }
-.topicstarterpostbeginpostsheading { padding-bottom: 3px; }
-.topicstarterpost { border-bottom: 2px #f2f2f2 solid; }
+.topicstarterpostbeginpostsheading { padding-bottom: 3px; border-bottom: 1px solid rgba($color: #707070, $alpha: 0.5);
+    h5 {
+        font-size: 21px;
+        font-weight: 700;
+        color: #373A3C;
+        text-transform: uppercase;
+    }
+}
 
 // Topic Row Slim
 
@@ -421,6 +434,9 @@ section.content-strip {
     }
     .glyphicon { font-size: 18px; }
     @media (max-width: $media-query-mobile) { float: none; margin: 0; padding: 15px 0; }
+    .btn {
+        margin-top: 0;
+    }
 }
 
 .widgetleft { float: left; margin: 2px 10px 10px 0;
@@ -436,7 +452,7 @@ section.content-strip {
 .topicshow {
     .showmoreposts { margin-top: 10px; margin-bottom: 25px; }
     .topicheading { margin-bottom: 20px;
-        h1 { font-size: 26px; margin-bottom: 19px; }
+        h1 { font-size: 32px; margin-bottom: 19px; color: #64696C; font-weight: 500; }
         .topicinfo { display: block; clear: both; padding: 0; margin: 0; color: #B3B3B3; font-size: 12px; font-weight: 300;
             li { list-style: none; display: inline-block; padding: 0 8px 0 0; }
         }
@@ -452,7 +468,7 @@ section.content-strip {
 }
 
 // Category Rows
-.total-topics { text-align: center; display: block; font-weight: 300; font-size: 16px;
+.total-topics { text-align: center; display: block; font-weight: 300; font-size: 16px; margin-top: 10px;
     span { font-weight: 500; color: $orange; }
 }
 .categoryrow { background: $white; border-radius: 6px; margin-bottom: 30px; padding: 20px 20px 35px 20px;
@@ -467,11 +483,8 @@ section.content-strip {
     }
 }
 .categoryrowfooter { color: #B3B3B3; font-size: 13px; font-weight: 300; padding-bottom: 10px;
-    &:before { content: ''; height: 75px; width: 1px; background: #707070; display: block; position: absolute; top: 35%;}
-    .catmostrecent {
-        a, a:visited { font-weight: 400;
-            &:hover, &:focus { }
-        }
+    @media only screen and (min-width: 1170px) {
+        &:before { content: ''; height: 75px; width: 1px; background: #707070; display: block; position: absolute; top: 35%;}
     }
     h4 {
         font-size: 20px;
@@ -517,11 +530,13 @@ section.content-strip {
 }
 // Post
 
-.post { border-top: 1px #f2f2f2 solid; padding: 15px 0 15px 0;
+.post { border-bottom: 1px rgba($color: #707070, $alpha: 0.5) solid; padding: 65px 0 35px 0;
+    &:first-of-type { border-bottom: none; }
     .glyphicon-star { color: $color-global-yellow; }
+    .rowdetails { margin-left: 45px; }
 }
 .postcontent { position:relative;
-    p { font-size: 15px; overflow-x: hidden; }
+    p { font-size: 20px; overflow-x: hidden; }
     ol, ul {
          p { overflow-x: visible; }
      }
@@ -538,7 +553,7 @@ section.content-strip {
 }
 
 .post.solution-true .postbodytop a, .post.solution-true .postbodytop a:visited { color: $color-global-green; }
-.postsocial { padding-bottom: 10px; color: #b3b3b3;
+.postsocial { padding: 30px 0; color: $orange;
     ul {
         padding: 0;
         margin: 0;
@@ -548,7 +563,12 @@ section.content-strip {
             display: inline-block;
             padding: 0 4px 0 0;
             font-size: 13px;
-            a, a:visited { font-weight: 400; cursor: pointer; 
+            font-size: 21px;
+            i {
+                color: #373A3C;
+                font-size: 21px;
+            }
+            a, a:visited { font-weight: 400; cursor: pointer;
                  &.replytolink { font-weight:600;}
             }
 
@@ -590,10 +610,10 @@ section.content-strip {
 .postdetails-guest { margin-right: 0; }
 
 .postadmin {
-    float: right;
-    width: 70px;
+    // float: right;
+    width: 100%;
     ul { padding: 0; margin: 0;
-        li { list-style: none; text-align: right; padding: 0 0 2px 0; }
+        li { list-style: none; text-align: right; padding: 0 0 2px 0; display: inline-block; }
     }
     @media (max-width: $media-query-mobile) { float: none; width: auto;
         ul {
@@ -743,7 +763,11 @@ footer { background: $color-global-grey-blue; padding: 20px 0; margin: 30px 0 0 
 
 // Edit Member
 .editmemberform {
-    .membereditavatar { padding-bottom: 12px; }
+    .membereditavatar { padding-bottom: 12px; 
+        img {min-width: 128px;}
+        .username-readonly { font-size: 32px; font-weight: 400; color: #64696C; margin-bottom: 18px; display: block; line-height: 32px;}
+    }
+    h4 { font-size: 22px; font-weight: 400; color: #64696C; margin: 35px 0 21px; }
 }
 
 // Private Messages
@@ -792,7 +816,7 @@ footer { background: $color-global-grey-blue; padding: 20px 0; margin: 30px 0 0 
 // Create new post
 
 .showreplyto {padding:15px 0 0 0;}
-#createpostholder { padding: 5px 0 0 0; }
+#createpostholder { padding: 5px 0 0 0; margin-top: 55px; }
 
 #PostContent {
     @media (max-width: $media-query-small) { width: 100%; height: 10em; font-size: 1.4em; }

@@ -1,17 +1,18 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
-    ViewBag.Title = Html.Lang("PostedIn.PageTitle");
+    ViewBag.Title = "Clube da Retro | Meus Tópicos";
+    ViewBag.MetaDesc = "Crie tópicos de discussão e troca de experiências no Clube da Retro.";
 }
 
 @section side
 {
     @Html.Partial("_CommonSideNav")
 }
-
+<div class="row default-header">
+    <div class="col-md-12">
+        <h3 class="title-bar">Meus Tópicos</h3>
+    </div>
+</div>
 <div class="postedin row">
-
-    <h3 class="title-bar">@ViewBag.Title</h3>
-
     @Html.Action("TopicsMemberHasPostedIn", "Topic")
-
 </div>

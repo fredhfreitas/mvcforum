@@ -1,7 +1,7 @@
-﻿<h3 class="title-bar">Contato</h3>
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutRightSideBarDefault.cshtml";
-    ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
+    ViewBag.Title = "Clube da Retro | Contato";
+    ViewBag.MetaDesc = "Fale com o Clube da Retro: dúvidas, sugestões, faça parte.";
 }
 @section side
 {
@@ -16,13 +16,20 @@
     </div>
 }
 @model MvcForum.Web.ViewModels.Contact.ContactFormModel
-
+<div class="row default-header">
+    <div class="col-md-12">
+        <h3 class="title-bar">Contato</h3>
+    </div>
+</div>
 <div class="postedin row">
     
     <div class="mainregisterform col-md-10">
 
         <!-- <h3 class="title-bar">@ViewBag.Title</h3> -->
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </p>
+        <p>Sabemos que a gente se fala muito, afinal é esse o objetivo desse espaço, falar e ouvir.
+Mas se você precisa esclarer uma dúvida ou fazer uma sugestão diretamente aos
+gestores do site ou do Clube da Retro. Escreva seu recado e deixe seu contato que
+responderemos o mais rápido possível.</p>
         @using (Html.BeginForm("ContactForm", "Home", FormMethod.Post))       
         {
             @Html.ValidationSummary(true)

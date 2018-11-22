@@ -162,7 +162,7 @@
                 </div>
             }
 
-            @if (Model.Post.IsTopicStarter && Model.ParentTopic.Tags.Any())
+            @*@if (Model.Post.IsTopicStarter && Model.ParentTopic.Tags.Any())
             {
                 <div class="posttags tagsinput">
                     @foreach (var tag in Model.ParentTopic.Tags)
@@ -170,7 +170,7 @@
                         <span class="tag"><span><a href="@Html.Raw(tag.NiceUrl)">@Html.Raw(tag.Tag)</a></span></span>
                     }
                 </div>
-            }
+            }*@
 
             @if (Model.Post.Files != null && Model.Post.Files.Any())
             {
@@ -241,14 +241,14 @@
                         </a>
                     </li>
 
-                    @if (Model.Post.User.Id != loggedOnUserId && loggedOnUserId != Guid.Empty && Html.Settings().EnableSpamReporting)
+                    @*@if (Model.Post.User.Id != loggedOnUserId && loggedOnUserId != Guid.Empty && Html.Settings().EnableSpamReporting)
                     {
                         <li>
                             <a class="btn btn-gray" href="@Url.Action("Report", "Post", new { id = Model.Post.Id })">
                                 @Html.LanguageString("Post.Report")
                             </a>
                         </li>
-                    }
+                    }*@
 
                     @if (Model.Post.User.Id == loggedOnUserId || Model.Permissions[ForumConfiguration.Instance.PermissionDeletePosts].IsTicked)
                     {

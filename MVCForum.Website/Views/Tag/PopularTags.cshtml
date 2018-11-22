@@ -4,7 +4,7 @@
 @if (Model.PopularTags.Any())
 {
     <div class="side-box popular-tags-box">
-        <h5>@Html.LanguageString("Tags.PopularTags")</h5>
+        <h4 class="title-bar">@Html.LanguageString("Tags.PopularTags")</h4>
         <ul class="tagCloud">
             @foreach (var tag in Model.PopularTags)
             {
