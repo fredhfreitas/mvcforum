@@ -51,6 +51,9 @@ a.clr-orange {
     background: #7d8386 !important;
     border-color: #64696C; }
 
+.memberavatardetails .btn-primary {
+  margin: 0; }
+
 .btn-create {
   min-width: 0;
   font-size: 16px;
@@ -77,6 +80,12 @@ a.clr-orange {
   .btn-gray:hover {
     background: #7d8386;
     color: #FFF; }
+
+.btn-file {
+  background: #FAA21B;
+  min-width: 150px;
+  border-color: #FAA21B;
+  border-radius: 4px !important; }
 
 .btn-full {
   width: 100%;
@@ -128,7 +137,7 @@ label {
   height: 34px; }
 
 body {
-  font-family: 'Rubik';
+  font-family: 'Rubik' !important;
   font-weight: 500;
   background: #F5F5F5;
   color: rgba(0, 0, 0, 0.6); }
@@ -136,6 +145,9 @@ body {
 a, a:visited {
   color: #FAA21B; }
 
+@media (min-width: 992px) {
+  .row .col-md-6:nth-child(2n+1) {
+    clear: left; } }
 header {
   background: #FFF; }
   header .logo {
@@ -253,7 +265,7 @@ header {
           text-decoration: none;
           color: rgba(0, 0, 0, 0.6); }
     .topic-item .topic-image img {
-      width: 100%; }
+      width: 105%; }
   .topic-item .topic-bg-text {
     background: #FAA21B;
     color: #000;
@@ -311,7 +323,8 @@ header {
   .side .topic-item .topic-title {
     float: left;
     width: 55%;
-    padding: 0 7px; }
+    padding: 0 7px;
+    min-height: 0px; }
     .side .topic-item .topic-title h4 {
       font-size: 16px; }
   .side .topic-item .topic-image {
@@ -568,6 +581,9 @@ footer {
   .sharephoto .image-preview img {
     width: 100%; }
 
+.sharenewtopic .title-step {
+  display: none; }
+
 .default-header {
   border-bottom: 1px solid rgba(112, 112, 112, 0.5);
   padding-bottom: 38px;
@@ -584,11 +600,14 @@ footer {
   .register-form .dados-retro#retro1 {
     margin-top: 110px; }
 
-.alert-success {
+.alert-success, .alert-info, .alert-warning, .alert-danger {
   position: fixed;
   z-index: 999;
   bottom: 20px;
   right: 20px; }
+
+button.close {
+  margin-left: 15px; }
 
 .relatedtopicskey ul li a {
   color: #FAA21B; }
@@ -669,5 +688,25 @@ footer {
     display: inline-block; }
     .active-members ul li a img {
       width: 100%; }
+
+.categoryfollowing .title-bar {
+  margin-top: 5px; }
+  .categoryfollowing .title-bar a {
+    font-size: 26px;
+    color: rgba(0, 0, 0, 0.6); }
+.categoryfollowing .emailunsubscription {
+  font-size: 16px;
+  margin: 0; }
+.categoryfollowing .categoryrowfooter {
+  border-top: 1px solid rgba(112, 112, 112, 0.5);
+  margin-top: 15px;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 400;
+  padding-top: 15px; }
+  .categoryfollowing .categoryrowfooter a {
+    font-size: 16px; }
+  .categoryfollowing .categoryrowfooter:before {
+    display: none; }
 
 /*# sourceMappingURL=main.min.css.map */

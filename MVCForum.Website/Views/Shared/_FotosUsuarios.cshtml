@@ -15,7 +15,9 @@
                     @Html.Raw((Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Value))
                 </div>
                 <div class="topic-title">
-                    <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">@Html.Raw(Model.Topic.Name)</a>
+                    <h4>
+                        <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">@Html.Raw(Model.Topic.Name)</a>
+                    </h4>
                 </div>
                 <div class="topic-info-actions">
                     <div class="avatar">
