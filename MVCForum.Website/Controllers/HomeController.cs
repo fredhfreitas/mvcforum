@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
     using System.Net.Mail;
     using System.Text;
@@ -62,7 +63,7 @@
                 sb.Append($"<p>{string.Concat("Mensagem: ", Request.Form["Message"].ToString())}</p>");
                 var email = new Email
                 {
-                    EmailTo = settings.AdminEmailAddress,
+                    EmailTo = ConfigurationSettings.AppSettings["EmailContato"].ToString(), //settings.AdminEmailAddress,
                     NameTo = "Olá Administrador, temos uma nova mensagem",
                     Subject = "[Case da Retro] [Contato] "
                 };
