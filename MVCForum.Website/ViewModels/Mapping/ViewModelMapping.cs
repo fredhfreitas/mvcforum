@@ -357,8 +357,11 @@
 
             if (starterPost == null)
             {
-                starterPost = posts.FirstOrDefault(x => x.IsTopicStarter);
+                starterPost = posts.Where(x=>x.IsTopicStarter).FirstOrDefault();
             }
+
+            if (starterPost == null)
+                starterPost = topic.Posts.FirstOrDefault(); 
 
             // Get votes for all posts
             postIds.Add(starterPost.Id);

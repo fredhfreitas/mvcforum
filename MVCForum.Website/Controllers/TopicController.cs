@@ -1231,6 +1231,7 @@
             Settings settings = SettingsService.GetSettings();
             int pageIndex = p ?? 1;
             PaginatedList<Topic> result = Task.Run(() => _topicService.GetTopicosRecentes(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, allowedCategories)).Result;
+
             List<TopicViewModel> topics = ViewModelMapping.CreateTopicViewModels((Values == 0) ? result : result.Take(Values).ToList(), RoleService, role, membershipUser, allowedCategories, settings, _postService, _notificationService, _pollService, _voteService, _favouriteService);
             ActiveTopicsViewModel model = new ActiveTopicsViewModel
             {
@@ -1320,13 +1321,14 @@
             List<Category> allowedCategories = _categoryService.GetAllowedCategories(role);
             Settings settings = SettingsService.GetSettings();
             int pageIndex = p ?? 1;
-            PaginatedList<Topic> result = Task.Run(() => _topicService.GetTopicosDestacados(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, allowedCategories)).Result;
+
+            PaginatedList<Topic> result = Task.Run(() => _topicService.GetTopicosDestacados((Values == 0) ? pageIndex : 1, (Values == 0) ? settings.TopicsPerPage : 8, ForumConfiguration.Instance.ActiveTopicsListSize, allowedCategories)).Result;
             List<TopicViewModel> topics = ViewModelMapping.CreateTopicViewModels((Values == 0) ? result : result.Take(Values).ToList(), RoleService, role, membershipUser, allowedCategories, settings, _postService, _notificationService, _pollService, _voteService, _favouriteService);
             ActiveTopicsViewModel model = new ActiveTopicsViewModel
             {
                 Topics = topics,
                 PageIndex = pageIndex,
-                TotalCount = (Values == 4) ? 0 : result.TotalCount,
+                TotalCount = (Values == 8) ? 0 : result.TotalCount,
                 TotalPages = result.TotalPages
             };
             return PartialView(model);
