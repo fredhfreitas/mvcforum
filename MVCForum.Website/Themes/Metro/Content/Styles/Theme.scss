@@ -17,7 +17,7 @@ $heading-three-font-size: 22px;
 
 $font-base-color: #3b3b3b;
 $font-lighter-base-color: #636267;
-$font-base-family: 'Open Sans', Arial, Helvetica, sans-serif;
+$font-base-family: 'Rubik', Arial, Helvetica, sans-serif;
 $font-light-weight: 300;
 
 $media-query-medium: 991px;
@@ -221,6 +221,18 @@ section.content-strip {
             a, a:visited { display: block; color: $font-base-color; padding: 7px 18px 9px 18px; border-top: 5px transparent solid; font-size: 18px; text-transform: uppercase;
                 &:hover, &:focus, &.active { color: $light-black; text-decoration: none; }
                 i { color: $white; font-size: 14px; margin-left: 10px; }
+            }
+        }
+    }
+    ul.dropdown-menu {
+        margin: 19px 0 0 0;
+        li {
+            margin-top: 0px;
+            > a {
+                font-size: 14px !important;
+                &:hover, &:focus {
+                    background: lighten($color: $orange, $amount: 10%);
+                }
             }
         }
     }
@@ -503,7 +515,7 @@ section.content-strip {
 
 // Following
 
-.following-categories { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 4px #f2f2f2 solid; }
+.following-categories { padding-bottom: 20px; margin-bottom: 20px; }
 
 //  Main Heading
 
@@ -844,7 +856,7 @@ footer { background: $color-global-grey-blue; padding: 20px 0; margin: 30px 0 0 
 // ============ tinyMCE overides
 
 .mce-container, .mce-container *,
-.mce-widget, .mce-widget * { color: inherit; font-family: inherit; }
+.mce-widget, .mce-widget * { color: inherit; }
 #mce-modal-block.mce-in { opacity: .7; filter: alpha(opacity=70); }
 .tinymceholder { margin-bottom: 14px; border: 1px solid #e5e5e5; width: 99.5%;
     textarea { width: 100%; min-height: 100px; }
@@ -922,8 +934,6 @@ div.mce-path { padding: 2px 10px; margin: 0; }
 .mce-charmap td div { width: 18px; height: 22px; line-height: 22px; }
 .mce-tooltip { margin-top: 2px; }
 .mce-tooltip-inner { -webkit-box-shadow: 0 3px 5px rgba(0,0,0,.2); box-shadow: 0 3px 5px rgba(0,0,0,.2); color: #fff; font-size: 12px; }
-.mce-ico { font-family: tinymce,Arial; }
-.mce-btn-small .mce-ico { font-family: tinymce-small,Arial; }
 .mce-toolbar .mce-ico { color: #777; line-height: 20px; width: 20px; height: 20px; text-align: center; text-shadow: none; margin: 0; padding: 0; }
 .qt-fullscreen { color: #777; line-height: 20px; width: 28px; height: 26px; text-align: center; text-shadow: none; }
 .mce-toolbar .mce-btn .mce-open { line-height: 20px; }

@@ -39,14 +39,15 @@
                 <div class="col-md-4 hidden-xs">
                     @if (!User.Identity.IsAuthenticated)
                     {
-                        <a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-primary pull-right">Login</a>
+                        <a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-secondary pull-right">Entrar</a>
                         if (Html.Settings().SuspendRegistration != true)
                         {
-                            <a class="auto-register btn btn-primary pull-right" href="@Url.Action("Register", "Members")">Registrar</a>
+                            <a class="auto-register btn btn-primary pull-right" href="@Url.Action("Register", "Members")">Cadastre-se</a>
                         }
                     }
                     else
                     {
+                        <a class="btn btn-secondary pull-right" href="@Url.Action("LogOff", "Members")">Sair</a>
                         @Html.Action("SideUser", "Members", new { isDropDown = false })
                     }
                     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -68,9 +69,9 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <span class="hidden">Olá, @User.Identity.Name</span>
+                        <!-- <span class="hidden">Olá, @User.Identity.Name</span> -->
 
-                        <a class="btn btn-secondary pull-right" href="@Url.Action("LogOff", "Members")">Log Off</a>
+                        <!-- <a class="btn btn-secondary pull-right" href="@Url.Action("LogOff", "Members")">Sair</a> -->
                         @*@Html.Action("SideAdminPanel", "Members", new { isDropDown = true })*@
                     }
                 </div>

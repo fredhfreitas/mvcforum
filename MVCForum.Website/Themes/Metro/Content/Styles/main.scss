@@ -2,13 +2,16 @@
 @import 'components';
 
 body {
-  font-family: 'Rubik';
+  font-family: 'Rubik' !important;
   font-weight: 500;
   background: #F5F5F5;
   color: rgba($color: #000, $alpha: 0.6);
 }
 a, a:visited {
   color: $orange;
+}
+@media (min-width:992px){
+  .row .col-md-6:nth-child(2n+1){clear:left;}
 }
 header {
   background: $white;
@@ -152,7 +155,7 @@ header {
       }
     }
     img {
-      width: 100%;
+      width: 105%;
     }
   }
   .topic-bg-text {
@@ -231,6 +234,7 @@ header {
       float: left;
       width: 55%;
       padding: 0 7px;
+      min-height: 0px;
       h4 {
         font-size: 16px;
       }
@@ -553,7 +557,11 @@ footer {
     }
   }
 }
-
+.sharenewtopic {
+  .title-step {
+    display: none;
+  }
+}
 .default-header {
   border-bottom: 1px solid rgba($color: #707070, $alpha: .5);
   padding-bottom: 38px;
@@ -576,11 +584,14 @@ footer {
   }
 }
 
-.alert-success {
+.alert-success, .alert-info, .alert-warning, .alert-danger {
   position: fixed;
   z-index: 999;
   bottom: 20px;
   right: 20px;
+}
+button.close {
+  margin-left: 15px;
 }
 
 .relatedtopicskey {
@@ -681,5 +692,32 @@ footer {
         }
       }
     }
+  }
+}
+.categoryfollowing {
+  .title-bar {
+    margin-top: 5px;
+    a {
+      font-size: 26px;
+      color: $light-black;
+    }
+  }
+  .emailunsubscription {
+    font-size: 16px;
+    margin: 0;
+  }
+  .categoryrowfooter {
+    border-top: 1px solid rgba(112,112,112,.5);
+    margin-top: 15px;
+    font-size: 16px;
+    color: $light-black;
+    font-weight: 400;
+    padding-top: 15px;
+    a {
+      font-size: 16px;
+    }
+    &:before {
+      display: none;
+    } 
   }
 }

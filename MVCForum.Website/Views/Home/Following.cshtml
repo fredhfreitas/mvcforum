@@ -10,14 +10,20 @@
 }
 
 <div class="following">
-
+    <div class="row default-header">
+        <div class="col-md-12">
+            <h2 class="title-bar">@Html.Lang("Following.Categories")</h2>
+        </div>
+    </div>
     <div class="following-categories">
-        <h2 class="title-bar">@Html.Lang("Following.Categories")</h2>
         @Html.Action("GetSubscribedCategories", "Category")
     </div>
-    
+    <div class="row default-header">
+        <div class="col-md-12">
+            <h2 class="title-bar">@Html.Lang("Following.Topics")</h2>
+        </div>
+    </div>
     <div class="followingtopics">
-        <h2 class="title-bar">@Html.Lang("Following.Topics")</h2>
         @Html.Action("GetSubscribedTopics", "Topic")
     </div>  
     

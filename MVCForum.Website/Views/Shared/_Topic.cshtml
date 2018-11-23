@@ -7,8 +7,8 @@
 }
 @if (!Model.Permissions[ForumConfiguration.Instance.PermissionDenyAccess].IsTicked)
 {
-    if (@ViewContext.RouteData.Values["action"].Equals("TopicosDestacados") || @ViewContext.RouteData.Values["action"].Equals("TopicsMemberHasPostedIn")) {
-        <div class="@( @ViewContext.RouteData.Values["action"].Equals("TopicosDestacados") || @ViewContext.RouteData.Values["action"].Equals("TopicsMemberHasPostedIn") ? "col-md-6" : "col-md-12")">
+    if (@ViewContext.RouteData.Values["action"].Equals("TopicosDestacados") || @ViewContext.RouteData.Values["action"].Equals("TopicsMemberHasPostedIn") || @ViewContext.RouteData.Values["action"].Equals("TopicosMaisVistosShow")|| @ViewContext.RouteData.Values["action"].Equals("TopicosRecentesShow")) {
+        <div class="@( @ViewContext.RouteData.Values["action"].Equals("TopicosDestacados") || @ViewContext.RouteData.Values["action"].Equals("TopicsMemberHasPostedIn")|| @ViewContext.RouteData.Values["action"].Equals("TopicosMaisVistosShow")|| @ViewContext.RouteData.Values["action"].Equals("TopicosRecentesShow") ? "col-md-6" : "col-md-12")">
             <div class="topic-item topicrow topicsticky-@(Model.Topic.IsSticky.ToString().ToLower()) topiclocked-@(Model.Topic.IsLocked.ToString().ToLower()) topicsolved-@(Model.Topic.Solved.ToString().ToLower())">
 
                 <div class="rowcreater hidden">

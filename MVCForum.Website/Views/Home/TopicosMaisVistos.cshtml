@@ -8,11 +8,14 @@
 {
     @Html.Partial("_CommonSideNav")
 }
-
+<div class="row default-header">
+    <div class="col-md-12">
+        <h3 class="title-bar">Tópicos Mais Vistos</h3>
+    </div>
+</div>
 <div class="postedin">
 
     @*<h1>@ViewBag.Title</h1>*@
-    <h1>Tópicos Mais Vistos</h1>
 
     @Html.Action("TopicosMaisVistosShow", "Topic")
 

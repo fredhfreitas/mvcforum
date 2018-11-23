@@ -48,6 +48,11 @@
     }
   }
 }
+.memberavatardetails {
+  .btn-primary {
+    margin: 0;
+  }
+}
 .btn-create {
   min-width: 0;
   font-size: 16px;
@@ -75,6 +80,12 @@
     background: lighten($color: #64696C, $amount: 10%);
     color: $white;
   }
+}
+.btn-file {
+  background: $orange;
+  min-width: 150px;
+  border-color: $orange;
+  border-radius: 4px !important;
 }
 .btn-full {
   width: 100%;
