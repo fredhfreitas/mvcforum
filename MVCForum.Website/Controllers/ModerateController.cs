@@ -8,6 +8,7 @@
     using Core.ExtensionMethods;
     using Core.Interfaces;
     using Core.Interfaces.Services;
+    using MvcForum.Core.Constants;
     using ViewModels;
     using ViewModels.Moderate;
 
@@ -47,6 +48,8 @@
             };
             return View(viewModel);
         }
+
+
 
         [HttpPost]
         public virtual async Task<ActionResult> ModerateTopic(ModerateActionViewModel viewModel)
@@ -92,6 +95,7 @@
             return Content("allgood");
         }
 
+
         [HttpPost]
         public virtual ActionResult ModeratePost(ModerateActionViewModel viewModel)
         {
@@ -128,6 +132,94 @@
 
 
             return Content("allgood");
+        }
+
+        [HttpPost]
+        public virtual ActionResult ModeratePost2(MvcForum.Core.Models.Entities.Post postModerate)
+        {
+            try
+            {
+                var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+                var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+                bool aprovado = Convert.ToBoolean(Request.Form["aprovado"].ToString());
+
+                var post = _postService.Get(postModerate.Id);
+                var permissions = RoleService.GetPermissions(post.Topic.Category, loggedOnUsersRole);
+                if (!permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
+                {
+                    return Content(LocalizationService.GetResourceString("Errors.NoPermission"));
+                }
+
+                if (aprovado)
+                {
+                    post.Pending = false;
+                    _activityService.PostCreated(post);
+                }
+                else
+                {
+                    _postService.Delete(post, false);
+                }
+
+                Context.SaveChanges();
+                
+            }
+            catch (Exception ex)
+            {
+                Context.RollBack();
+                LoggingService.Error(ex);
+                
+            }
+
+
+            return Index();
+        }
+
+        [HttpPost]
+        public virtual async Task<ActionResult> ModerateTopic2()
+        {
+            try
+            {
+                Guid topicModerateID = Guid.Parse(Request.Form["Id"].ToString());
+                bool aprovado = Convert.ToBoolean(Request.Form["aprovado"].ToString());
+
+                var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+                var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+                var topic = _topicService.Get(topicModerateID);
+                var permissions = RoleService.GetPermissions(topic.Category, loggedOnUsersRole);
+
+                // Is this user allowed to moderate - We use EditPosts for now until we change the permissions system
+                if (!permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
+                {
+                    return Content(LocalizationService.GetResourceString("Errors.NoPermission"));
+                }
+
+                if (aprovado)
+                {
+                    topic.Pending = false;
+                    _activityService.TopicCreated(topic);
+                }
+                else
+                {
+                    var topicResult = await _topicService.Delete(topic);
+                    if (!topicResult.Successful)
+                    {
+                        return Content(topicResult.ProcessLog.FirstOrDefault());
+                    }
+                }
+
+                Context.SaveChanges();
+               
+            }
+            catch (Exception ex)
+            {
+                Context.RollBack();
+                LoggingService.Error(ex);
+               
+            }
+
+
+            return Index();
         }
     }
 }

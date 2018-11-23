@@ -1,8 +1,19 @@
 ﻿@model MvcForum.Web.ViewModels.Moderate.ModerateViewModel
 @{
-    Layout = null;
-    ViewBag.Title = Html.Lang("Moderate.Title");
+    Layout = "~/Views/Shared/_LayoutFullWidth.cshtml";
+    ViewBag.Title = "Moderação";
 }
+@(Bundle.JavaScript()
+            .Add("~/Scripts/jquery-3.1.0.min.js")
+            .Add("~/Scripts/jquery.unobtrusive-ajax.js")
+            .Add("~/Content/bootstrap/js/bootstrap.min.js")
+            .Add("~/Scripts/fancybox/jquery.fancybox.js")
+            .Add("~/scripts/pushy/pushy.js")
+            .Add("~/Scripts/jquery.validate.min.js")
+            .Add("~/Scripts/jquery.validate.unobtrusive.min.js")
+            .Add("~/Scripts/admin/admin.js")
+            .MvcRender("~/scripts/cache/combinedadmin_#.js")
+)
 <script>
     var areYouSureText = '@Html.Lang("Post.DeleteConfirmation")';
 </script>
@@ -30,47 +41,60 @@ else
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="topics">
                         <div class="moderatepanel">
-                   
-                                    @if (Model.Topics.Any())
+
+                            @if (Model.Topics.Any())
+                            {
+
+                                <div class="moderatetopicholder">
+                                    @foreach (var topic in Model.Topics)
                                     {
-                                        <div class="moderatetopicholder">
-                                            @foreach (var topic in Model.Topics)
+                                        @*using (Html.BeginForm("ModerateTopic2", "Moderate", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                             {
+                                                @Html.ValidationSummary(false)
+                                                @Html.AntiForgeryToken()
                                                 @Html.Partial("_ModerateTopic", topic)
-                                            }
-                                        </div>
+                                            }*@
+                                        @Html.Partial("_ModerateTopic", topic)
                                     }
-                                    else
-                                    {
-                                        <p>
-                                            @Html.Lang("Moderate.NothingHere")
-                                        </p>
-                                    }
-                      
+                                </div>
+                            }
+                            else
+                            {
+                                <p>
+                                    @Html.Lang("Moderate.NothingHere")
+                                </p>
+                            }
+
                         </div>
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="posts">
                         <div class="moderatepanel">
-               
-                                    @if (Model.Posts.Any())
+
+                            @if (Model.Posts.Any())
+                            {
+                                <div class="moderatepostholder">
+                                    @foreach (var post in Model.Posts)
                                     {
-                                        <div class="moderatepostholder">
-                                            @foreach (var post in Model.Posts)
+                                        @*using (Html.BeginForm("ModeratePost2", "Moderate", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                             {
+                                                @Html.ValidationSummary(false)
+                                                @Html.AntiForgeryToken()
                                                 @Html.Partial("_ModeratePost", post)
-                                            }
-                                        </div>
-
+                                            }*@
+                                        @Html.Partial("_ModeratePost", post)
                                     }
-                                    else
-                                    {
-                                        <p>
-                                            @Html.Lang("Moderate.NothingHere")
-                                        </p>
-                                    }
+                                </div>
 
-                   
+                            }
+                            else
+                            {
+                                <p>
+                                    @Html.Lang("Moderate.NothingHere")
+                                </p>
+                            }
+
+
                         </div>
 
                     </div>

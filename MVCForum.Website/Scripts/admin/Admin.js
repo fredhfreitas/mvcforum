@@ -539,7 +539,7 @@ function AddModerateClickEvents() {
             var strung = JSON.stringify(moderateActionViewModel);
 
             $.ajax({
-                url: app_base + 'Admin/Moderate/ModerateTopic',
+                url: app_base + 'Moderate/ModerateTopic',
                 type: 'POST',
                 data: strung,
                 contentType: 'application/json; charset=utf-8',
@@ -579,7 +579,7 @@ function AddModerateClickEvents() {
             var strung = JSON.stringify(moderateActionViewModel);
 
             $.ajax({
-                url: app_base + 'Admin/Moderate/ModeratePost',
+                url: app_base + 'Moderate/ModeratePost',
                 type: 'POST',
                 data: strung,
                 contentType: 'application/json; charset=utf-8',
