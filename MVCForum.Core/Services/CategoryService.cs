@@ -156,7 +156,7 @@
                 .Select(x => new CategorySummary
                 {
                     Category = x,
-                    TopicCount = x.Topics.Where(u => u.User.UserName != "editor").Count(),
+                    TopicCount = x.Topics.Where(u => u.User.UserName != "editor" && u.Pending != true && !u.IsLocked).Count(),
                     PostCount = x.Topics.SelectMany(p => p.Posts).Where(u=>u.User.UserName != "editor").Count(), // TODO - Should this be a seperate call?
                     MostRecentTopic = x.Topics.OrderByDescending(t => t.LastPost.DateCreated).FirstOrDefault() // TODO - Should this be a seperate call?
                 })
