@@ -8,7 +8,8 @@
                     <li><a href="/universoRetro/">Universo da Retro</a></li>
                     @*<li><a href="/eventos/">Eventos</a></li>*@
                     <li class="dropdown ">
-                        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">Forum <i class="fas fa-chevron-down"></i>
+                        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
+                            Forum <i class="fas fa-chevron-down"></i>
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="/categoria/">Categorias</a></li>
@@ -20,11 +21,19 @@
                     @*<li><a href="/anuncios/">Anúncios</a></li>*@
                     <li><a href="/perguntasfrequentes/">Perguntas Frequentes</a></li>
                     <!-- <li class="dropdown ">
-                        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">Suporte CASE <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/perguntasfrequentes/">Perguntas Frequentes</a></li>
-                        </ul>
-                    </li> -->
+        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">Suporte CASE <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="/perguntasfrequentes/">Perguntas Frequentes</a></li>
+        </ul>
+    </li> -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- <span class="hidden">Olá, @User.Identity.Name</span> -->
+                        <li><a href="/moderate/">Moderar</a></li>
+                        
+                        <!-- <a class="btn btn-secondary pull-right" href="@Url.Action("LogOff", "Members")">Sair</a> -->
+                        @*@Html.Action("SideAdminPanel", "Members", new { isDropDown = true })*@
+                    }
                     <li><a href="/sobre/">Sobre</a></li>
                     <li><a href="/contato/">Contato</a></li>
 
