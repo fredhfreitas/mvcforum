@@ -6,7 +6,7 @@
 
 @section side
 {
-    <div class="topics side">
+    <div class="topics side lista-noticias">
         <h3 class="title-bar">Notícias <span>recentes</span></h3>
         @Html.Action("GetNoticiaByGuid", "Post", new { value = "028B824F-6900-4FB3-8897-A984002E732D", total = 10 })
         <a class="btn btn-primary" href="/noticias">Ver todas</a>
@@ -17,7 +17,7 @@
             <h3 class="title-bar">Mídia</h3>
         </div>
     </div>
-    <div class="row header-btns">
+    <div class="row header-btns hidden">
         <div class="col-md-12">
             <a href="#" class="btn btn-primary btn-universo active">Fotos</a>
             <!-- <a href="#" class="btn btn-primary btn-universo">Vídeos</a> -->

@@ -233,7 +233,7 @@
         @if (Html.CurrentMember() != null && !Model.MinimalPost)
         {
             <div class="postadmin">
-                <button class="postoptions btn-mvc btn-mvc-fullwidth">@Html.LanguageString("Post.Options")</button>
+                <button class="postoptions btn btn-primary btn-full">@Html.LanguageString("Post.Options")</button>
                 <ul class="clearfix postadminlist">
                     <li>
                         <a class="btn btn-gray" href="?quote=@Model.Post.Id#createpost">

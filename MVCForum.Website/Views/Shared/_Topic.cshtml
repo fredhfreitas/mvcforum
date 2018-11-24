@@ -3,7 +3,8 @@
 @model MvcForum.Web.ViewModels.Topic.TopicViewModel
 @using System.Text.RegularExpressions;
 @{
-    var postToolTip = string.Concat(StringUtils.ReturnAmountWordsFromString(StringUtils.StripHtmlFromString(Model.StarterPost.Post.PostContent), 50), "....");
+    <!-- var postToolTip = string.Concat(StringUtils.ReturnAmountWordsFromString(StringUtils.StripHtmlFromString(Model.StarterPost.Post.PostContent), 50), "...."); -->
+    var postToolTip = Model.Topic.Name;
 }
 @if (!Model.Permissions[ForumConfiguration.Instance.PermissionDenyAccess].IsTicked)
 {
@@ -26,7 +27,9 @@
                 @if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success)
                 {
                     <div class="topic-image">
-                        @Html.Raw((Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Value))
+                        <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">
+                            @Html.Raw((Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Value))
+                        </a>
                     </div>
                 }
                 else
@@ -125,7 +128,9 @@
                 @if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success)
                 {
                     <div class="topic-image">
-                        @Html.Raw((Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Value))
+                        <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">
+                            @Html.Raw((Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Value))
+                        </a>
                     </div>
                 }
                 else

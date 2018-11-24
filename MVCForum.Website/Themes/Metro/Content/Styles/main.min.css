@@ -148,6 +148,9 @@ a, a:visited {
 @media (min-width: 992px) {
   .row .col-md-6:nth-child(2n+1) {
     clear: left; } }
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+  .navbar-brand img {
+    width: 250px !important; } }
 header {
   background: #FFF; }
   header .logo {
@@ -331,7 +334,7 @@ header {
     float: left;
     max-width: 40%;
     margin-left: 12px;
-    min-height: 105px;
+    min-height: 80px;
     font-size: 15px; }
   .side .topic-item .topic-info-actions {
     border: none;
@@ -486,6 +489,12 @@ header {
     line-height: 60px;
     padding-left: 37px;
     margin-bottom: 30px; }
+    @media only screen and (min-width: 320px) and (max-width: 767px) {
+      .faqs a {
+        line-height: 1;
+        padding-left: 10px;
+        padding-top: 15px;
+        font-size: 16px; } }
     .faqs a:hover, .faqs a:active, .faqs a:focus {
       color: #FAA21B;
       text-decoration: none; }
@@ -494,6 +503,9 @@ header {
       color: #FAA21B;
       float: right;
       margin: 23px 27px 0 0; }
+      @media only screen and (min-width: 320px) and (max-width: 767px) {
+        .faqs a i {
+          display: none; } }
   .faqs p {
     padding: 35px;
     font-size: 20px;
@@ -544,6 +556,9 @@ footer {
   border-bottom: 1px solid #707070;
   padding-bottom: 38px;
   margin-bottom: 50px; }
+  @media only screen and (min-width: 320px) and (max-width: 767px) {
+    .forum-header {
+      margin-top: 45px; } }
 
 @media only screen and (min-width: 320px) and (max-width: 767px) {
   .following, .searchmembers, .postedin, .myfavourites, .leaderboard, .badges {
@@ -588,6 +603,9 @@ footer {
   border-bottom: 1px solid rgba(112, 112, 112, 0.5);
   padding-bottom: 38px;
   margin-bottom: 50px; }
+  @media only screen and (min-width: 320px) and (max-width: 767px) {
+    .default-header {
+      margin-top: 45px; } }
 
 .register-form h4 {
   font-size: 22px;
@@ -708,5 +726,28 @@ button.close {
     font-size: 16px; }
   .categoryfollowing .categoryrowfooter:before {
     display: none; }
+
+.panel {
+  background: none; }
+
+.tab-content {
+  background: #FFF;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd; }
+  .tab-content > .tab-pane {
+    padding: 15px; }
+    .tab-content > .tab-pane p img {
+      width: auto;
+      max-width: 90%; }
+
+.lista-noticias .categories-box ul li {
+  padding-right: 35px;
+  padding-top: 5px;
+  padding-bottom: 5px; }
+  .lista-noticias .categories-box ul li h2 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 0; }
 
 /*# sourceMappingURL=main.min.css.map */

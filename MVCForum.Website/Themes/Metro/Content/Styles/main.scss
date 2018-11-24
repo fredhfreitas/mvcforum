@@ -13,6 +13,13 @@ a, a:visited {
 @media (min-width:992px){
   .row .col-md-6:nth-child(2n+1){clear:left;}
 }
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+  .navbar-brand {
+    img {
+      width: 250px !important;
+    }
+  }
+}
 header {
   background: $white;
   .logo {
@@ -243,7 +250,8 @@ header {
       float: left;
       max-width: 40%;
       margin-left: 12px;
-      min-height: 105px;
+      // min-height: 105px;
+      min-height: 80px;
       font-size: 15px;
     }
     .topic-info-actions {
@@ -442,6 +450,12 @@ header {
     line-height: 60px;
     padding-left: 37px;
     margin-bottom: 30px;
+    @media only screen and (min-width: 320px) and (max-width: 767px) {
+      line-height: 1;
+      padding-left: 10px;
+      padding-top: 15px;
+      font-size: 16px;
+    }
     &:hover, &:active, &:focus {
       color: $orange;
       text-decoration: none;
@@ -451,6 +465,9 @@ header {
       color: $orange;
       float: right;
       margin: 23px 27px 0 0;
+      @media only screen and (min-width: 320px) and (max-width: 767px) {
+        display: none;
+      }
     }
   }
   p {
@@ -510,6 +527,9 @@ footer {
   border-bottom: 1px solid #707070;
   padding-bottom: 38px;
   margin-bottom: 50px;
+  @media only screen and (min-width: 320px) and (max-width: 767px) {
+    margin-top: 45px;
+  }
 }
 .following, .searchmembers, .postedin, .myfavourites, .leaderboard, .badges {
   @media only screen and (min-width: 320px) and (max-width: 767px) {
@@ -566,6 +586,9 @@ footer {
   border-bottom: 1px solid rgba($color: #707070, $alpha: .5);
   padding-bottom: 38px;
   margin-bottom: 50px;
+  @media only screen and (min-width: 320px) and (max-width: 767px) {
+    margin-top: 45px;
+  }
 }
 
 .register-form {
@@ -719,5 +742,39 @@ button.close {
     &:before {
       display: none;
     } 
+  }
+}
+.panel {
+  background: none;
+}
+.tab-content {
+  background: $white;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  >.tab-pane {
+    padding: 15px;
+    p {
+      img {
+        width: auto;
+        max-width: 90%;
+      }
+    }
+  }
+}
+.lista-noticias {
+  .categories-box {
+    ul {
+      li {
+        padding-right: 35px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        h2 {
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 1.5;
+          margin: 0;
+        }
+      }
+    }
   }
 }
