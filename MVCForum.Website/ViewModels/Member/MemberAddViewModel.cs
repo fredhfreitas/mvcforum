@@ -8,18 +8,18 @@
 
     public class MemberAddViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "O campo Nome é obrigatório")]
         [ForumMvcResourceDisplayName("Members.Label.Username")]
         [StringLength(150, MinimumLength = 4)]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Endereço de e-mail é obrigatório")]
         [EmailAddress]
-        [ForumMvcResourceDisplayName("Members.Label.EmailAddress")]
+        [ForumMvcResourceDisplayName("Members.Label.EmailAddress")]        
         public string Email { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage = "O campo Senha é obrigatório")]
         [StringLength(100, MinimumLength = 6)]
         [DataType(DataType.Password)]
         [ForumMvcResourceDisplayName("Members.Label.Password")]
@@ -30,15 +30,15 @@
         [ForumMvcResourceDisplayName("Members.Label.ConfirmPassword")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Telefone é obrigatório")]
         [StringLength(150, MinimumLength = 4)]
         public string Telefone { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Cidade é obrigatório")]
         [StringLength(150, MinimumLength = 2)]
         public string Cidade { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Estado é obrigatório")]
         [StringLength(150, MinimumLength = 2)]
         public string Estado { get; set; }
         
