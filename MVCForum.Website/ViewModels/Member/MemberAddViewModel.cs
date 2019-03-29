@@ -1,13 +1,17 @@
 ﻿namespace MvcForum.Web.ViewModels.Member
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Application;
+    using System.Web;
     using Core.Models.Entities;
     using Core.Models.Enums;
 
     public class MemberAddViewModel
     {
+        
+
         [Required(ErrorMessage = "O campo Nome é obrigatório")]
         [ForumMvcResourceDisplayName("Members.Label.Username")]
         [StringLength(150, MinimumLength = 4)]
@@ -41,7 +45,12 @@
         [Required(ErrorMessage = "O campo Estado é obrigatório")]
         [StringLength(150, MinimumLength = 2)]
         public string Estado { get; set; }
-        
+        public bool DisableFileUploads { get; set; }
+
+        public string Avatar { get; set; }
+
+        [Required(ErrorMessage = "Por favor selecione o arquivo.")]
+        public HttpPostedFileBase[] Files { get; set; }
 
         public string FuncaoEmpresario { get; set; }
         public string FuncaoOperador { get; set; }

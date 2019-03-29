@@ -376,12 +376,25 @@
                     }
                 }
 
-                // Get the user model
                 var user = userModel.ToMembershipUser();
 
-                var pipeline = await MembershipService.CreateUser(user, LoginType.Standard);
+                // Avatar holding image
+                HttpPostedFileBase avatar = null;
+
+                // Check image for upload
+                if (userModel.Files.Any(x => x != null))
+                {
+                    // See if file is ok and then convert to image
+                    avatar = userModel.Files[0];
+
+
+                }
+
+                var pipeline = await MembershipService.CreateUser(user, LoginType.Standard, avatar);
                 if (!pipeline.Successful)
                 {
+                                      
+
                     ModelState.AddModelError(string.Empty, pipeline.ProcessLog.FirstOrDefault());
                     return View();
                 }
@@ -406,7 +419,7 @@
                 // Get the user model
                 var user = userModel.ToMembershipUser();
 
-                var pipeline = await MembershipService.CreateUser(user, userModel.LoginType);
+                var pipeline = await MembershipService.CreateUser(user, userModel.LoginType, null);
                 if (!pipeline.Successful)
                 {
                     ModelState.AddModelError(string.Empty, pipeline.ProcessLog.FirstOrDefault());

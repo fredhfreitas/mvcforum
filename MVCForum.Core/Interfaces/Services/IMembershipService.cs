@@ -29,7 +29,7 @@
         bool ResetPassword(MembershipUser user, string newPassword);
         void UnlockUser(string username, bool resetPasswordAttempts);
         MembershipUser CreateEmptyUser();
-        Task<IPipelineProcess<MembershipUser>> CreateUser(MembershipUser newUser, LoginType loginType);
+        Task<IPipelineProcess<MembershipUser>> CreateUser(MembershipUser newUser, LoginType loginType, HttpPostedFileBase image);
         Task<IPipelineProcess<MembershipUser>> EditUser(MembershipUser userToEdit, IPrincipal loggedInUser, HttpPostedFileBase image);
         string ErrorCodeToString(MembershipCreateStatus createStatus);
         IList<MembershipUser> GetAll();
