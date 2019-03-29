@@ -113,6 +113,7 @@
     <Compile Include="ViewModels\Admin\AdminLanguageViewModels.cs" />
     <Compile Include="ViewModels\Admin\AdminViewModels.cs" />
     <Compile Include="ViewModels\Category\SectionListViewModel.cs" />
+    <Compile Include="ViewModels\Suporte\ContactFormModel.cs" />
     <Compile Include="ViewModels\Contact\ContactFormModel.cs" />
     <Compile Include="ViewModels\GenericMessageViewModel.cs" />
     <Compile Include="ViewModels\Admin\LogViewModels.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="ViewModels\Admin\SettingsViewModels.cs" />
     <Compile Include="ViewModels\Vote\ShowVotersViewModel.cs" />
     <Compile Include="ViewModels\Vote\ShowVotesViewModel.cs" />
+    <Compile Include="Controllers\SuporteController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\imageprocessor\cache.config" />
@@ -1223,6 +1225,8 @@
     <Content Include="Views\Shared\_FotosUsuarios.cshtml" />
     <Content Include="Views\Topic\FotosUsuarios.cshtml" />
     <Content Include="Views\Home\PerguntasFrequentes.cshtml" />
+    <Content Include="Views\Suporte\Contato.cshtml" />
+    <Content Include="Views\Suporte\Manuais.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\StorageProviders\" />
