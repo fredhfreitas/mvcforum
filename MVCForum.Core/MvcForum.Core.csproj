@@ -58,6 +58,10 @@
     <Compile Include="Interfaces\Services\INotificationService.cs" />
     <Compile Include="Interfaces\Services\ISpamService.cs" />
     <Compile Include="MemoryFile.cs" />
+    <Compile Include="Migrations\201712271549027_InitialCommit.cs" />
+    <Compile Include="Migrations\201712271549027_InitialCommit.Designer.cs">
+      <DependentUpon>201712271549027_InitialCommit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201801011815079_IncreaseAccessTokenLength.cs" />
     <Compile Include="Migrations\201801011815079_IncreaseAccessTokenLength.Designer.cs">
       <DependentUpon>201801011815079_IncreaseAccessTokenLength.cs</DependentUpon>
@@ -78,6 +82,7 @@
     <Compile Include="Migrations\201802090649239_Sections.Designer.cs">
       <DependentUpon>201802090649239_Sections.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity\ActivityBase.cs" />
     <Compile Include="Models\Activity\BadgeActivity.cs" />
     <Compile Include="Models\Activity\PostCreatedActivity.cs" />
@@ -210,10 +215,6 @@
     <Compile Include="LocalizedString.cs" />
     <Compile Include="Models\Entities\PollAnswer.cs" />
     <Compile Include="Models\Entities\PollVote.cs" />
-    <Compile Include="Migrations\201712271549027_InitialCommit.cs" />
-    <Compile Include="Migrations\201712271549027_InitialCommit.Designer.cs">
-      <DependentUpon>201712271549027_InitialCommit.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\OAuth\FacebookOAuthData.cs" />
     <Compile Include="Models\OAuth\GoogleOAuthData.cs" />
     <Compile Include="Models\PostType.cs" />
@@ -273,7 +274,6 @@
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\MembershipUserPointsService.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Services\MembershipUserTopicInterestService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\PermissionService.cs" />

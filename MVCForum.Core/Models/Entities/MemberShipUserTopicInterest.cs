@@ -9,6 +9,11 @@
    
     public partial class MembershipUser_Topic_Interest : ExtendedDataEntity
     {
+        public MembershipUser_Topic_Interest()
+        {
+            Id = GuidComb.GenerateComb();
+        }
+        public Guid Id { get; set; }
         public Guid IdTopic { get; set; }
        
         public Guid IdUser { get; set; }
