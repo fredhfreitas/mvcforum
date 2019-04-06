@@ -1,0 +1,29 @@
+﻿@model List<MvcForum.Web.ViewModels.CategoriaAnuncio.CategoriaAnuncioViewModel>
+
+@{
+    Layout = null;
+}
+<div class="categoryindex">
+    <div class="row forum-header">
+        <div class="col-md-4 col-xs-12">
+            <h3 class="title-bar">Categorias</h3>
+        </div>
+    </div>
+    @foreach (var categoriaAnuncio in Model)
+    {
+        <div class="categoryrow row">
+            <div class="col-md-9">
+                <h2>
+                    <a href="@categoriaAnuncio.URLTitulo">@categoriaAnuncio.NomeTitulo</a>
+                </h2>
+                <p>
+                   @Html.Raw(@categoriaAnuncio.TextoParagrafo)
+                </p>
+            </div>
+            <div class="categoryrowfooter col-md-3">
+                <span>@categoriaAnuncio.QuantidadeAnuncio</span>
+            </div>
+        </div>
+    }
+
+</div>

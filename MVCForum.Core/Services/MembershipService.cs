@@ -811,21 +811,9 @@
 
             foreach (var user in GetAll())
             {
-                //csv.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7}", user.UserName, user.Email, user.CreateDate,
-                //    user.Age,
-                //    user.Location, user.Website, user.Facebook, user.Signature);
-                //csv.AppendLine();
-
-                csv.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27}", 
-                       user.UserName, user.Email, user.CreateDate,
-                       user.Age,
-                       user.Location, user.Website, user.Facebook, user.Signature,//7 
-                       user.Cidade, user.Estado, 
-                       user.FuncaoEmpresario, user.FuncaoMecanico, user.FuncaoOperador, user.FuncaoOutro,
-                       user.Marca1, user.Marca2, user.Marca3, user.Marca4, user.Marca5,
-                       user.AnoFabricacao2, user.AnoFabricacao3, user.AnoFabricacao5,
-                       user.Empresa1, user.Empresa2, user.Empresa3, user.Empresa4, user.AnoFabricacao1, user.CreateDate
-                       );
+                csv.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7}", user.UserName, user.Email, user.CreateDate,
+                    user.Age,
+                    user.Location, user.Website, user.Facebook, user.Signature);
                 csv.AppendLine();
             }
 

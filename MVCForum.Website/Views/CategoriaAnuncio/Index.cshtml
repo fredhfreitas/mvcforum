@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "_LayoutDireitoCategoriaAnuncio.cshtml";
+    ViewBag.Title = "Clube da Retro | Categoria Anúncio";
+    ViewBag.MetaDesc = "Saiba como comprar, vender e trocar retroescavadeiras Case.";
+}
+@section side
+{
+    <div class="topics side">
+        <h3 class="title-bar">Anúncios <span>mais vistos</span></h3>
+        @Html.Action("AnunciosMaisVistos", "CategoriaAnuncio", new { Values = "4" })
+        <a href="/home/topicosMaisVistos" class="btn btn-primary">Ver todos</a>
+    </div>
+}
+
+@Html.Action("ListarCategoriasAnuncio", "CategoriaAnuncio", new { value = "7432A1BA-30C0-4C40-87F4-AA1E0004E406" })
