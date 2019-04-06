@@ -4,6 +4,7 @@
     ViewBag.Title = Html.LanguageString("Members.Register");
 }
 
+
 @if (!User.Identity.IsAuthenticated)
 {
     <div class="row default-header">
@@ -27,30 +28,29 @@
                     @Html.AntiForgeryToken()
 
                     @*@if (!Model.DisableFileUploads)
-                    {*@
-                <div class="form-group">
-                    <div class="row membereditavatar">
-                        @*<div class="col-md-4">
-                        <img src="@AppHelpers.MemberImage(Model.Avatar, Model.Email, 0, ForumConfiguration.Instance.GravatarProfileSize)" alt="@Model.UserName">
-                        </div>*@
-                        <div class="col-md-8">
-                            <span class="username-readonly"></span>
-                            @*@Html.LabelFor(x => x.Files)*@
-                            <div class="input-group">
-                                <input type="text" class="form-control" readonly="" placeholder="Incluir foto ao perfil">
-                                <span class="input-group-btn">
-                                    <span class="btn btn-default btn-file">
-                                        @Html.LanguageString("Post.Browse") @Html.TextBoxFor(m => Model.Files, new { type = "file" })
-                                       
+            {*@
+                    <div class="form-group">
+                        <div class="row membereditavatar">
+                            @*<div class="col-md-4">
+                    <img src="@AppHelpers.MemberImage(Model.Avatar, Model.Email, 0, ForumConfiguration.Instance.GravatarProfileSize)" alt="@Model.UserName">
+                    </div>*@
+                            <div class="col-md-8">
+                                <span class="username-readonly"></span>
+                                @*@Html.LabelFor(x => x.Files)*@
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="pathImage" readonly="" placeholder="Incluir foto ao perfil">
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-default btn-file">
+                                            @Html.LanguageString("Post.Browse") @Html.TextBoxFor(m => Model.Files, new { type = "file" })
+                                        </span>
                                     </span>
-                                </span>
+                                </div>
+                                @Html.ValidationMessageFor(m => Model.Files, "", new { @class = "error" })
                             </div>
-                            @Html.ValidationMessageFor(m => Model.Files, "", new { @class = "error" })
-                        </div>
                         </div>
                     </div>
                     //}
-
+                   
                         <div class="form-group">
                             @Html.LabelFor(x => Model.UserName)
                             @Html.TextBoxFor(x => Model.UserName, new { @class = "form-control" })

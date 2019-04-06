@@ -228,35 +228,19 @@
 
         public void SendMail(List<Email> emails, Settings settings)
         {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("contato@clubedaretro.com.br");
-            
-
             // Sort out the email body
             foreach (var email in emails)
             {
                 // Sort local images in emails
                 email.Body = StringUtils.AppendDomainToImageUrlInHtml(email.Body, settings.ForumUrl.TrimEnd('/'));
-                mailMessage.Body = email.Body;
-                mailMessage.Subject = email.Subject;
             }
-           
-            
-
-            
-            mailMessage.IsBodyHtml = true;
-
-            SmtpClient smtpClient = new SmtpClient("localhost", 25);
-            
 
             // Now batch add to hangfire, 25 emails at a time
-            foreach (var emailList in emails)
+            foreach (var emailList in emails.ChunkBy(25))
             {
-                mailMessage.To.Add(emailList.EmailTo);
                 // Fire with hangfire
-                //BackgroundJob.Enqueue<EmailService>(x => x.ProcessMail(emailList));
+                BackgroundJob.Enqueue<EmailService>(x => x.ProcessMail(emailList));
             }
-            smtpClient.Send(mailMessage);
         }
     }
 }
