@@ -30,6 +30,18 @@
             );
 
             routes.MapRoute(
+                "manuaisDefault", // Route name
+                "Manuais",
+                new { controller = "Suporte", action = "Manuais" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "FaleCaseDefault", // Route name
+                "FaleComACase",
+                new { controller = "Suporte", action = "Contato" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "CategoryDefault", // Route name
                 "Categoria",
                 new { controller = "Category", action = "Index" } // Parameter defaults
