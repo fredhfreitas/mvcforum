@@ -14,11 +14,29 @@
     using MvcForum.Core.Models.Enums;
     using MvcForum.Core.Utilities;
     using MvcForum.Core.Models.General;
-    using static MvcForum.Core.Constants.CacheKeys;
     using System;
+    using MvcForum.Core.Models.Entities;
+    using Newtonsoft.Json;
+    using MvcForum.Web.ViewModels.CategoriaAnuncio;
+    using System.Collections.Generic;
 
     public partial class VerAnunciosController : BaseController
     {
+        public int TipoAnuncio
+        {
+            get
+            {
+                if (TempData["TipoAnuncio"] == null)
+                    TempData["TipoAnuncio"] = -1;
+
+                return (int)TempData["TipoAnuncio"];
+            }
+            set
+            {
+                TempData["TipoAnuncio"] = value;
+            }
+        }
+
         private readonly IPostService _postService;
         private readonly ITopicService _topicService;
         private readonly ICategoryService _categoryService;
@@ -50,8 +68,10 @@
         }
 
         // GET: VerAnuncios
-        public ActionResult Index()
+        public ActionResult Index(int? tipoAnuncio)
         {
+            TipoAnuncio = tipoAnuncio.HasValue ? tipoAnuncio.Value : -1;
+
             return View();
         }
 
@@ -67,11 +87,26 @@
             // Recupera o indice da página, caso ele exista
             int pageIndex = p ?? 1;
 
-            // Recupera os Anuncios destacados
-            var result = Task.Run(() => _topicService.GetAnunciosDestacados(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
-            
+            PaginatedList<Topic> result = null;
+
+            if (TipoAnuncio != -1)
+                switch (TipoAnuncio)
+                {
+                    case 0:
+                        result = Task.Run(() => _topicService.GetAnunciosNovos(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+                        break;
+                    case 1:
+                        result = Task.Run(() => _topicService.GetAnunciosUsados(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+                        break;
+                    case 2:
+                        result = Task.Run(() => _topicService.GetAnunciosTrocas(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+                        break;
+                }
+            else
+                result = Task.Run(() => _topicService.GetAnuncios(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+
             // Cria a classe do post indicado
-            var topics = ViewModelMapping.CreateTopicViewModels(result, RoleService, role, membershipUser, allowedCategories, settings, 
+            var topics = ViewModelMapping.CreateTopicViewModels(result, RoleService, role, membershipUser, allowedCategories, settings,
                                                                 _postService, _notificationService, _pollService, _voteService, _favouriteService);
 
             var model = new ActiveTopicsViewModel
@@ -86,21 +121,26 @@
         }
 
         [ChildActionOnly]
-        public virtual PartialViewResult ListarFiltrosSideMenu()
+        public virtual PartialViewResult ListarFiltrosSideMenu(string value)
         {
-            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
-            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+            // Recupera o post pelo ID
+            var post = _postService.Get(Guid.Parse(value));
 
-            var catViewModel = new CategoryListViewModel
-            {
-                AllPermissionSets = ViewModelMapping.GetPermissionsForCategories(_categoryService.GetAll(), _roleService,
-                        loggedOnUsersRole)
-            };
+            var conteudoJson = post.PostContent.Replace("<p><span style=\"color: #263238; font-family: Roboto, sans-serif;\"><span style=\"font-size: 13px;\">", "")
+                                               .Replace("&nbsp;", "")
+                                               .Replace("</span></span></p>", "")
+                                               .Replace("</span></span><span style=\"font-size: 13px; color: #263238; font-family: Roboto, sans-serif;\">", "")
+                                               .Replace("</span></span><span style=\"color: #263238; font-family: Roboto, sans-serif; font-size: 13px;\">", "")
+                                               .Replace("</span><span style=\"color: #263238; font-family: Roboto, sans-serif; font-size: 13px;\">", "")
+                                               .Replace("</span></p>", "");
 
-            return PartialView(catViewModel);
+            // Recupera o conteúdo do post em JSON que esta em uma lista
+            var conteudoPost = JsonConvert.DeserializeObject<List<CategoriaAnuncioViewModel>>(conteudoJson);
+
+            return PartialView(conteudoPost);
         }
 
-        public virtual ActionResult TenhoInteresse(string slug, int? p)
+        public virtual async Task<ActionResult> TenhoInteresse(string slug, int? p)
         {
             // Set the page index
             var pageIndex = p ?? 1;
@@ -115,43 +155,21 @@
             {
                 var settings = SettingsService.GetSettings();
 
-                // Note: Don't use topic.Posts as its not a very efficient SQL statement
-                // Use the post service to get them as it includes other used entities in one
-                // statement rather than loads of sql selects
-
                 var sortQuerystring = Request.QueryString[Constants.PostOrderBy];
                 var orderBy = !string.IsNullOrWhiteSpace(sortQuerystring)
                     ? EnumUtils.ReturnEnumValueFromString<PostOrderBy>(sortQuerystring)
                     : PostOrderBy.Standard;
 
-                // Store the amount per page
                 var amountPerPage = settings.PostsPerPage;
 
                 if (sortQuerystring == Constants.AllPosts)
-                {
-                    // Overide to show all posts
                     amountPerPage = int.MaxValue;
-                }
 
-                ////GetPagedPostsByTopicAndUser
-                //PaginatedList<Post> posts = null;
-                //if (loggedOnUsersRole.RoleName != "Editores")
-                //{
-                //    // Get the posts
-                //    posts = await _postService.GetPagedPostsByTopic(pageIndex,
-                //       amountPerPage,
-                //       int.MaxValue,
-                //       topic.Id,
-                //       orderBy);
-                //}
-                //else
-                //{
-                //    posts = await _postService.GetPagedPostsByTopicAndUser(pageIndex,
-                //        amountPerPage,
-                //        int.MaxValue,
-                //        topic.Id,
-                //        orderBy);
-                //}
+                PaginatedList<Core.Models.Entities.Post> posts = null;
+                if (loggedOnUsersRole.RoleName != "Editores")
+                    posts = await _postService.GetPagedPostsByTopic(pageIndex, amountPerPage, int.MaxValue, topic.Id, orderBy);
+                else
+                    posts = await _postService.GetPagedPostsByTopicAndUser(pageIndex, amountPerPage, int.MaxValue, topic.Id, orderBy);
 
                 // Get the topic starter post
                 var starterPost = _postService.GetTopicStarterPost(topic.Id);
@@ -162,24 +180,22 @@
                 // If this user doesn't have access to this topic then
                 // redirect with message
                 if (permissions[ForumConfiguration.Instance.PermissionDenyAccess].IsTicked)
-                {
                     return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
-                }
 
                 // Set editor permissions
                 ViewBag.ImageUploadType = permissions[ForumConfiguration.Instance.PermissionInsertEditorImages].IsTicked
                     ? "forumimageinsert"
                     : "image";
 
-                //var postIds = posts.Select(x => x.Id).ToList();
+                var postIds = posts.Select(x => x.Id).ToList();
 
-                //var votes = _voteService.GetVotesByPosts(postIds);
+                var votes = _voteService.GetVotesByPosts(postIds);
 
-                //var favourites = _favouriteService.GetAllPostFavourites(postIds);
+                var favourites = _favouriteService.GetAllPostFavourites(postIds);
 
-                //var viewModel = ViewModelMapping.CreateTopicViewModel(topic, permissions, posts, postIds,
-                //    starterPost, posts.PageIndex, posts.TotalCount, posts.TotalPages, loggedOnReadOnlyUser,
-                //    settings, _notificationService, _pollService, votes, favourites, true);
+                var viewModel = ViewModelMapping.CreateTopicViewModel(topic, permissions, posts, postIds,
+                    starterPost, posts.PageIndex, posts.TotalCount, posts.TotalPages, loggedOnReadOnlyUser,
+                    settings, _notificationService, _pollService, votes, favourites, true);
 
                 // If there is a quote querystring
                 var quote = Request["quote"];
@@ -189,9 +205,9 @@
                     {
                         // Got a quote
                         var postToQuote = _postService.Get(new Guid(quote));
-                        //viewModel.QuotedPost = postToQuote.PostContent;
-                        //viewModel.ReplyTo = postToQuote.Id;
-                        //viewModel.ReplyToUsername = postToQuote.User.UserName;
+                        viewModel.QuotedPost = postToQuote.PostContent;
+                        viewModel.ReplyTo = postToQuote.Id;
+                        viewModel.ReplyToUsername = postToQuote.User.UserName;
                     }
                     catch (Exception ex)
                     {
@@ -206,8 +222,8 @@
                     {
                         // Set the reply
                         var toReply = _postService.Get(new Guid(reply));
-                        //viewModel.ReplyTo = toReply.Id;
-                        //viewModel.ReplyToUsername = toReply.User.UserName;
+                        viewModel.ReplyTo = toReply.Id;
+                        viewModel.ReplyToUsername = toReply.User.UserName;
                     }
                     catch (Exception ex)
                     {
@@ -220,34 +236,30 @@
                 // User has permission lets update the topic view count
                 // but only if this topic doesn't belong to the user looking at it
                 var addView = !(User.Identity.IsAuthenticated && loggedOnReadOnlyUser.Id == topic.User.Id);
-                if (addView)
-                {
-                    updateDatabase = true;
-                }
 
-                //// Check the poll - To see if it has one, and whether it needs to be closed.
-                //if (viewModel.Poll?.Poll?.ClosePollAfterDays != null &&
-                //    viewModel.Poll.Poll.ClosePollAfterDays > 0 &&
-                //    !viewModel.Poll.Poll.IsClosed)
-                //{
-                //    // Check the date the topic was created
-                //    var endDate =
-                //        viewModel.Poll.Poll.DateCreated.AddDays((int)viewModel.Poll.Poll.ClosePollAfterDays);
-                //    if (DateTime.UtcNow > endDate)
-                //    {
-                //        topic.Poll.IsClosed = true;
-                //        viewModel.Topic.Poll.IsClosed = true;
-                //        updateDatabase = true;
-                //    }
-                //}
+                if (addView)
+                    updateDatabase = true;
+
+                // Check the poll - To see if it has one, and whether it needs to be closed.
+                if (viewModel.Poll?.Poll?.ClosePollAfterDays != null &&
+                    viewModel.Poll.Poll.ClosePollAfterDays > 0 &&
+                    !viewModel.Poll.Poll.IsClosed)
+                {
+                    // Check the date the topic was created
+                    var endDate =
+                        viewModel.Poll.Poll.DateCreated.AddDays((int)viewModel.Poll.Poll.ClosePollAfterDays);
+                    if (DateTime.UtcNow > endDate)
+                    {
+                        topic.Poll.IsClosed = true;
+                        viewModel.Topic.Poll.IsClosed = true;
+                        updateDatabase = true;
+                    }
+                }
 
                 if (!BotUtils.UserIsBot() && updateDatabase)
                 {
                     if (addView)
-                    {
-                        // Increase the topic views
                         topic.Views = topic.Views + 1;
-                    }
 
                     try
                     {
@@ -259,7 +271,7 @@
                     }
                 }
 
-                //return View(viewModel);
+                return View(viewModel);
             }
 
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));

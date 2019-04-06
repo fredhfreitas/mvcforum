@@ -89,6 +89,12 @@
 
         Task<PaginatedList<Topic>> GetAnunciosMaisVistos(int pageIndex, int pageSize, int amountToTake);
 
-        Task<PaginatedList<Topic>> GetAnunciosDestacados(int pageIndex, int pageSize, int amountToTake);
+        Task<PaginatedList<Topic>> GetAnuncios(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetAnunciosNovos(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetAnunciosUsados(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetAnunciosTrocas(int pageIndex, int pageSize, int amountToTake);
     }
 }

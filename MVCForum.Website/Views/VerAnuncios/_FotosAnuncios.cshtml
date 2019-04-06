@@ -44,7 +44,8 @@
                         <span class="stats topicanswers"><i class="far fa-comment-alt"></i> @Model.Answers.KiloFormat()</span>
                     </div>
 
-                    <a href="@Html.Raw(Model.Topic.NiceUrl)" class="btn btn-primary" style="width: 50%">TENHO INTERESSE</a>
+                    @*<a href="@Html.Raw(Model.Topic.NiceUrl)" class="btn btn-primary" style="width: 50%">TENHO INTERESSE</a>*@
+                    <a href="@Url.Action("TenhoInteresse", "VerAnuncios", new { slug = "uma-retro-pra-chamar-de-sua-1" })" class="btn btn-primary" style="width: 50%">TENHO INTERESSE</a>
                 </div>
             </div>
         </div>

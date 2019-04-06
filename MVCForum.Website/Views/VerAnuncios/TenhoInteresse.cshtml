@@ -4,7 +4,7 @@
 @using MvcForum.Web.ViewModels.Post
 @model MvcForum.Web.ViewModels.Topic.TopicViewModel
 @{
-    Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
+    Layout = "~/Views/CategoriaAnuncio/_LayoutDireitoCategoriaAnuncio.cshtml";
     ViewBag.Title = Html.Raw(AppHelpers.CreatePageTitle(Model.Topic, Html.LanguageString("Topic.TitleFallBack")));
     ViewBag.MetaDesc = StringUtils.ReturnAmountWordsFromString(string.Concat(StringUtils.StripHtmlFromString(Model.StarterPost.Post.PostContent), "..."), 20);
 
@@ -43,56 +43,52 @@
         var topicId = '@(Model.Topic.Id)';
     </script>
 }
-@section side
-{
-    @Html.Partial("_CommonSideNav")
-}
 <div class="row default-header">
     <div class="col-md-12">
-        <h3 class="title-bar">Tópico</h3>
+        <h3 class="title-bar">Anúncios</h3>
     </div>
 </div>
-<div class="row topic-sub-header">
-    <div class="col-md-12">
-        @Html.Action("GetTopicBreadcrumb", "Topic", new { topic = Model.Topic })
-    </div>
-    <div class="col-md-6">
 
-    </div>
-    <div class="col-md-6">
-        <ul class="view-comments-topic">
-            <li><i class="far fa-eye"></i> @Model.Views.KiloFormat() @Html.Lang("Topic.Views")</li>
-            <li><i class="far fa-comment-alt"></i> @Html.Lang("Topic.LastPost") @DatesUi.GetPrettyDate(Model.Topic.LastPost.DateCreated.ToString())</li>
-        </ul>
-    </div>
-</div>
 <div class="topicshow">
-    <div class="topicheading">
-        <div class="widgetright">
-            @if (Html.CurrentMember() != null && Html.Settings().EnableEmailSubscriptions)
+    <div class="row">
+        <div class="col-md-8 topicheading">
+            <div class="widgetright">
+                @if (Html.CurrentMember() != null && Html.Settings().EnableEmailSubscriptions)
             {
-                <a @Html.Raw(subScribe) href="#" class="emailsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    @Html.LanguageString("Topic.Subscribe")
-                </a>
-                <a @Html.Raw(unSubscribe) href="#" class="emailunsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
-                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                    @Html.LanguageString("Topic.UnSubscribe")
-                </a>
-            }
+                    <a @Html.Raw(subScribe) href="#" class="emailsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        @Html.LanguageString("Topic.Subscribe")
+                    </a>
+                    <a @Html.Raw(unSubscribe) href="#" class="emailunsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        @Html.LanguageString("Topic.UnSubscribe")
+                    </a>
+                }
+            </div>
+            <h1>@Html.Raw(Model.Topic.Name)</h1>
         </div>
-        <h1>@Html.Raw(Model.Topic.Name)</h1>
+        <div class="col-md-4" style="margin-top: -30px;">
+            <a href="#" class="btn btn-primary" style="cursor: context-menu;">TENHO INTERESSE</a>
+        </div>
     </div>
+
+    <div class="row name-date">
+        @*TODO: Colocar a situção do post NOVO, USADO...*@
+        <a href="#" style="cursor: context-menu;">NOVO</a>
+    </div> 
 
     @if (Html.Settings().EnablePolls == true && Model.Poll != null)
     {
         // Show the poll if there is one
         Html.RenderPartial("_Poll", Model.Poll);
     }
+
     <div class="topicstarterpost">
+
         @{
             Html.RenderPartial("_Post", Model.StarterPost);
         }
+
         @if (Model.TotalCount > 0)
         {
             <div class="row topicstarterpostbeginpostsheading">

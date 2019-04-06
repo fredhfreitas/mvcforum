@@ -33,9 +33,8 @@
         private readonly ILoggingService _loggingService;
 
         public TopicService(IMvcForumContext context, IMembershipUserPointsService membershipUserPointsService,
-            ISettingsService settingsService, INotificationService notificationService,
-            IFavouriteService favouriteService,
-            IPostService postService, IRoleService roleService, IPollService pollService, ICacheService cacheService, ILoggingService loggingService)
+                            ISettingsService settingsService, INotificationService notificationService, IFavouriteService favouriteService,
+                            IPostService postService, IRoleService roleService, IPollService pollService, ICacheService cacheService, ILoggingService loggingService)
         {
             _membershipUserPointsService = membershipUserPointsService;
             _settingsService = settingsService;
@@ -344,7 +343,7 @@
                 .Include(x => x.User)
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
-                .Where(x => x.Pending != true && x.User.UserName != "editor")
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value)
                 .OrderByDescending(x => x.Views);
 
             // Return a paged list
@@ -358,17 +357,87 @@
         /// <param name="pageSize"></param>
         /// <param name="amountToTake"></param>
         /// <returns></returns>
-        public async Task<PaginatedList<Topic>> GetAnunciosDestacados(int pageIndex, int pageSize, int amountToTake)
+        public async Task<PaginatedList<Topic>> GetAnuncios(int pageIndex, int pageSize, int amountToTake)
         {
-            // TODO: Colocar validação para pegar tópicos de anúncio Is Anuncio
-
             // Get the topics using an efficient
             var query = _context.Topic
                 .Include(x => x.LastPost.User)
                 .Include(x => x.User)
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
-                .Where(x => x.Pending != true && x.User.UserName != "editor")
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anúncios mais vistos e Novo
+        /// </summary>
+        /// <param name="tipoAnuncio">Novo</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosNovos(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && 
+                       x.IsAnuncio.Value && x.IsCategoryNew.HasValue && x.IsCategoryNew.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anúncios mais vistos e Usados
+        /// </summary>
+        /// <param name="tipoAnuncio">Usados</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosUsados(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue &&
+                       x.IsAnuncio.Value && x.IsCategoryUsed.HasValue && x.IsCategoryUsed.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anúncios mais vistos e Trocas
+        /// </summary>
+        /// <param name="tipoAnuncio">Trocas</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosTrocas(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue &&
+                       x.IsAnuncio.Value && x.IsCategoryExchange.HasValue && x.IsCategoryExchange.Value)
                 .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
 
             // Return a paged list
