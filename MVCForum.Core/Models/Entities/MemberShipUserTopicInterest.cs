@@ -7,9 +7,9 @@
     using Interfaces;
     using Utilities;
    
-    public partial class MembershipUser_Topic_Interest : ExtendedDataEntity
+    public partial class MembershipUserTopicInterest : ExtendedDataEntity
     {
-        public MembershipUser_Topic_Interest()
+        public MembershipUserTopicInterest()
         {
             Id = GuidComb.GenerateComb();
         }

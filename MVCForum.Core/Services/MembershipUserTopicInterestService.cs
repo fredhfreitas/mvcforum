@@ -36,13 +36,13 @@
         }
 
         /// <inheritdoc />
-        public List<MembershipUser_Topic_Interest> GetAll()
+        public List<MembershipUserTopicInterest> GetAll()
         {
             return _context.MembershipUserTopicInterest.ToList();
         }
 
         /// <inheritdoc />
-        public List<MembershipUser_Topic_Interest> GetAllByObject(MembershipUser_Topic_Interest item)
+        public List<MembershipUserTopicInterest> GetAllByObject(MembershipUserTopicInterest item)
         {
             return _context.MembershipUserTopicInterest
                 .Where(x => x.IdUser == item.IdUser)
@@ -50,25 +50,25 @@
         }
 
         /// <inheritdoc />
-        public List<MembershipUser_Topic_Interest> GetAllByUser(Guid id)
+        public List<MembershipUserTopicInterest> GetAllByUser(Guid id)
         {
             return _context.MembershipUserTopicInterest.Where(x => x.IdUser == id).ToList();
         }
 
         /// <inheritdoc />
-        public List<MembershipUser_Topic_Interest> GetAllByTopic(Guid id)
+        public List<MembershipUserTopicInterest> GetAllByTopic(Guid id)
         {
             return _context.MembershipUserTopicInterest.Where(x => x.IdTopic == id).ToList();
         }
 
         /// <inheritdoc />
-        public MembershipUser_Topic_Interest Add(MembershipUser_Topic_Interest usuarioTopicInterest)
+        public MembershipUserTopicInterest Add(MembershipUserTopicInterest usuarioTopicInterest)
         {
             return _context.MembershipUserTopicInterest.Add(usuarioTopicInterest);
         }
 
         /// <inheritdoc />
-        public void Delete(MembershipUser_Topic_Interest item)
+        public void Delete(MembershipUserTopicInterest item)
         {
             _context.MembershipUserTopicInterest.Remove(item);
         }
