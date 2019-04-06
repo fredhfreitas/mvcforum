@@ -356,10 +356,10 @@
                 if (uploadFolderPath != null && !Directory.Exists(uploadFolderPath))
                 {
                     Directory.CreateDirectory(uploadFolderPath);
+                    // file is uploaded
+                    file.SaveAs(Path.Combine(uploadFolderPath, file.FileName));
                 }
-
-                // file is uploaded
-                file.SaveAs(Path.Combine(uploadFolderPath, file.FileName));
+                
             }            
         }
 

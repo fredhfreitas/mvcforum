@@ -51,8 +51,8 @@ namespace MvcForum.Web
 
             // Add Hangfire
             // TODO - Do I need this dashboard?
-            //app.UseHangfireDashboard("/hangfire");
-            //app.UseHangfireServer();
+            app.UseHangfireDashboard("/hangfire");
+            app.UseHangfireServer();
 
             // Get services needed
             var mvcForumContext = unityContainer.Resolve<IMvcForumContext>();

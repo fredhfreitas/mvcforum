@@ -42,7 +42,7 @@
         }
 
         /// <inheritdoc />
-        public List<MembershipUserTopicInterest> GetAllByObject(MembershipUserTopicInterest item)
+        public List<MembershipUserTopicInterest> GetByObject(MembershipUserTopicInterest item)
         {
             return _context.MembershipUserTopicInterest
                 .Where(x => x.IdUser == item.IdUser)
@@ -50,13 +50,13 @@
         }
 
         /// <inheritdoc />
-        public List<MembershipUserTopicInterest> GetAllByUser(Guid id)
+        public List<MembershipUserTopicInterest> GetByUser(Guid id)
         {
             return _context.MembershipUserTopicInterest.Where(x => x.IdUser == id).ToList();
         }
 
         /// <inheritdoc />
-        public List<MembershipUserTopicInterest> GetAllByTopic(Guid id)
+        public List<MembershipUserTopicInterest> GetByTopic(Guid id)
         {
             return _context.MembershipUserTopicInterest.Where(x => x.IdTopic == id).ToList();
         }
