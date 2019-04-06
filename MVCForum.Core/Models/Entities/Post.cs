@@ -30,9 +30,6 @@
         public virtual IList<UploadedFile> Files { get; set; }
         public virtual IList<Favourite> Favourites { get; set; }
         public virtual IList<PostEdit> PostEdits { get; set; }
-        public bool IsCategoryNew { get; set; }
-        public bool IsCategoryUsed { get; set; }
-        public bool IsCategoryExchange { get; set; }
-        public bool? IsAnuncio { get; set; }
+        
     }
 }

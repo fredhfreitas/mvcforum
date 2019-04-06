@@ -37,6 +37,7 @@
         public virtual DbSet<MembershipRole> MembershipRole { get; set; }
         public virtual DbSet<MembershipUser> MembershipUser { get; set; }
         public virtual DbSet<MembershipUserPoints> MembershipUserPoints { get; set; }
+        //public virtual DbSet<MembershipUser_Topic_Interest> MembershipUserTopicInterest { get; set; }
         public virtual DbSet<Permission> Permission { get; set; }
         public virtual DbSet<Poll> Poll { get; set; }
         public virtual DbSet<PollAnswer> PollAnswer { get; set; }

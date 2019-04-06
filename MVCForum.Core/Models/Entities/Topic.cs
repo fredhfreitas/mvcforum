@@ -38,5 +38,11 @@
         {
             get { return Posts.Select(x => x.VoteCount).Sum(); }
         }
+
+        public bool? IsCategoryNew { get; set; }
+        public bool? IsCategoryUsed { get; set; }
+        public bool? IsCategoryExchange { get; set; }
+        public bool? IsAnuncio { get; set; }
+        public Decimal? Price { get; set; }
     }
 }
