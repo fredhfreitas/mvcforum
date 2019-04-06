@@ -327,6 +327,55 @@
         }
 
         /// <summary>
+        /// Recupera os anúncios que foram mais vistos
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosMaisVistos(int pageIndex, int pageSize, int amountToTake)
+        {
+            // TODO: Colocar validação para pegar tópicos de anúncio Is Anuncio
+
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor")
+                .OrderByDescending(x => x.Views);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anuncios que tiveram mais visualizações
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosDestacados(int pageIndex, int pageSize, int amountToTake)
+        {
+            // TODO: Colocar validação para pegar tópicos de anúncio Is Anuncio
+
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor")
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
         /// Returns a paged list of topics, ordered by most recent
         /// </summary>
         /// <param name="pageIndex"></param>

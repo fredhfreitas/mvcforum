@@ -35,6 +35,34 @@
                         @*@Html.Action("SideAdminPanel", "Members", new { isDropDown = true })*@
                     }
                     <li><a href="/sobre/">Sobre</a></li>
+
+                    <li class="dropdown ">
+                        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
+                            Eventos <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">VER EVENTOS</a></li>
+                            <li><a href="#">NOVO EVENTO</a></li>
+                            <li><a href="#">TENHO INTERESSE</a></li>
+                            <li><a href="#">EU VOU</a></li>
+                            <li><a href="#">NOVIDADES</a></li>
+                        </ul>
+                    </li>
+                    <!-- ./ li (Eventos) -->
+
+                    <li class="dropdown ">
+                        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
+                            Anúncio <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/VerAnuncios/">VER ANÚNCIOS</a></li>
+                            <li><a href="/CategoriaAnuncio/">CATEGORIAS</a></li>
+                            <li><a href="#">NOVO ANÚNCIO</a></li>
+                            <li><a href="#">TENHO INTERESSE</a></li>
+                        </ul>
+                    </li>
+                    <!-- ./ li (Anúncio) -->
+
                     <li><a href="/contato/">Contato</a></li>
 
                 </ul>

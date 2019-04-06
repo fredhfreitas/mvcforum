@@ -72,6 +72,7 @@
     <Compile Include="Application\ViewEngine\ForumViewEngine.cs" />
     <Compile Include="Application\Localization\Localizer.cs" />
     <Compile Include="Application\CustomActionResults\WrappedJSonResult.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
@@ -87,8 +88,10 @@
     <Compile Include="Areas\Admin\Controllers\BatchController.cs" />
     <Compile Include="Areas\Admin\Controllers\BannedWordController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\CategoriaAnuncioController.cs" />
     <Compile Include="Controllers\ModerateController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
+    <Compile Include="Controllers\VerAnunciosController.cs" />
     <Compile Include="ExtensionMethods\CategoryViewModelExtensions.cs" />
     <Compile Include="ViewModels\Admin\AdminBadgeViewModels.cs" />
     <Compile Include="ViewModels\Admin\AjaxAdminViewModels.cs" />
@@ -112,6 +115,7 @@
     <Compile Include="ViewModels\Admin\AdminCategoryViewModels.cs" />
     <Compile Include="ViewModels\Admin\AdminLanguageViewModels.cs" />
     <Compile Include="ViewModels\Admin\AdminViewModels.cs" />
+    <Compile Include="ViewModels\CategoriaAnuncio\CategoriaAnuncioViewModel.cs" />
     <Compile Include="ViewModels\Category\SectionListViewModel.cs" />
     <Compile Include="ViewModels\Contact\ContactFormModel.cs" />
     <Compile Include="ViewModels\GenericMessageViewModel.cs" />
@@ -1223,11 +1227,23 @@
     <Content Include="Views\Shared\_FotosUsuarios.cshtml" />
     <Content Include="Views\Topic\FotosUsuarios.cshtml" />
     <Content Include="Views\Home\PerguntasFrequentes.cshtml" />
+    <Content Include="Views\CategoriaAnuncio\Index.cshtml" />
+    <Content Include="Views\CategoriaAnuncio\ListarCategoriasAnuncio.cshtml" />
+    <Content Include="Views\CategoriaAnuncio\AnunciosMaisVistos.cshtml" />
+    <Content Include="Views\CategoriaAnuncio\_Anuncio.cshtml" />
+    <Content Include="Views\CategoriaAnuncio\_LayoutDireitoCategoriaAnuncio.cshtml" />
+    <Content Include="Views\VerAnuncios\Index.cshtml" />
+    <Content Include="Views\VerAnuncios\FotosAnuncios.cshtml" />
+    <Content Include="Views\VerAnuncios\_FotosAnuncios.cshtml" />
+    <Content Include="Views\VerAnuncios\_LayoutDireitoVerAnuncio.cshtml" />
+    <Content Include="Views\VerAnuncios\ListarFiltrosSideMenu.cshtml" />
+    <Content Include="Views\VerAnuncios\TenhoInteresse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\StorageProviders\" />
     <Folder Include="App_Data\Plugins\" />
     <Folder Include="Content\languagepacks\" />
+    <Folder Include="Models\" />
     <Folder Include="Views\Redirect\" />
   </ItemGroup>
   <ItemGroup>
@@ -1380,6 +1396,9 @@
     <PackageReference Include="Antlr">
       <Version>3.5.0.2</Version>
     </PackageReference>
+    <PackageReference Include="bootstrap">
+      <Version>3.0.0</Version>
+    </PackageReference>
     <PackageReference Include="BuildWebCompiler">
       <Version>1.11.375</Version>
     </PackageReference>
@@ -1473,6 +1492,9 @@
     <PackageReference Include="Microsoft.Web.Infrastructure">
       <Version>1.0.0</Version>
     </PackageReference>
+    <PackageReference Include="Modernizr">
+      <Version>2.6.2</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
     </PackageReference>
@@ -1558,16 +1580,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>9666</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:9666/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

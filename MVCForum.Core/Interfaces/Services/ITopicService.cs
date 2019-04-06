@@ -86,5 +86,9 @@
 
         IList<Topic> GetTopicBySlugLike(string slug);
         bool PassedTopicFloodTest(string topicTitle, MembershipUser user);
+
+        Task<PaginatedList<Topic>> GetAnunciosMaisVistos(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetAnunciosDestacados(int pageIndex, int pageSize, int amountToTake);
     }
 }
