@@ -67,13 +67,7 @@
             // Recupera o post pelo ID
             var post = _postService.Get(Guid.Parse(value));
 
-            var conteudoJson = post.PostContent.Replace("<p><span style=\"color: #263238; font-family: Roboto, sans-serif;\"><span style=\"font-size: 13px;\">", "")
-                                               .Replace("&nbsp;", "")
-                                               .Replace("</span></span></p>", "")
-                                               .Replace("</span></span><span style=\"font-size: 13px; color: #263238; font-family: Roboto, sans-serif;\">", "")
-                                               .Replace("</span></span><span style=\"color: #263238; font-family: Roboto, sans-serif; font-size: 13px;\">", "")
-                                               .Replace("</span><span style=\"color: #263238; font-family: Roboto, sans-serif; font-size: 13px;\">", "")
-                                               .Replace("</span></p>", "");
+            var conteudoJson = post.PostContent;
 
             // Recupera o conteúdo do post em JSON que esta em uma lista
             var conteudoPost = JsonConvert.DeserializeObject<List<CategoriaAnuncioViewModel>>(conteudoJson);
