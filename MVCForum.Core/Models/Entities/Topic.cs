@@ -44,5 +44,39 @@
         public bool? IsCategoryExchange { get; set; }
         public bool? IsAnuncio { get; set; }
         public Decimal? Price { get; set; }
+
+        public string NomeCategoriaAnuncio
+        {
+            get
+            {
+                if (IsCategoryNew.HasValue && IsCategoryNew.Value)
+                    return "NOVO";
+
+                if (IsCategoryUsed.HasValue && IsCategoryUsed.Value)
+                    return "USADO";
+
+                if (IsCategoryExchange.HasValue && IsCategoryExchange.Value)
+                    return "TROCA";
+
+                return string.Empty;
+            }
+        }
+
+        public short CodigoCategoriaAnuncio
+        {
+            get
+            {
+                if (IsCategoryNew.HasValue && IsCategoryNew.Value)
+                    return 0;
+
+                if (IsCategoryUsed.HasValue && IsCategoryUsed.Value)
+                    return 1;
+
+                if (IsCategoryExchange.HasValue && IsCategoryExchange.Value)
+                    return 2;
+
+                return -1;
+            }
+        }
     }
 }

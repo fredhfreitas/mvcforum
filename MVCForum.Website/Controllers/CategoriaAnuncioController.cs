@@ -70,9 +70,15 @@
             var conteudoJson = post.PostContent;
 
             // Recupera o conteúdo do post em JSON que esta em uma lista
-            var conteudoPost = JsonConvert.DeserializeObject<List<CategoriaAnuncioViewModel>>(conteudoJson);
+            var listaConteudoPost = JsonConvert.DeserializeObject<List<CategoriaAnuncioViewModel>>(conteudoJson);
 
-            return PartialView(conteudoPost);
+            // Recupera a quantidade de Itens por post
+            foreach (var conteudoPost in listaConteudoPost)
+            {
+                conteudoPost.QuantidadeAnuncio = _topicService.GetQuantidadeTipoAnuncios(conteudoPost.NomeTitulo);
+            }
+
+            return PartialView(listaConteudoPost);
         }
 
         [ChildActionOnly]

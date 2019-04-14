@@ -90,9 +90,12 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Controllers\CategoriaAnuncioController.cs" />
     <Compile Include="Controllers\ModerateController.cs" />
+    <Compile Include="Controllers\NovoAnuncioController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
     <Compile Include="Controllers\VerAnunciosController.cs" />
     <Compile Include="ExtensionMethods\CategoryViewModelExtensions.cs" />
+    <Compile Include="Models\DadosUsuario.cs" />
+    <Compile Include="Models\NovoAnuncioViewModel.cs" />
     <Compile Include="ViewModels\Admin\AdminBadgeViewModels.cs" />
     <Compile Include="ViewModels\Admin\AjaxAdminViewModels.cs" />
     <Compile Include="ViewModels\Admin\BannedEmailViewModels.cs" />
@@ -1242,12 +1245,12 @@
     <Content Include="Views\VerAnuncios\_LayoutDireitoVerAnuncio.cshtml" />
     <Content Include="Views\VerAnuncios\ListarFiltrosSideMenu.cshtml" />
     <Content Include="Views\VerAnuncios\TenhoInteresse.cshtml" />
+    <Content Include="Views\NovoAnuncio\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\StorageProviders\" />
     <Folder Include="App_Data\Plugins\" />
     <Folder Include="Content\languagepacks\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Redirect\" />
   </ItemGroup>
   <ItemGroup>

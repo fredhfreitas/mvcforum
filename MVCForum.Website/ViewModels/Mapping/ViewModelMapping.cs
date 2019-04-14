@@ -294,6 +294,7 @@
 
             // Create the view models
             var viewModels = new List<TopicViewModel>();
+
             foreach (var topic in topics)
             {
                 var id = topic.Id;
@@ -317,6 +318,7 @@
                 viewModels.Add(CreateTopicViewModel(topic, permission, topicPosts, postIds, null, null, null, null, loggedOnUser,
                     settings, topicNotificationService, pollService, votes, favourites));
             }
+
             return viewModels;
         }
 

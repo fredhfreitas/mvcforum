@@ -65,7 +65,7 @@
         public async Task<int> SaveChanges()
         {
             return await _context.SaveChangesAsync();
-        }      
+        }
 
         /// <summary>
         /// Get all topics
@@ -87,19 +87,19 @@
         public IList<SelectListItem> GetAllSelectList(List<Category> allowedCategories, int amount)
         {
 
-                // get the category ids
-                var allowedCatIds = allowedCategories.Select(x => x.Id);
-                return _context.Topic.AsNoTracking()
-                                    .Include(x => x.Category)
-                                    .Where(x => allowedCatIds.Contains(x.Category.Id) && x.Pending != true && x.User.UserName != "editor")
-                                    .OrderByDescending(x => x.CreateDate)
-                                    .Take(amount)
-                                    .Select(x => new SelectListItem
-                                    {
-                                        Text = x.Name,
-                                        Value = x.Id.ToString()
-                                    }).ToList();
-         
+            // get the category ids
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            return _context.Topic.AsNoTracking()
+                                .Include(x => x.Category)
+                                .Where(x => allowedCatIds.Contains(x.Category.Id) && x.Pending != true && x.User.UserName != "editor")
+                                .OrderByDescending(x => x.CreateDate)
+                                .Take(amount)
+                                .Select(x => new SelectListItem
+                                {
+                                    Text = x.Name,
+                                    Value = x.Id.ToString()
+                                }).ToList();
+
         }
 
         public IList<Topic> GetHighestViewedTopics(int amountToTake, List<Category> allowedCategories)
@@ -162,7 +162,7 @@
         public async Task<IPipelineProcess<Topic>> Create(Topic topic, HttpPostedFileBase[] files, string tags, bool subscribe, string postContent, Post post)
         {
             // url slug generator
-            topic.Slug = ServiceHelpers.GenerateSlug(topic.Name, 
+            topic.Slug = ServiceHelpers.GenerateSlug(topic.Name,
                                     GetTopicBySlugLike(ServiceHelpers.CreateUrl(topic.Name))
                                     .Select(x => x.Slug).ToList(), null);
 
@@ -216,7 +216,7 @@
         }
 
         /// <inheritdoc />
-        public async Task<IPipelineProcess<Topic>> Edit(Topic topic, HttpPostedFileBase[] files, string tags, bool subscribe, 
+        public async Task<IPipelineProcess<Topic>> Edit(Topic topic, HttpPostedFileBase[] files, string tags, bool subscribe,
             string postContent, string topicName, List<PollAnswer> pollAnswers, int closePollAfterDays)
         {
             // url slug generator
@@ -388,12 +388,60 @@
                 .Include(x => x.User)
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
-                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && 
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue &&
                        x.IsAnuncio.Value && x.IsCategoryNew.HasValue && x.IsCategoryNew.Value)
                 .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
 
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera a quantidade Itens Novos
+        /// </summary>
+        /// <returns>Quantidade de novos anuncios</returns>
+        public int GetQuantidadeTipoAnuncios(string tipoAnuncio)
+        {
+            var quantidadeItens = 0;
+
+            switch (tipoAnuncio)
+            {
+                case "Novos":
+                    // Get the topics using an efficient
+                    quantidadeItens = _context.Topic
+                                      .Include(x => x.LastPost.User)
+                                      .Include(x => x.User)
+                                      .Include(x => x.Poll)
+                                      .Include(x => x.Tags)
+                                      .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value && 
+                                             x.IsCategoryNew.HasValue && x.IsCategoryNew.Value)
+                                      .Count();
+                    break;
+                case "Usados":
+                    // Get the topics using an efficient
+                    quantidadeItens = _context.Topic
+                                      .Include(x => x.LastPost.User)
+                                      .Include(x => x.User)
+                                      .Include(x => x.Poll)
+                                      .Include(x => x.Tags)
+                                      .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value && 
+                                             x.IsCategoryUsed.HasValue && x.IsCategoryUsed.Value)
+                                      .Count();
+                    break;
+                case "Trocas":
+                    // Get the topics using an efficient
+                    quantidadeItens = _context.Topic
+                                      .Include(x => x.LastPost.User)
+                                      .Include(x => x.User)
+                                      .Include(x => x.Poll)
+                                      .Include(x => x.Tags)
+                                      .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value && 
+                                             x.IsCategoryExchange.HasValue && x.IsCategoryExchange.Value)
+                                      .Count();
+                    break;
+            }
+
+            return quantidadeItens;
         }
 
         /// <summary>
@@ -464,7 +512,7 @@
                 .Include(x => x.User)
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
-                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName !=  "editor")
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
                 .OrderByDescending(x => x.LastPost.DateCreated);
 
             // Return a paged list
@@ -486,11 +534,11 @@
             var guid = Guid.Parse("028B824F-6900-4FB3-8897-A984002E732D");
             // Get the topics using an efficient
             var query = _context.Post
-                
+
                 .Include(x => x.User)
                 .Include(x => x.Topic)
-                
-                .Where(x =>  x.Topic.Id == guid)
+
+                .Where(x => x.Topic.Id == guid)
                 .OrderByDescending(x => x.DateCreated);
 
             // Return a paged list
@@ -537,7 +585,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
-                .OrderByDescending(x => x.Views).ThenByDescending(x=>x.Posts.Count);
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
 
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
@@ -663,41 +711,41 @@
         public IList<Topic> GetPendingTopics(List<Category> allowedCategories, MembershipRole usersRole)
         {
 
-                var allowedCatIds = allowedCategories.Select(x => x.Id);
-                var allPendingTopics = _context.Topic.AsNoTracking().Include(x => x.Category).Where(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id)).ToList();
-                if (usersRole != null)
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            var allPendingTopics = _context.Topic.AsNoTracking().Include(x => x.Category).Where(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id)).ToList();
+            if (usersRole != null)
+            {
+                var pendingTopics = new List<Topic>();
+                var permissionSets = new Dictionary<Guid, PermissionSet>();
+                foreach (var category in allowedCategories)
                 {
-                    var pendingTopics = new List<Topic>();
-                    var permissionSets = new Dictionary<Guid, PermissionSet>();
-                    foreach (var category in allowedCategories)
-                    {
-                        var permissionSet = _roleService.GetPermissions(category, usersRole);
-                        permissionSets.Add(category.Id, permissionSet);
-                    }
+                    var permissionSet = _roleService.GetPermissions(category, usersRole);
+                    permissionSets.Add(category.Id, permissionSet);
+                }
 
-                    foreach (var pendingTopic in allPendingTopics)
+                foreach (var pendingTopic in allPendingTopics)
+                {
+                    if (permissionSets.ContainsKey(pendingTopic.Category.Id))
                     {
-                        if (permissionSets.ContainsKey(pendingTopic.Category.Id))
+                        var permissions = permissionSets[pendingTopic.Category.Id];
+                        if (permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
                         {
-                            var permissions = permissionSets[pendingTopic.Category.Id];
-                            if (permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
-                            {
-                                pendingTopics.Add(pendingTopic);
-                            }
+                            pendingTopics.Add(pendingTopic);
                         }
                     }
-                    return pendingTopics;
                 }
-                return allPendingTopics;
-           
+                return pendingTopics;
+            }
+            return allPendingTopics;
+
         }
 
         public int GetPendingTopicsCount(List<Category> allowedCategories)
         {
 
-                var allowedCatIds = allowedCategories.Select(x => x.Id);
-                return _context.Topic.AsNoTracking().Include(x => x.Category).Count(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id));
-        
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            return _context.Topic.AsNoTracking().Include(x => x.Category).Count(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id));
+
 
         }
 
@@ -748,7 +796,7 @@
                 .OrderByDescending(x => x.IsSticky)
                 .ThenByDescending(x => x.LastPost.DateCreated)
                 .Where(e => e.Tags.Any(t => t.Slug.Equals(tag)));
-                           
+
 
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
@@ -885,16 +933,16 @@
         public Topic Get(Guid topicId)
         {
 
-                var topic = _context.Topic
-                                    .Include(x => x.Category)
-                                    .Include(x => x.LastPost.User)
-                                    .Include(x => x.User)
-                                    .Include(x => x.Poll)
-                                    .Include(x => x.Tags)
-                                .FirstOrDefault(x => x.Id == topicId);
+            var topic = _context.Topic
+                                .Include(x => x.Category)
+                                .Include(x => x.LastPost.User)
+                                .Include(x => x.User)
+                                .Include(x => x.Poll)
+                                .Include(x => x.Tags)
+                            .FirstOrDefault(x => x.Id == topicId);
 
-                return topic;
-         
+            return topic;
+
         }
 
         public List<Topic> Get(List<Guid> topicIds, List<Category> allowedCategories)
@@ -944,14 +992,14 @@
 
         public int TopicCount(List<Category> allowedCategories)
         {
- 
-                // get the category ids
-                var allowedCatIds = allowedCategories.Select(x => x.Id);
-                return _context.Topic
-                    .Include(x => x.Category)
-                    .AsNoTracking()
-                    .Count(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor");
-      
+
+            // get the category ids
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            return _context.Topic
+                .Include(x => x.Category)
+                .AsNoTracking()
+                .Count(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor");
+
 
         }
 
