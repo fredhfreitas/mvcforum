@@ -14,14 +14,25 @@
     </div>
 
     <input type="hidden" name="PassoAtual" id="PassoAtual" />
-    @Html.HiddenFor(model => model.TipoServico, new { id = "TipoServico" })
+    @Html.HiddenFor(model => model.TipoAnuncio, new { id = "TipoAnuncio" })
     @Html.HiddenFor(model => model.TipoCategoria, new { id = "TipoCategoria" })
 
     <div id="Passo1">
         <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
-            <div class="col-md-12" style="margin-top: -40px;">
+
+            <div class="row" style="margin-top: -40px;">
+                <div class="col-md-12">
+                    <label>Título</label>
+                    @Html.TextBoxFor(model => model.TituloAnuncio, new { id = "TituloAnuncio", @class = "form-control", @style = "width: 50%" })
+                </div>
+            </div>
+
+            <br />
+            <div class="col-md-12">
                 <h4 style="text-align: left"><b>O que deseja fazer?</b></h4>
             </div>
+            
+            <br /><br />
             <div class="clearfix"></div>
             <a class="btn btn-primary" style="cursor: context-menu;" id="buttonRetro" name="buttonRetro">Retroescavadeira</a>
             <a class="btn btn-primary" style="cursor: context-menu;" id="buttonAcessorio" name="buttonAcessorio">Acessório</a>
@@ -271,7 +282,7 @@
             $("#divServico").hide();
             $("#divRetroescavadeira").show();
 
-            $("#TipoServico").val("Retro");
+            $("#TipoAnuncio").val("Retro");
 
             AdicionarClasseClick("Retro", "");
         });
@@ -281,7 +292,7 @@
             $("#divServico").hide();
             $("#divRetroescavadeira").show();
 
-            $("#TipoServico").val("Acessorio");
+            $("#TipoAnuncio").val("Acessorio");
 
             AdicionarClasseClick("Acessorio", "");
 
@@ -292,7 +303,7 @@
             $("#divServico").show();
             $("#divRetroescavadeira").hide();
 
-            $("#TipoServico").val("Servico");
+            $("#TipoAnuncio").val("Servico");
 
             AdicionarClasseClick("Servico", "");
         });
@@ -375,19 +386,27 @@
 
             if (passoAtual == 2) {
 
+                var tituloAnuncio = $.trim($("#TituloAnuncio").val());
+
                 var marca = $.trim($("#Marca").val());
 
                 var modelo = $.trim($("#Modelo").val());
 
                 // Válida se a marca foi informada
+                if (tituloAnuncio == "") {
+                    alert("O Título do Anúncio deve ser informado.");
+                    return;
+                }
+
+                // Válida se a marca foi informada
                 if (marca == "") {
-                    alert("A Marca deve ser informada");
+                    alert("A Marca deve ser informada.");
                     return;
                 }
 
                 // Válida se o modelo foi informado
                 if (modelo == "") {
-                    alert("O Modelo deve ser informado");
+                    alert("O Modelo deve ser informado.");
                     return;
                 }
             }
@@ -612,7 +631,7 @@
 
         var proximoPasso = 0;
 
-        var tipoServico = $("#TipoServico").val();
+        var tipoServico = $("#TipoAnuncio").val();
 
         var tipoCategoria = $("#TipoCategoria").val();
 

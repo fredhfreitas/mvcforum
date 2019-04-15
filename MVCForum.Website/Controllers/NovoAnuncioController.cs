@@ -55,13 +55,11 @@
 
             // Cria o objeto de TopicViewModel
             var topicViewModel = new CreateEditTopicViewModel();
-            topicViewModel.Category = new Guid();
+            topicViewModel.Category = model.CategoriaId;
 
-            // TODO: Validar o item correto
-            topicViewModel.Name = "Teste Luiz";
-
-            // Define a imagem do topico
+            topicViewModel.Name = model.TituloAnuncio;
             topicViewModel.Files = model.Imagem;
+            topicViewModel.Content = model.Observacao;
 
             // ID do Usuário Logado
             model.Usuario.IdUsuarioLogado = loggedOnUser.Id;
@@ -119,7 +117,7 @@
                             MessageType = GenericMessages.info
                         };
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "VerAnuncios");
                     }
                 }
             }
@@ -129,12 +127,25 @@
 
         private void CarregarCamposTopicViewModel(Topic topic, NovoAnuncioViewModel model)
         {
-            topic.Price = model.Valor;
+            topic.Name = model.TituloAnuncio;
+            topic.TipoAnuncio = model.TipoAnuncio;
             topic.IsAnuncio = true;
-            topic.IsCategoryExchange = model.TipoCategoria.Equals("Troca");
-            topic.IsCategoryNew = model.TipoCategoria.Equals("Novos");
-            topic.IsCategoryUsed = model.TipoCategoria.Equals("Usados");
+            topic.IsMecanico = model.TipoCategoria.Equals("Mecânico") ? true : (bool?)null;
+            topic.IsInstrutor = model.TipoCategoria.Equals("Instrutor") ? true : (bool?)null;
+            topic.IsOperador = model.TipoCategoria.Equals("Operador") ? true : (bool?)null;
+            topic.IsCategoryExchange = model.TipoCategoria.Equals("Troca") ? true : (bool?)null;
+            topic.IsCategoryNew = model.TipoCategoria.Equals("Novos") ? true : (bool?)null;
+            topic.IsCategoryUsed = model.TipoCategoria.Equals("Usados") ? true : (bool?)null;
+            topic.Marca = model.Marca;
+            topic.Modelo = model.Modelo;
+            topic.Price = model.Valor;
+
+            // Usuário
             topic.User.Id = model.Usuario.IdUsuarioLogado;
+            topic.TelefoneUsuario = model.Usuario.Telefone;
+            topic.TelefoneWhatsApp = model.Usuario.TelefoneZAP;
+            topic.CidadeUsuario = model.Usuario.CidadeAdicional;
+            topic.EstadoUsuario = model.Usuario.EstadoAdicional;
         }
 
         private void PreencherUsuario(MembershipUser usuario)
@@ -146,8 +157,6 @@
             dadosUsuario.Estado = usuario.Estado == null ? "" : usuario.Estado;
             dadosUsuario.Email = usuario.Email;
             dadosUsuario.NomeUsuario = usuario.UserName;
-            dadosUsuario.Telefone = "";
-            dadosUsuario.TelefoneZAP = "";
 
             ViewBag.Usuario = dadosUsuario;
         }

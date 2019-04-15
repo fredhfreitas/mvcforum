@@ -45,6 +45,19 @@
         public bool? IsAnuncio { get; set; }
         public Decimal? Price { get; set; }
 
+        public string TipoAnuncio { get; set; }
+        public bool? IsMecanico { get; set; }
+        public bool? IsInstrutor { get; set; }
+        public bool? IsOperador { get; set; }
+        public string Marca { get; set; }
+        public string Modelo { get; set; }
+        public string TelefoneUsuario { get; set; }
+        public string TelefoneWhatsApp { get; set; }
+        public string CidadeUsuario { get; set; }
+        public string EstadoUsuario { get; set; }
+        public string Observacoes { get; set; }
+
+
         public string NomeCategoriaAnuncio
         {
             get

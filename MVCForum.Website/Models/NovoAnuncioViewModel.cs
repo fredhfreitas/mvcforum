@@ -1,11 +1,14 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MvcForum.Web.Models
 {
     public class NovoAnuncioViewModel
     {
-        public string TipoServico { get; set; }
+        public string TituloAnuncio { get; set; }
+
+        public string TipoAnuncio { get; set; }
 
         public string TipoCategoria { get; set; }
 
@@ -21,5 +24,13 @@ namespace MvcForum.Web.Models
         public string Modelo { get; set; }
 
         public DadosUsuario Usuario { get; set; }
+
+        public Guid CategoriaId
+        {
+            get
+            {
+                return new Guid("6B7647AF-93A6-458B-BC66-A9810186C6CC");
+            }
+        }
     }
 }
