@@ -1247,6 +1247,7 @@
     <Content Include="Views\VerAnuncios\TenhoInteresse.cshtml" />
     <Content Include="Views\NovoAnuncio\Index.cshtml" />
     <Content Include="Views\Shared\_PostAnuncio.cshtml" />
+    <Content Include="Views\NovoAnuncio\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\StorageProviders\" />

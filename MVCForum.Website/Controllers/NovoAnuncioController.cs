@@ -21,14 +21,18 @@
     {
         public ICategoryService _categoryService;
         public ITopicService _topicService;
+        private readonly IPostService _postService;
+        private readonly INotificationService _notificationService;
 
         public NovoAnuncioController(ILoggingService loggingService, IMembershipService membershipService, IRoleService roleService,
-                                     ITopicService topicService, ICategoryService categoryService, ILocalizationService localizationService,
+                                     ITopicService topicService, IPostService postService, ICategoryService categoryService, INotificationService notificationService, ILocalizationService localizationService,
                                      ISettingsService settingsService, ICacheService cacheService, IMvcForumContext context)
                                     : base(loggingService, membershipService, localizationService, roleService, settingsService, cacheService, context)
         {
             _topicService = topicService;
+            _postService = postService;
             _categoryService = categoryService;
+            _notificationService = notificationService;
         }
 
         public ActionResult Index()
@@ -43,6 +47,204 @@
             return View();
         }
 
+        [Authorize]
+        public virtual ActionResult Editar(Guid id)
+        {
+            // Get the post
+            var post = _postService.Get(id);
+
+            // Get the topic
+            var topic = post.Topic;
+
+            // Get the current logged on user
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            var loggedOnloggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+            // get the users permissions
+            var permissions = RoleService.GetPermissions(topic.Category, loggedOnloggedOnUsersRole);
+
+            // Is the user allowed to edit this post
+            if (post.User.Id == loggedOnReadOnlyUser.Id ||
+                permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
+            {
+                // Get the allowed categories for this user
+                var allowedAccessCategories = _categoryService.GetAllowedCategories(loggedOnloggedOnUsersRole);
+                var allowedCreateTopicCategories =
+                    _categoryService.GetAllowedCategories(loggedOnloggedOnUsersRole,
+                        ForumConfiguration.Instance.PermissionCreateTopics);
+                var allowedCreateTopicCategoryIds = allowedCreateTopicCategories.Select(x => x.Id);
+
+                // If this user hasn't got any allowed cats OR they are not allowed to post then abandon
+                if (allowedAccessCategories.Any() && loggedOnReadOnlyUser.DisablePosting != true)
+                {
+                    var viewModel = new NovoAnuncioViewModel();
+
+                    CarregarCamposTopicViewModel(topic, viewModel);
+                    
+
+                    // Now check if this is a topic starter, if so add the rest of the field
+                    if (post.IsTopicStarter)
+                    {
+                        // Remove all Categories that don't have create topic permission
+                        allowedAccessCategories.RemoveAll(x => allowedCreateTopicCategoryIds.Contains(x.Id));
+
+                        // See if this user is subscribed to this topic
+                        var topicNotifications =
+                            _notificationService.GetTopicNotificationsByUserAndTopic(loggedOnReadOnlyUser, topic);
+
+                        // Populate the properties we can
+                        //viewModel.IsLocked = topic.IsLocked;
+                        //viewModel.IsSticky = topic.IsSticky;
+                        //viewModel.IsTopicStarter = post.IsTopicStarter;
+                        //viewModel.SubscribeToTopic = topicNotifications.Any();
+                        //viewModel.Categories =
+                        //    _categoryService.GetBaseSelectListCategories(allowedAccessCategories);
+
+                        // Tags - Populate from the topic
+                        //if (topic.Tags.Any())
+                        //{
+                        //    viewModel.Tags = string.Join<string>(",", topic.Tags.Select(x => x.Tag));
+                        //}
+
+                        // Populate the poll answers
+                        //if (topic.Poll != null && topic.Poll.PollAnswers.Any())
+                        //{
+                        //    // Has a poll so add it to the view model
+                        //    viewModel.PollAnswers = topic.Poll.PollAnswers;
+                        //    viewModel.PollCloseAfterDays = topic.Poll.ClosePollAfterDays ?? 0;
+                        //}
+
+                        //// It's a topic
+                        //viewModel.IsPostEdit = false;
+                    }
+
+                    // Return the edit view
+                    return View(viewModel);
+                }
+            }
+
+            // If we get here the user has no permission to try and edit the post
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        //[HttpPost]
+        //[ValidateInput(false)]
+        //[ValidateAntiForgeryToken]
+        //public virtual async Task<ActionResult> EditPostTopic(NovoAnuncioViewModel editPostViewModel)
+        //{
+        //    // Get the current user and role
+        //    var loggedOnUser = User.GetMembershipUser(MembershipService, false);
+        //    var loggedOnUsersRole = loggedOnUser.GetRole(RoleService, false);
+
+        //    // Get the category
+        //    //var category = _categoryService.Get(editPostViewModel.Category);
+
+        //    // Get all the permissions for this user
+        //    var permissions = RoleService.GetPermissions(category, loggedOnUsersRole);
+
+        //    // Now we have the category and permissionSet - Populate the optional permissions 
+        //    // This is just in case the viewModel is return back to the view also sort the allowedCategories
+        //    // Get the allowed categories for this user
+        //    var allowedAccessCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
+        //    var allowedCreateTopicCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole,
+        //        ForumConfiguration.Instance.PermissionCreateTopics);
+        //    var allowedCreateTopicCategoryIds = allowedCreateTopicCategories.Select(x => x.Id);
+
+        //    // TODO ??? Is this correct ??
+        //    allowedAccessCategories.RemoveAll(x => allowedCreateTopicCategoryIds.Contains(x.Id));
+
+        //    // Set the categories
+        //    editPostViewModel.Categories = _categoryService.GetBaseSelectListCategories(allowedAccessCategories);
+
+        //    // Get the users permissions for the topic
+        //    editPostViewModel.OptionalPermissions = GetCheckCreateTopicPermissions(permissions);
+
+        //    // See if this is a topic starter or not
+        //    editPostViewModel.IsTopicStarter = editPostViewModel.Id == Guid.Empty;
+
+        //    // IS the model valid
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Got to get a lot of things here as we have to check permissions
+        //        // Get the post
+        //        var originalPost = _postService.Get(editPostViewModel.Id);
+
+        //        // Get the topic
+        //        var originalTopic = originalPost.Topic;
+
+        //        // See if the user has actually added some content to the topic
+        //        if (string.IsNullOrWhiteSpace(editPostViewModel.Content))
+        //        {
+        //            ModelState.AddModelError(string.Empty,
+        //                LocalizationService.GetResourceString("Errors.GenericMessage"));
+        //        }
+        //        else
+        //        {
+
+        //            bool successful;
+        //            bool? moderate = false;
+        //            string message;
+
+        //            if (editPostViewModel.IsPostEdit)
+        //            {
+        //                var editPostPipe = await _postService.Edit(originalPost, editPostViewModel.Files,
+        //                    originalPost.IsTopicStarter, string.Empty, editPostViewModel.Content);
+
+        //                successful = editPostPipe.Successful;
+        //                message = editPostPipe.ProcessLog.FirstOrDefault();
+        //                if (editPostPipe.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
+        //                {
+        //                    moderate = editPostPipe.ExtendedData[Constants.ExtendedDataKeys.Moderate] as bool?;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                // Map the new topic (Pass null for new topic)
+        //                var topic = editPostViewModel.ToTopic(category, loggedOnUser, originalTopic);
+
+        //                // Run the create pipeline
+        //                var editPipeLine = await _topicService.Edit(topic, editPostViewModel.Files,
+        //                    editPostViewModel.Tags, editPostViewModel.SubscribeToTopic, editPostViewModel.Content,
+        //                    editPostViewModel.Name, editPostViewModel.PollAnswers, editPostViewModel.PollCloseAfterDays);
+
+        //                successful = editPipeLine.Successful;
+        //                message = editPipeLine.ProcessLog.FirstOrDefault();
+        //                if (editPipeLine.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
+        //                {
+        //                    moderate = editPipeLine.ExtendedData[Constants.ExtendedDataKeys.Moderate] as bool?;
+        //                }
+        //            }
+
+
+        //            // Check if successful
+        //            if (successful == false)
+        //            {
+        //                // Tell the user the topic is awaiting moderation
+        //                ModelState.AddModelError(string.Empty, message);
+        //                return View(editPostViewModel);
+        //            }
+
+
+        //            if (moderate == true)
+        //            {
+        //                // Tell the user the topic is awaiting moderation
+        //                TempData[Constants.MessageViewBagName] = new GenericMessageViewModel
+        //                {
+        //                    Message = LocalizationService.GetResourceString("Moderate.AwaitingModeration"),
+        //                    MessageType = GenericMessages.info
+        //                };
+
+        //                return RedirectToAction("Index", "Home");
+        //            }
+
+
+        //            // Redirect to the newly created topic
+        //            return Redirect($"{originalTopic.NiceUrl}?postbadges=true");
+        //        }
+        //    }
+
+        //    return View(editPostViewModel);
+        //}
         [HttpPost]
         public virtual async Task<ActionResult> Index(NovoAnuncioViewModel model)
         {

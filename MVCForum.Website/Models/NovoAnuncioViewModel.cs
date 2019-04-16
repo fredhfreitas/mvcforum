@@ -6,6 +6,9 @@ namespace MvcForum.Web.Models
 {
     public class NovoAnuncioViewModel
     {
+        public Guid Id { get; set; }
+        [HiddenInput]
+        public Guid TopicId { get; set; }
         public string TituloAnuncio { get; set; }
 
         public string TipoAnuncio { get; set; }

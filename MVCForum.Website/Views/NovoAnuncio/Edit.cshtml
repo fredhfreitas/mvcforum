@@ -1,0 +1,774 @@
+﻿@model MvcForum.Web.Models.NovoAnuncioViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+    ViewBag.Title = "Clube da Retro | Editar anúncio";
+}
+
+@using (Html.BeginForm("Editar", "NovoAnuncio", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="title-bar">Editar anúncio</h1>
+        </div>
+    </div>
+
+    <input type="hidden" name="PassoAtual" id="PassoAtual" />
+    @Html.HiddenFor(model => model.TipoAnuncio, new { id = "TipoAnuncio" })
+    @Html.HiddenFor(model => model.TipoCategoria, new { id = "TipoCategoria" })
+
+    <div id="Passo1">
+        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
+
+            <div class="row" style="margin-top: -40px;">
+                <div class="col-md-12">
+                    <label>Título</label>
+                    @Html.TextBoxFor(model => model.TituloAnuncio, new { id = "TituloAnuncio", @class = "form-control", @style = "width: 50%" })
+                </div>
+            </div>
+
+            <br />
+            <div class="col-md-12">
+                <h4 style="text-align: left"><b>O que deseja fazer?</b></h4>
+            </div>
+            
+            <br /><br />
+            <div class="clearfix"></div>
+            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonRetro" name="buttonRetro">Retroescavadeira</a>
+            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonAcessorio" name="buttonAcessorio">Acessório</a>
+            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonServico" name="buttonServico">Serviço</a>
+
+        </div>
+
+        <div class="row bordered" style="border-top: 0px; margin-bottom: -10px;">
+            <div class="col-md-12" style="margin-top: -40px;">
+                <h4 style="text-align: left"><b>Em qual categoria?</b></h4>
+            </div>
+
+            <div id="divRetroescavadeira">
+                <a id="buttonNovos" class="btn btn-primary" style="cursor: context-menu;">Novos</a>
+                <a id="buttonUsados" class="btn btn-primary" style="cursor: context-menu;">Usados</a>
+                <a id="buttonTroca" class="btn btn-primary" style="cursor: context-menu;">Troca</a>
+            </div>
+
+            <div id="divServico">
+                <a id="buttonMecanico" class="btn btn-primary" style="cursor: context-menu;">Mecânico</a>
+                <a id="buttonInstrutor" class="btn btn-primary" style="cursor: context-menu;">Instrutor</a>
+                <a id="buttonOperador" class="btn btn-primary" style="cursor: context-menu;">Operador</a>
+            </div>
+
+        </div>
+    </div>
+    <!-- Passo 1-->
+
+    <div id="Passo2">
+
+        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
+            <div class="col-md-12" style="margin-top: -40px;">
+                <h4 style="text-align: left"><b>Qual a marca e modelo da sua retroescavadeira ou acessório?</b></h4>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Marca</label>
+                    <br />
+                    @Html.TextBoxFor(model => model.Marca, new { id = "Marca", @class = "form-control", @style = "width: 50%" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Modelo</label>
+                    <br />
+                    @Html.TextBoxFor(model => model.Modelo, new { id = "Modelo", @class = "form-control", @style = "width: 50%" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Passo 2-->
+
+    <div id="Passo3">
+
+        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
+            <div class="col-md-12" style="margin-top: -40px;">
+                <h4 style="text-align: left"><b>Por qual valor você quer vender a sua retroescavadeira ou acessório?</b></h4>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Valor</label>
+                    @Html.TextBoxFor(model => model.Valor, new { id = "Valor", @class = "form-control", @style = "width: 30%", type = "number" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Passo 3-->
+
+    <div id="Passo4">
+
+        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
+            <div class="col-md-12" style="margin-top: -40px;">
+                <h4 style="text-align: left"><b>Escreva as especificações técnicas da retro ou acessório:</b></h4>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-md-7 ">
+                    <div class="editor-field editorholder">
+
+                        @using MvcForum.Web.Application.ExtensionMethods
+                        @if (!Context.IsMobileDevice())
+                    {
+                    <script src="@Url.Content("~/scripts/tinymce/tinymce.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/tinymceplugins/ImageUpload/imageupload.js")" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            tinymce.init({
+                                selector: "textarea.rte",
+                                browser_spellcheck: true,
+                                plugins: [
+                                    "autosave link image lists hr anchor forumimageinsert",
+                                    "wordcount visualblocks visualchars code fullscreen media nonbreaking"
+                                ],
+                                toolbar1: "bold italic underline strikethrough bullist hr | link unlink @(ViewBag.ImageUploadType ?? "image") code blockquote | formatselect",
+                                remove_linebreaks: false,
+                                relative_urls: false,
+                                menubar: false,
+                                toolbar_items_size: 'small',
+                                content_css: app_base + "content/tinymce.css",
+                                height: 400,
+                                nonbreaking_force_tab: true
+                            });
+
+                            // Language strings
+                            var buttonTitle = '@(Html.Lang("TinyMCE.InsertImage.ButtonTitle"))';
+                            var buttonOk = '@(Html.Lang("TinyMCE.InsertImage.ButtonOk"))';
+                            var buttonClose = '@(Html.Lang("TinyMCE.InsertImage.ButtonClose"))';
+                            var enterValidUrl = '@(Html.Lang("TinyMCE.InsertImage.EnterValidUrl"))';
+                            var selectFile = '@(Html.Lang("TinyMCE.InsertImage.SelectFile"))';
+                            var maxImageFileSize = '@(Html.Lang("TinyMCE.InsertImage.MaxFileSize"))';
+                            var onlyImages = '@(Html.Lang("TinyMCE.InsertImage.OnlyImages"))';
+                            var generalError = '@(Html.Lang("Errors.GenericMessage"))';
+                    </script>
+                    }
+                        <div class="tinymceholder">
+                            @Html.TextAreaFor(model => model.Observacao, new { id = "Observacao", @class = "rte" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <br /><br />
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 style="text-align: left"><b>Deseja inserir alguma imagem?</b></h4>
+                </div>
+
+                <a class="btn btn-primary" style="cursor: context-menu;" id="buttonSimImagem" name="buttonRetro">Sim</a>
+                <a class="btn btn-primary" style="cursor: context-menu;" id="buttonNaoImagem" name="buttonAcessorio">Não</a>
+            </div>
+
+            <br /><br />
+            <div class="row" id="divImagem">
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="pathImage" placeholder="Incluir foto ao perfil">
+                        <span class="input-group-btn">
+                            <span class="btn btn-default btn-file">
+                                @Html.LanguageString("Post.Browse") @Html.TextBoxFor(m => Model.Imagem, new { type = "file" })
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Passo 4-->
+
+    <div id="Passo5">
+
+        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -40px">
+            <div class="col-md-12" style="margin-top: -40px;">
+                <h4 style="text-align: left"><b>Quais as suas informações de contato?</b></h4>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <label>Nome</label>
+                @Html.TextBoxFor(model => model.Usuario.NomeUsuario, new { id = "NomeUsuario", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.NomeUsuario })
+            </div>
+            <div class="form-group">
+                <label>Telefone</label>
+                @Html.TextBoxFor(model => model.Usuario.Telefone, new { id = "Telefone", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Telefone })
+            </div>
+            <div class="form-group">
+                <label>Cidade</label>
+                @Html.TextBoxFor(model => model.Usuario.Cidade, new { id = "Cidade", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Cidade })
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                @Html.TextBoxFor(model => model.Usuario.Estado, new { id = "Estado", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Estado })
+            </div>
+            <div class="form-group">
+                <label>Tel. / WhatsApp</label>
+                @Html.TextBoxFor(model => model.Usuario.TelefoneZAP, new { id = "TelefoneZAP", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.TelefoneZAP })
+            </div>
+            <div class="form-group">
+                <label>E-mail</label>
+                @Html.TextBoxFor(model => model.Usuario.Email, new { id = "Email", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Email })
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="text-align: left"><b>O objeto de anúncio está no mesmo lugar do anunciante?</b></h4>
+            </div>
+
+            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonSimPasso5" name="buttonRetro">Sim</a>
+            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonNaoPasso5" name="buttonAcessorio">Não</a>
+
+            <br /><br />
+            <div id="divCidadeEstadoPasso5">
+                <div class="form-group">
+                    <label>Cidade</label>
+                    @Html.TextBoxFor(model => model.Usuario.CidadeAdicional, new { @class = "form-control", @style = "width: 50%" })
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    @Html.TextBoxFor(model => model.Usuario.EstadoAdicional, new { @class = "form-control", @style = "width: 50%" })
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Passo 5-->
+
+    <div>
+        <div class="col-md-3 col-md-offset-3 btns-create-topic">
+            <a id="anterior" class="btn btn-primary ">Anterior</a>
+        </div>
+        <div id="divProximo" class="col-md-3 btns-create-topic">
+            <a id="proximo" class="btn btn-primary">Proximo</a>
+        </div>
+        <div id="divAnunciar">
+            <input type="submit" name="buttonAnunciar" id="buttonAnunciar" value="Anunciar" class="btn btn-primary" />
+        </div>
+    </div>
+    <!-- Próximo, Anterior e Anunciar -->
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        OcultarDivs();
+
+        $("#PassoAtual").val("1");
+
+        // CLICK TIPO SERVIÇO
+
+        $("#buttonRetro").click(function () {
+
+            $("#divServico").hide();
+            $("#divRetroescavadeira").show();
+
+            $("#TipoAnuncio").val("Retro");
+
+            AdicionarClasseClick("Retro", "");
+        });
+
+        $("#buttonAcessorio").click(function () {
+
+            $("#divServico").hide();
+            $("#divRetroescavadeira").show();
+
+            $("#TipoAnuncio").val("Acessorio");
+
+            AdicionarClasseClick("Acessorio", "");
+
+        });
+
+        $("#buttonServico").click(function () {
+
+            $("#divServico").show();
+            $("#divRetroescavadeira").hide();
+
+            $("#TipoAnuncio").val("Servico");
+
+            AdicionarClasseClick("Servico", "");
+        });
+
+        // CLICK CATEGORIA
+
+        $("#buttonNovos").click(function () {
+
+            $("#TipoCategoria").val("Novos");
+
+            AdicionarClasseClick("", "Novos");
+        });
+
+        $("#buttonUsados").click(function () {
+
+            $("#TipoCategoria").val("Usados");
+
+            AdicionarClasseClick("", "Usados");
+        });
+
+        $("#buttonTroca").click(function () {
+
+            $("#TipoCategoria").val("Troca");
+
+            AdicionarClasseClick("", "Troca");
+        });
+
+        $("#buttonMecanico").click(function () {
+
+            $("#TipoCategoria").val("Mecanico");
+
+            AdicionarClasseClick("", "Mecanico");
+        });
+
+        $("#buttonInstrutor").click(function () {
+
+            $("#TipoCategoria").val("Instrutor");
+
+            AdicionarClasseClick("", "Instrutor");
+        });
+
+        $("#buttonOperador").click(function () {
+
+            $("#TipoCategoria").val("Operador");
+
+            AdicionarClasseClick("", "Operador");
+        });
+
+        // ANTERIOR E PROXIMO
+
+        $("#anterior").click(function () {
+
+            var passoAtual = parseInt($("#PassoAtual").val());
+
+            if (passoAtual == 2) {
+
+                var marca = $.trim($("#Marca").val());
+
+                var modelo = $.trim($("#Modelo").val());
+
+                // Válida se a marca foi informada
+                if (marca == "") {
+                    alert("A Marca deve ser informada");
+                    return;
+                }
+
+                // Válida se o modelo foi informado
+                if (modelo == "") {
+                    alert("O Modelo deve ser informado");
+                    return;
+                }
+            }
+
+            DefinirPasso("anterior", passoAtual);
+        });
+
+        $("#proximo").click(function () {
+
+            var passoAtual = parseInt($("#PassoAtual").val());
+
+            if (passoAtual == 2) {
+
+                var tituloAnuncio = $.trim($("#TituloAnuncio").val());
+
+                var marca = $.trim($("#Marca").val());
+
+                var modelo = $.trim($("#Modelo").val());
+
+                // Válida se a marca foi informada
+                if (tituloAnuncio == "") {
+                    alert("O Título do Anúncio deve ser informado.");
+                    return;
+                }
+
+                // Válida se a marca foi informada
+                if (marca == "") {
+                    alert("A Marca deve ser informada.");
+                    return;
+                }
+
+                // Válida se o modelo foi informado
+                if (modelo == "") {
+                    alert("O Modelo deve ser informado.");
+                    return;
+                }
+            }
+
+            DefinirPasso("proximo", passoAtual);
+        });
+
+        // CLICK FINAL PASSO 5
+
+        $("#buttonNaoPasso5").click(function () {
+            $("#divCidadeEstadoPasso5").show();
+        });
+
+        $("#buttonSimPasso5").click(function () {
+
+            // Limpa os campos
+            $("#divCidadeEstadoPasso5").val("");
+            $("#divCidadeEstadoPasso5").val("");
+
+            $("#divCidadeEstadoPasso5").hide();
+        });
+
+        // CLICK IMAGEM
+        $("#buttonSimImagem").click(function () {
+            $("#divImagem").show();
+        });
+
+        // CLICK IMAGEM
+        $("#buttonNaoImagem").click(function () {
+            $("#divImagem").hide();
+        });
+
+    });
+
+    function AdicionarClasseClick(tipoServico, tipoCategoria) {
+
+        switch (tipoServico) {
+
+            case "Retro":
+
+                $("#buttonRetro").removeClass("active");
+                $("#buttonRetro").removeClass("corOriginal");
+                $("#buttonRetro").addClass("click");
+
+                RemoverClasseClick(tipoServico);
+
+                break;
+            case "Acessorio":
+
+                $("#buttonAcessorio").removeClass("active");
+                $("#buttonAcessorio").removeClass("corOriginal");
+                $("#buttonAcessorio").addClass("click");
+
+                RemoverClasseClick(tipoServico);
+
+                break;
+            case "Servico":
+
+                $("#buttonServico").removeClass("active");
+                $("#buttonServico").removeClass("corOriginal");
+                $("#buttonServico").addClass("click");
+
+                RemoverClasseClick(tipoServico);
+
+                break;
+        }
+
+        switch (tipoCategoria) {
+
+            case "Novos":
+
+                $("#buttonNovos").removeClass("active");
+                $("#buttonNovos").removeClass("corOriginal");
+                $("#buttonNovos").addClass("click");
+
+                RemoverClasseClick(tipoServico, tipoCategoria);
+
+                break;
+            case "Usados":
+
+                $("#buttonUsados").removeClass("active");
+                $("#buttonUsados").removeClass("corOriginal");
+                $("#buttonUsados").addClass("click");
+
+                RemoverClasseClick(tipoServico, tipoCategoria);
+
+                break;
+            case "Troca":
+
+                $("#buttonTroca").removeClass("active");
+                $("#buttonTroca").removeClass("corOriginal");
+                $("#buttonTroca").addClass("click");
+
+                RemoverClasseClick(tipoServico, tipoCategoria);
+
+                break;
+
+            case "Mecanico":
+
+                $("#buttonMecanico").removeClass("active");
+                $("#buttonMecanico").removeClass("corOriginal");
+                $("#buttonMecanico").addClass("click");
+
+                RemoverClasseClick(tipoServico, tipoCategoria);
+
+                break;
+            case "Instrutor":
+
+                $("#buttonInstrutor").removeClass("active");
+                $("#buttonInstrutor").removeClass("corOriginal");
+                $("#buttonInstrutor").addClass("click");
+
+                RemoverClasseClick(tipoServico, tipoCategoria);
+
+                break;
+            case "Operador":
+
+                $("#buttonOperador").removeClass("active");
+                $("#buttonOperador").removeClass("corOriginal");
+                $("#buttonOperador").addClass("click");
+
+                RemoverClasseClick(tipoServico, tipoCategoria);
+
+                break;
+        }
+    }
+
+    function RemoverClasseClick(tipoServico, tipoCategoria) {
+
+        switch (tipoServico) {
+
+            case "Retro":
+
+                $("#buttonAcessorio").removeClass("click");
+                $("#buttonAcessorio").addClass("corOriginal");
+
+                $("#buttonServico").removeClass("click");
+                $("#buttonServico").addClass("corOriginal");
+
+                break;
+            case "Acessorio":
+
+                $("#buttonRetro").removeClass("click");
+                $("#buttonRetro").addClass("corOriginal");
+
+                $("#buttonServico").removeClass("click");
+                $("#buttonServico").addClass("corOriginal");
+
+                break;
+            case "Servico":
+
+                $("#buttonRetro").removeClass("click");
+                $("#buttonRetro").addClass("corOriginal");
+
+                $("#buttonAcessorio").removeClass("click");
+                $("#buttonAcessorio").addClass("corOriginal");
+
+                break;
+        }
+
+        switch (tipoCategoria) {
+
+            case "Novos":
+
+                $("#buttonUsados").removeClass("click");
+                $("#buttonUsados").addClass("corOriginal");
+
+                $("#buttonTroca").removeClass("click");
+                $("#buttonTroca").addClass("corOriginal");
+
+                break;
+            case "Usados":
+
+                $("#buttonNovos").removeClass("click");
+                $("#buttonNovos").addClass("corOriginal");
+
+                $("#buttonTroca").removeClass("click");
+                $("#buttonTroca").addClass("corOriginal");
+
+                break;
+            case "Troca":
+
+                $("#buttonUsados").removeClass("click");
+                $("#buttonUsados").addClass("corOriginal");
+
+                $("#buttonNovos").removeClass("click");
+                $("#buttonNovos").addClass("corOriginal");
+
+                break;
+
+            case "Mecanico":
+
+                $("#buttonInstrutor").removeClass("click");
+                $("#buttonInstrutor").addClass("corOriginal");
+
+                $("#buttonOperador").removeClass("click");
+                $("#buttonOperador").addClass("corOriginal");
+
+                break;
+            case "Instrutor":
+
+                $("#buttonMecanico").removeClass("click");
+                $("#buttonMecanico").addClass("corOriginal");
+
+                $("#buttonOperador").removeClass("click");
+                $("#buttonOperador").addClass("corOriginal");
+
+                break;
+            case "Operador":
+
+                $("#buttonMecanico").removeClass("click");
+                $("#buttonMecanico").addClass("corOriginal");
+
+                $("#buttonInstrutor").removeClass("click");
+                $("#buttonInstrutor").addClass("corOriginal");
+
+                break;
+        }
+    }
+
+    function DefinirPasso(passo, passoAtual) {
+
+        var proximoPasso = 0;
+
+        var tipoServico = $("#TipoAnuncio").val();
+
+        var tipoCategoria = $("#TipoCategoria").val();
+
+        // Válida se o Tipo de Serviço foi informado
+        if (tipoServico == "") {
+            alert("Para passar para o próximo passo, é necessário selecionar o que deseja fazer.");
+            return;
+        }
+
+        // Se o tipo de serviço foi informado, temos que validar a categoria do servico
+        if (tipoCategoria == "") {
+            alert("Para passar para o próximo passo, é necessário selecionar um Tipo de Categoria");
+            return;
+        }
+
+        // Define o próximo passo
+        if (passo == "anterior") {
+            if (tipoServico == "Retro" || tipoServico == "Acessorio") {
+                proximoPasso = passoAtual - 1;
+            }
+
+            if (tipoServico == "Servico") {
+                proximoPasso = passoAtual - 3;
+            }
+        }
+        else {
+            if (tipoServico == "Retro" || tipoServico == "Acessorio") {
+                proximoPasso = passoAtual + 1;
+            }
+
+            if (tipoServico == "Servico") {
+                proximoPasso = passoAtual + 3;
+            }
+        }
+
+        $("#PassoAtual").val(proximoPasso);
+
+        switch (proximoPasso) {
+            case 1:
+                $("#Passo1").show();
+
+                if (tipoServico == "Retro" || tipoServico == "Acessorio") {
+                    $("#Passo2").hide();
+                }
+
+                if (tipoServico == "Servico") {
+                    $("#Passo4").hide();
+                }
+                break;
+            case 2:
+                $("#Passo2").show();
+
+                if (passo == "anterior") {
+                    $("#Passo3").hide();
+                }
+                else {
+                    $("#Passo1").hide();
+                }
+                break;
+            case 3:
+                $("#Passo3").show();
+
+                if (passo == "anterior") {
+                    $("#Passo4").hide();
+                }
+                else {
+                    $("#Passo2").hide();
+                }
+                break;
+            case 4:
+                $("#Passo4").show();
+
+                if (tipoServico == "Retro" || tipoServico == "Acessorio") {
+                    if (passo == "anterior") {
+                        $("#Passo5").hide();
+                    }
+                    else {
+                        $("#Passo3").hide();
+                    }
+                }
+
+                if (tipoServico == "Servico") {
+                    if (passo == "anterior") {
+                        $("#Passo5").hide();
+                    }
+                    else {
+                        $("#Passo1").hide();
+                    }
+                }
+
+                // Oculta o botão Proximo
+                $("#divProximo").show();
+
+                // Exibe o botão Anunciar
+                $("#divAnunciar").hide();
+
+                break;
+            case 5:
+
+                $("#Passo5").show();
+                $("#Passo4").hide();
+
+                // Oculta o botão Proximo
+                $("#divProximo").hide();
+
+                // Exibe o botão Anunciar
+                $("#divAnunciar").show();
+
+                break;
+        }
+    }
+
+    function OcultarDivs() {
+
+        $("#Passo2").hide();
+        $("#Passo3").hide();
+        $("#Passo4").hide();
+        $("#Passo5").hide();
+
+        $("#divServico").hide();
+
+        $("#divAnunciar").hide();
+
+        $("#divCidadeEstadoPasso5").hide();
+
+        $("#divImagem").hide();
+    }
+
+</script>
+
+<style>
+    .click {
+        background-color: #FFF !important;
+        border-color: #FAA21B !important
+    }
+
+    .corOriginal {
+        background-color: #FAA21B !important;
+    }
+</style>
