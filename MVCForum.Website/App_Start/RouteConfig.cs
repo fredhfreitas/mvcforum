@@ -115,8 +115,8 @@
                 new { controller = "Members", action = "Edit", Guid = UrlParameter.Optional } // Parameter defaults
             );
 
-             
-                 routes.MapRoute(
+            
+            routes.MapRoute(
                 "categoryRssUrls", // Route name
                 string.Concat(ForumConfiguration.Instance.CategoryUrlIdentifier, "/rss/{slug}"), // URL with parameters
                 new

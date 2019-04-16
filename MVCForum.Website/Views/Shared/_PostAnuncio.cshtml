@@ -276,7 +276,7 @@
                     @if (Model.Post.User.Id == loggedOnUserId || Model.Permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
                     {
                         <li>
-                            <a class="btn btn-gray" href="@Url.Action("EditPostTopic", "Topic", new { id = Model.Post.Id })">
+                            <a class="btn btn-gray" href="@Url.Action("Edit", "NovoAnuncio", new { id = Model.Post.Id })">
                                 @Html.LanguageString("Post.Edit")
                             </a>
                         </li>

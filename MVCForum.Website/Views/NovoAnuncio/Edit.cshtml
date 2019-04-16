@@ -5,7 +5,7 @@
     ViewBag.Title = "Clube da Retro | Editar anúncio";
 }
 
-@using (Html.BeginForm("Editar", "NovoAnuncio", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "NovoAnuncio", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="row">
         <div class="col-md-12">
@@ -203,27 +203,27 @@
             <br />
             <div class="form-group">
                 <label>Nome</label>
-                @Html.TextBoxFor(model => model.Usuario.NomeUsuario, new { id = "NomeUsuario", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.NomeUsuario })
+               @* @Html.TextBoxFor(model => model.Usuario.NomeUsuario, new { id = "NomeUsuario", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.NomeUsuario })*@
             </div>
             <div class="form-group">
                 <label>Telefone</label>
-                @Html.TextBoxFor(model => model.Usuario.Telefone, new { id = "Telefone", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Telefone })
+               @* @Html.TextBoxFor(model => model.Usuario.Telefone, new { id = "Telefone", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Telefone })*@
             </div>
             <div class="form-group">
                 <label>Cidade</label>
-                @Html.TextBoxFor(model => model.Usuario.Cidade, new { id = "Cidade", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Cidade })
+               @* @Html.TextBoxFor(model => model.Usuario.Cidade, new { id = "Cidade", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Cidade })*@
             </div>
             <div class="form-group">
                 <label>Estado</label>
-                @Html.TextBoxFor(model => model.Usuario.Estado, new { id = "Estado", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Estado })
+               @* @Html.TextBoxFor(model => model.Usuario.Estado, new { id = "Estado", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Estado })*@
             </div>
             <div class="form-group">
                 <label>Tel. / WhatsApp</label>
-                @Html.TextBoxFor(model => model.Usuario.TelefoneZAP, new { id = "TelefoneZAP", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.TelefoneZAP })
+              @*  @Html.TextBoxFor(model => model.Usuario.TelefoneZAP, new { id = "TelefoneZAP", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.TelefoneZAP })*@
             </div>
             <div class="form-group">
                 <label>E-mail</label>
-                @Html.TextBoxFor(model => model.Usuario.Email, new { id = "Email", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Email })
+              @*  @Html.TextBoxFor(model => model.Usuario.Email, new { id = "Email", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Email })*@
             </div>
 
         </div>

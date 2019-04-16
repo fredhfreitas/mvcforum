@@ -48,7 +48,7 @@
         }
 
         [Authorize]
-        public virtual ActionResult Editar(Guid id)
+        public virtual ActionResult Edit(Guid id)
         {
             // Get the post
             var post = _postService.Get(id);
@@ -77,9 +77,34 @@
                 // If this user hasn't got any allowed cats OR they are not allowed to post then abandon
                 if (allowedAccessCategories.Any() && loggedOnReadOnlyUser.DisablePosting != true)
                 {
-                    var viewModel = new NovoAnuncioViewModel();
+                    string tipoCategoria = string.Empty;
+                    if (topic.IsMecanico.HasValue) { tipoCategoria = "Mecânico"; }
+                    else if (topic.IsInstrutor.HasValue) { tipoCategoria = "Instrutor"; }
+                    else if (topic.IsOperador.HasValue) { tipoCategoria = "Operador"; }
+                    else if (topic.IsCategoryExchange.HasValue) { tipoCategoria = "Troca"; }                    
+                    else if (topic.IsCategoryNew.HasValue) { tipoCategoria = "Novo"; }
+                    else if (topic.IsCategoryUsed.HasValue) { tipoCategoria = "Usado"; }
 
-                    CarregarCamposTopicViewModel(topic, viewModel);
+                    var dadosUsuario = new DadosUsuario();
+
+                    dadosUsuario.IdUsuarioLogado = loggedOnReadOnlyUser.Id;
+                    dadosUsuario.Cidade = loggedOnReadOnlyUser.Cidade == null ? "" : loggedOnReadOnlyUser.Cidade;
+                    dadosUsuario.Estado = loggedOnReadOnlyUser.Estado == null ? "" : loggedOnReadOnlyUser.Estado;
+                    dadosUsuario.Email = loggedOnReadOnlyUser.Email;
+                    dadosUsuario.NomeUsuario = loggedOnReadOnlyUser.UserName;
+
+                    var viewModel = new NovoAnuncioViewModel {
+                        TituloAnuncio = topic.Name,
+                        TipoAnuncio = topic.TipoAnuncio,
+                        TipoCategoria = tipoCategoria,
+                        Marca = topic.Marca,
+                        Modelo = topic.Modelo,
+                        Valor = topic.Price.ToString(),
+                        ImagemPath = topic.Imagem,
+                        // Usuário
+                        Usuario = dadosUsuario
+                    };
+
                     
 
                     // Now check if this is a topic starter, if so add the rest of the field
