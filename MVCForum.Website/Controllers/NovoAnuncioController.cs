@@ -95,6 +95,7 @@
 
                     var viewModel = new NovoAnuncioViewModel {
                         TituloAnuncio = topic.Name,
+                        Observacao = topic.Posts.FirstOrDefault().PostContent,
                         TipoAnuncio = topic.TipoAnuncio,
                         TipoCategoria = tipoCategoria,
                         Marca = topic.Marca,
@@ -150,6 +151,101 @@
 
             // If we get here the user has no permission to try and edit the post
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        [HttpPost]
+        public virtual async Task<ActionResult> Edit(NovoAnuncioViewModel model)
+        {
+            bool successful;
+            bool? moderate = false;
+            string message;
+
+            // Get the user and roles
+            var loggedOnUser = User.GetMembershipUser(MembershipService, false);
+            var loggedOnUsersRole = loggedOnUser.GetRole(RoleService);
+
+            // Como inicialmente vamos voltar para a mesma página, estou carregand as View bags novamente
+            PreencherUsuario(loggedOnUser);
+
+            // Cria o objeto de TopicViewModel
+            var topicViewModel = new CreateEditTopicViewModel();
+            topicViewModel.Category = model.CategoriaId;
+
+            topicViewModel.Name = model.TituloAnuncio;
+            topicViewModel.Files = model.Imagem;
+            topicViewModel.Content = model.Observacao;
+
+            var originalPost = _postService.Get(model.Id);
+
+            // Get the topic
+            var originalTopic = originalPost.Topic;
+
+
+            // ID do Usuário Logado
+            model.Usuario.IdUsuarioLogado = loggedOnUser.Id;
+
+            // Get the category
+            var category = _categoryService.Get(topicViewModel.Category);
+
+            // First check this user is allowed to create topics in this category
+            var permissions = RoleService.GetPermissions(category, loggedOnUsersRole);
+
+            // Now we have the category and permissionSet - Populate the optional permissions 
+            // This is just in case the viewModel is return back to the view also sort the allowedCategories
+            topicViewModel.OptionalPermissions = GetCheckCreateTopicPermissions(permissions);
+
+            topicViewModel.Categories = _categoryService.GetBaseSelectListCategories(AllowedCreateCategories(loggedOnUsersRole));
+
+            topicViewModel.IsTopicStarter = true;
+
+            if (topicViewModel.PollAnswers == null)
+                topicViewModel.PollAnswers = new List<PollAnswer>();
+
+            if (ModelState.IsValid)
+            {
+                // Map the new topic (Pass null for new topic)
+                var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
+
+                CarregarCamposTopicViewModel(topic, model);
+
+                // Run the create pipeline
+                var editPipeLine = await _topicService.Edit(topic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,
+                                                                topicViewModel.Content, topicViewModel.Name, topicViewModel.PollAnswers, topicViewModel.PollCloseAfterDays);
+
+                successful = editPipeLine.Successful;
+                message = editPipeLine.ProcessLog.FirstOrDefault();
+                if (editPipeLine.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
+                {
+                    moderate = editPipeLine.ExtendedData[Constants.ExtendedDataKeys.Moderate] as bool?;
+                }
+
+                // Check if successful
+                if (successful == false)
+                {
+                    // Tell the user the topic is awaiting moderation
+                    ModelState.AddModelError(string.Empty, message);
+                    return View(topicViewModel);
+                }
+
+
+                if (moderate == true)
+                {
+                    // Tell the user the topic is awaiting moderation
+                    TempData[Constants.MessageViewBagName] = new GenericMessageViewModel
+                    {
+                        Message = LocalizationService.GetResourceString("Moderate.AwaitingModeration"),
+                        MessageType = GenericMessages.info
+                    };
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+
+                // Redirect to the newly created topic
+                return Redirect($"{originalTopic.NiceUrl}?postbadges=true");
+            }
+
+            return View(topicViewModel);
         }
 
         //[HttpPost]

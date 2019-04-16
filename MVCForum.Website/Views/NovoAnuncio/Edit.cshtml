@@ -17,115 +17,115 @@
     @Html.HiddenFor(model => model.TipoAnuncio, new { id = "TipoAnuncio" })
     @Html.HiddenFor(model => model.TipoCategoria, new { id = "TipoCategoria" })
 
-    <div id="Passo1">
-        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
+    @*<div id="Passo1">*@
+    <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
 
-            <div class="row" style="margin-top: -40px;">
-                <div class="col-md-12">
-                    <label>Título</label>
-                    @Html.TextBoxFor(model => model.TituloAnuncio, new { id = "TituloAnuncio", @class = "form-control", @style = "width: 50%" })
-                </div>
-            </div>
-
-            <br />
+        <div class="row" style="margin-top: -40px;">
             <div class="col-md-12">
+                <label>Título</label>
+                @Html.TextBoxFor(model => model.TituloAnuncio, new { id = "TituloAnuncio", @class = "form-control", @style = "width: 50%" })
+            </div>
+        </div>
+
+        <br />
+        @*<div class="col-md-12">
                 <h4 style="text-align: left"><b>O que deseja fazer?</b></h4>
             </div>
-            
+
             <br /><br />
             <div class="clearfix"></div>
             <a class="btn btn-primary" style="cursor: context-menu;" id="buttonRetro" name="buttonRetro">Retroescavadeira</a>
             <a class="btn btn-primary" style="cursor: context-menu;" id="buttonAcessorio" name="buttonAcessorio">Acessório</a>
-            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonServico" name="buttonServico">Serviço</a>
+            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonServico" name="buttonServico">Serviço</a>*@
 
-        </div>
+        @*</div>*@
 
-        <div class="row bordered" style="border-top: 0px; margin-bottom: -10px;">
-            <div class="col-md-12" style="margin-top: -40px;">
-                <h4 style="text-align: left"><b>Em qual categoria?</b></h4>
-            </div>
+        @*<div class="row bordered" style="border-top: 0px; margin-bottom: -10px;">
+                <div class="col-md-12" style="margin-top: -40px;">
+                    <h4 style="text-align: left"><b>Em qual categoria?</b></h4>
+                </div>
 
-            <div id="divRetroescavadeira">
-                <a id="buttonNovos" class="btn btn-primary" style="cursor: context-menu;">Novos</a>
-                <a id="buttonUsados" class="btn btn-primary" style="cursor: context-menu;">Usados</a>
-                <a id="buttonTroca" class="btn btn-primary" style="cursor: context-menu;">Troca</a>
-            </div>
+                <div id="divRetroescavadeira">
+                    <a id="buttonNovos" class="btn btn-primary" style="cursor: context-menu;">Novos</a>
+                    <a id="buttonUsados" class="btn btn-primary" style="cursor: context-menu;">Usados</a>
+                    <a id="buttonTroca" class="btn btn-primary" style="cursor: context-menu;">Troca</a>
+                </div>
 
-            <div id="divServico">
-                <a id="buttonMecanico" class="btn btn-primary" style="cursor: context-menu;">Mecânico</a>
-                <a id="buttonInstrutor" class="btn btn-primary" style="cursor: context-menu;">Instrutor</a>
-                <a id="buttonOperador" class="btn btn-primary" style="cursor: context-menu;">Operador</a>
-            </div>
+                <div id="divServico">
+                    <a id="buttonMecanico" class="btn btn-primary" style="cursor: context-menu;">Mecânico</a>
+                    <a id="buttonInstrutor" class="btn btn-primary" style="cursor: context-menu;">Instrutor</a>
+                    <a id="buttonOperador" class="btn btn-primary" style="cursor: context-menu;">Operador</a>
+                </div>
 
-        </div>
+            </div>*@
     </div>
     <!-- Passo 1-->
 
-    <div id="Passo2">
+    @*<div id="Passo2">*@
 
-        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
-            <div class="col-md-12" style="margin-top: -40px;">
-                <h4 style="text-align: left"><b>Qual a marca e modelo da sua retroescavadeira ou acessório?</b></h4>
-            </div>
-            <div class="clearfix"></div>
+    <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
+        <div class="col-md-12" style="margin-top: -40px;">
+            <h4 style="text-align: left"><b>Qual a marca e modelo da sua retroescavadeira ou acessório?</b></h4>
+        </div>
+        <div class="clearfix"></div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Marca</label>
-                    <br />
-                    @Html.TextBoxFor(model => model.Marca, new { id = "Marca", @class = "form-control", @style = "width: 50%" })
-                </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Modelo</label>
-                    <br />
-                    @Html.TextBoxFor(model => model.Modelo, new { id = "Modelo", @class = "form-control", @style = "width: 50%" })
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Marca</label>
+                <br />
+                @Html.TextBoxFor(model => model.Marca, new { id = "Marca", @class = "form-control", @style = "width: 50%" })
             </div>
         </div>
-
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <label>Modelo</label>
+                <br />
+                @Html.TextBoxFor(model => model.Modelo, new { id = "Modelo", @class = "form-control", @style = "width: 50%" })
+            </div>
+        </div>
     </div>
+
+    @*</div>*@
     <!-- Passo 2-->
 
-    <div id="Passo3">
+    @*<div id="Passo3">*@
+  
+    <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
+        <div class="col-md-12" style="margin-top: -40px;">
+            <h4 style="text-align: left"><b>Por qual valor você quer vender a sua retroescavadeira ou acessório?</b></h4>
+        </div>
+        <div class="clearfix"></div>
 
-        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
-            <div class="col-md-12" style="margin-top: -40px;">
-                <h4 style="text-align: left"><b>Por qual valor você quer vender a sua retroescavadeira ou acessório?</b></h4>
-            </div>
-            <div class="clearfix"></div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Valor</label>
-                    @Html.TextBoxFor(model => model.Valor, new { id = "Valor", @class = "form-control", @style = "width: 30%", type = "number" })
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Valor</label>
+                @Html.TextBoxFor(model => model.Valor, new { id = "Valor", @class = "form-control", @style = "width: 30%" })
             </div>
         </div>
-
     </div>
+
+    @*</div>*@
     <!-- Passo 3-->
 
-    <div id="Passo4">
+    @*<div id="Passo4">*@
 
-        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
-            <div class="col-md-12" style="margin-top: -40px;">
-                <h4 style="text-align: left"><b>Escreva as especificações técnicas da retro ou acessório:</b></h4>
-            </div>
-            <div class="clearfix"></div>
+    <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
+        <div class="col-md-12" style="margin-top: -40px;">
+            <h4 style="text-align: left"><b>Escreva as especificações técnicas da retro ou acessório:</b></h4>
+        </div>
+        <div class="clearfix"></div>
 
-            <div class="row">
-                <div class="col-md-7 ">
-                    <div class="editor-field editorholder">
+        <div class="row">
+            <div class="col-md-7 ">
+                <div class="editor-field editorholder">
 
-                        @using MvcForum.Web.Application.ExtensionMethods
-                        @if (!Context.IsMobileDevice())
+                    @using MvcForum.Web.Application.ExtensionMethods
+                    @if (!Context.IsMobileDevice())
                     {
-                    <script src="@Url.Content("~/scripts/tinymce/tinymce.min.js")" type="text/javascript"></script>
-                    <script src="@Url.Content("~/Scripts/tinymceplugins/ImageUpload/imageupload.js")" type="text/javascript"></script>
-                    <script type="text/javascript">
+                        <script src="@Url.Content("~/scripts/tinymce/tinymce.min.js")" type="text/javascript"></script>
+                        <script src="@Url.Content("~/Scripts/tinymceplugins/ImageUpload/imageupload.js")" type="text/javascript"></script>
+                        <script type="text/javascript">
                             tinymce.init({
                                 selector: "textarea.rte",
                                 browser_spellcheck: true,
@@ -152,118 +152,124 @@
                             var maxImageFileSize = '@(Html.Lang("TinyMCE.InsertImage.MaxFileSize"))';
                             var onlyImages = '@(Html.Lang("TinyMCE.InsertImage.OnlyImages"))';
                             var generalError = '@(Html.Lang("Errors.GenericMessage"))';
-                    </script>
+                        </script>
                     }
-                        <div class="tinymceholder">
-                            @Html.TextAreaFor(model => model.Observacao, new { id = "Observacao", @class = "rte" })
-                        </div>
-
+                    <div class="tinymceholder">
+                        @Html.TextAreaFor(model => model.Observacao, new { id = "Observacao", @class = "rte" })
                     </div>
+
                 </div>
             </div>
+        </div>
 
-            <br /><br />
-            <div class="row">
-                <div class="col-md-12">
-                    <h4 style="text-align: left"><b>Deseja inserir alguma imagem?</b></h4>
-                </div>
-
-                <a class="btn btn-primary" style="cursor: context-menu;" id="buttonSimImagem" name="buttonRetro">Sim</a>
-                <a class="btn btn-primary" style="cursor: context-menu;" id="buttonNaoImagem" name="buttonAcessorio">Não</a>
+        <br /><br />
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="text-align: left"><b>Deseja inserir alguma imagem?</b></h4>
             </div>
 
-            <br /><br />
-            <div class="row" id="divImagem">
+            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonSimImagem" name="buttonRetro">Sim</a>
+            @*<a class="btn btn-primary" style="cursor: context-menu;" id="buttonNaoImagem" name="buttonAcessorio">Não</a>*@
+        </div>
 
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="pathImage" placeholder="Incluir foto ao perfil">
-                        <span class="input-group-btn">
-                            <span class="btn btn-default btn-file">
-                                @Html.LanguageString("Post.Browse") @Html.TextBoxFor(m => Model.Imagem, new { type = "file" })
-                            </span>
+        <br /><br />
+        <div class="row" id="divImagem">
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="pathImage" placeholder="Incluir foto ao perfil">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default btn-file">
+                            @Html.LanguageString("Post.Browse") @Html.TextBoxFor(m => Model.Imagem, new { type = "file" })
                         </span>
-                    </div>
+                    </span>
                 </div>
-
             </div>
 
         </div>
 
     </div>
+
+    @*</div>*@
     <!-- Passo 4-->
 
-    <div id="Passo5">
+    @*<div id="Passo5">*@
 
-        <div class="row bordered" style="border-bottom: 0px; margin-bottom: -40px">
-            <div class="col-md-12" style="margin-top: -40px;">
-                <h4 style="text-align: left"><b>Quais as suas informações de contato?</b></h4>
-            </div>
+    <div class="row bordered" style="border-bottom: 0px; margin-bottom: -40px">
+        <div class="col-md-12" style="margin-top: -40px;">
+            <h4 style="text-align: left"><b>Quais as suas informações de contato?</b></h4>
+        </div>
 
-            <br />
-            <div class="form-group">
-                <label>Nome</label>
-               @* @Html.TextBoxFor(model => model.Usuario.NomeUsuario, new { id = "NomeUsuario", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.NomeUsuario })*@
-            </div>
-            <div class="form-group">
-                <label>Telefone</label>
-               @* @Html.TextBoxFor(model => model.Usuario.Telefone, new { id = "Telefone", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Telefone })*@
-            </div>
+        <br />
+        <div class="form-group">
+            <label>Nome</label>
+            @Html.TextBoxFor(model => model.Usuario.NomeUsuario, new { id = "NomeUsuario", @class = "form-control", @style = "width: 50%" })
+            @* @Html.TextBoxFor(model => model.Usuario.NomeUsuario, new { id = "NomeUsuario", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.NomeUsuario })*@
+        </div>
+        <div class="form-group">
+            <label>Telefone</label>
+            @Html.TextBoxFor(model => model.Usuario.Telefone, new { id = "Telefone", @class = "form-control", @style = "width: 50%" })
+            @* @Html.TextBoxFor(model => model.Usuario.Telefone, new { id = "Telefone", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Telefone })*@
+        </div>
+        <div class="form-group">
+            <label>Cidade</label>
+            @Html.TextBoxFor(model => model.Usuario.Cidade, new { id = "Cidade", @class = "form-control", @style = "width: 50%" })
+            @* @Html.TextBoxFor(model => model.Usuario.Cidade, new { id = "Cidade", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Cidade })*@
+        </div>
+        <div class="form-group">
+            <label>Estado</label>
+            @Html.TextBoxFor(model => model.Usuario.Estado, new { id = "Estado", @class = "form-control", @style = "width: 50%" })
+            @* @Html.TextBoxFor(model => model.Usuario.Estado, new { id = "Estado", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Estado })*@
+        </div>
+        <div class="form-group">
+            <label>Tel. / WhatsApp</label>
+            @Html.TextBoxFor(model => model.Usuario.TelefoneZAP, new { id = "TelefoneZAP", @class = "form-control", @style = "width: 50%" })
+            @*  @Html.TextBoxFor(model => model.Usuario.TelefoneZAP, new { id = "TelefoneZAP", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.TelefoneZAP })*@
+        </div>
+        <div class="form-group">
+            <label>E-mail</label>
+            @Html.TextBoxFor(model => model.Usuario.Email, new { id = "Email", @class = "form-control", @style = "width: 50%" })
+            @*  @Html.TextBoxFor(model => model.Usuario.Email, new { id = "Email", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Email })*@
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4 style="text-align: left"><b>O objeto de anúncio está no mesmo lugar do anunciante?</b></h4>
+        </div>
+
+        <a class="btn btn-primary" style="cursor: context-menu;" id="buttonSimPasso5" name="buttonRetro">Sim</a>
+        <a class="btn btn-primary" style="cursor: context-menu;" id="buttonNaoPasso5" name="buttonAcessorio">Não</a>
+
+        <br /><br />
+        <div id="divCidadeEstadoPasso5">
             <div class="form-group">
                 <label>Cidade</label>
-               @* @Html.TextBoxFor(model => model.Usuario.Cidade, new { id = "Cidade", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Cidade })*@
+                @Html.TextBoxFor(model => model.Usuario.CidadeAdicional, new { @class = "form-control", @style = "width: 50%" })
             </div>
             <div class="form-group">
                 <label>Estado</label>
-               @* @Html.TextBoxFor(model => model.Usuario.Estado, new { id = "Estado", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Estado })*@
+                @Html.TextBoxFor(model => model.Usuario.EstadoAdicional, new { @class = "form-control", @style = "width: 50%" })
             </div>
-            <div class="form-group">
-                <label>Tel. / WhatsApp</label>
-              @*  @Html.TextBoxFor(model => model.Usuario.TelefoneZAP, new { id = "TelefoneZAP", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.TelefoneZAP })*@
-            </div>
-            <div class="form-group">
-                <label>E-mail</label>
-              @*  @Html.TextBoxFor(model => model.Usuario.Email, new { id = "Email", @class = "form-control", @style = "width: 50%", @Value = ViewBag.Usuario.Email })*@
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <h4 style="text-align: left"><b>O objeto de anúncio está no mesmo lugar do anunciante?</b></h4>
-            </div>
-
-            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonSimPasso5" name="buttonRetro">Sim</a>
-            <a class="btn btn-primary" style="cursor: context-menu;" id="buttonNaoPasso5" name="buttonAcessorio">Não</a>
-
-            <br /><br />
-            <div id="divCidadeEstadoPasso5">
-                <div class="form-group">
-                    <label>Cidade</label>
-                    @Html.TextBoxFor(model => model.Usuario.CidadeAdicional, new { @class = "form-control", @style = "width: 50%" })
-                </div>
-                <div class="form-group">
-                    <label>Estado</label>
-                    @Html.TextBoxFor(model => model.Usuario.EstadoAdicional, new { @class = "form-control", @style = "width: 50%" })
-                </div>
-            </div>
-
         </div>
 
     </div>
+
+    @*</div>*@
     <!-- Passo 5-->
 
-    <div>
+    @*<div>
         <div class="col-md-3 col-md-offset-3 btns-create-topic">
             <a id="anterior" class="btn btn-primary ">Anterior</a>
         </div>
         <div id="divProximo" class="col-md-3 btns-create-topic">
             <a id="proximo" class="btn btn-primary">Proximo</a>
-        </div>
-        <div id="divAnunciar">
-            <input type="submit" name="buttonAnunciar" id="buttonAnunciar" value="Anunciar" class="btn btn-primary" />
-        </div>
+        </div>*@
+    <div>
+        <input type="submit" name="buttonAnunciar" id="buttonAnunciar" value="Anunciar" class="btn btn-primary" />
     </div>
+    @*</div>*@
     <!-- Próximo, Anterior e Anunciar -->
 }
 
@@ -271,7 +277,10 @@
 
     $(document).ready(function () {
 
+
+
         OcultarDivs();
+
 
         $("#PassoAtual").val("1");
 
