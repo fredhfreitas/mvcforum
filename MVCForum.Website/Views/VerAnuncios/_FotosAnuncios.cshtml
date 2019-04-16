@@ -8,20 +8,20 @@
 <div class="col-md-6">
     <div class="topic-item">
         <div class="topic-image">
-            @Html.Raw((Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Value))
+            <img src="@Model.Topic.Imagem" class="latestby" alt="@Model.Topic.Name">
         </div>
         <div class="topic-title">
             <h4>
-                <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">@Html.Raw(Model.Topic.Name)</a>
+                <a title="@postToolTip" href="@Url.Action("TenhoInteresse", "VerAnuncios", new { slug = Model.Topic.Slug })">@Html.Raw(Model.Topic.Name)</a>
             </h4>
-            <h4><a href="@Html.Raw(Model.Topic.NiceUrl)">@Html.Raw(Model.Topic.Price.HasValue ? Model.Topic.Price.Value.ToString("C2") : "")</a></h4>
+            <h4><a href="@Url.Action("TenhoInteresse", "VerAnuncios", new { slug = Model.Topic.Slug })">@Html.Raw(Model.Topic.Price.HasValue ? Model.Topic.Price.Value.ToString("C2") : "")</a></h4>
         </div>
         <div class="name-date">
             <p>
                 @*TODO: Fazer validação do tipo do produto e qual produto*@
                 @*<a href="@Model.Topic.LastPost.User.NiceUrl">@Model.Topic.LastPost.User.UserName</a> | <span>@DatesUi.GetPrettyDate(Model.Topic.LastPost.DateCreated.ToString()).</span>*@
 
-                <a href="/VerAnuncios/Index?tipoAnuncio=@Model.Topic.CodigoCategoriaAnuncio">@Model.Topic.NomeCategoriaAnuncio</a> | <a href="#">RETROESCAVADEIRA</a>
+                <a href="/VerAnuncios/Index?tipoAnuncio=@Model.Topic.CodigoCategoriaAnuncio">@Model.Topic.NomeCategoriaAnuncio</a> | <a href="#">@Model.Topic.TipoAnuncio</a>
             </p>
         </div>
         <div class="topic-info-actions">

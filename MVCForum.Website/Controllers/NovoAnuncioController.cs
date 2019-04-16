@@ -60,6 +60,7 @@
             topicViewModel.Name = model.TituloAnuncio;
             topicViewModel.Files = model.Imagem;
             topicViewModel.Content = model.Observacao;
+            
 
             // ID do Usuário Logado
             model.Usuario.IdUsuarioLogado = loggedOnUser.Id;
@@ -138,7 +139,11 @@
             topic.IsCategoryUsed = model.TipoCategoria.Equals("Usados") ? true : (bool?)null;
             topic.Marca = model.Marca;
             topic.Modelo = model.Modelo;
-            topic.Price = model.Valor;
+            topic.Price = Convert.ToDecimal(model.Valor);
+            if(model.Imagem.First() != null)
+                topic.Imagem = string.Format("\\content\\uploads\\{0}\\{1}", model.Usuario.IdUsuarioLogado,model.Imagem.First().FileName);
+            else
+                topic.Imagem = "\\content\\images\\imagemDefault.jpg";
 
             // Usuário
             topic.User.Id = model.Usuario.IdUsuarioLogado;

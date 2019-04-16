@@ -54,7 +54,7 @@
         <div class="col-md-8 topicheading">
             <div class="widgetright">
                 @if (Html.CurrentMember() != null && Html.Settings().EnableEmailSubscriptions)
-            {
+                {
                     <a @Html.Raw(subScribe) href="#" class="emailsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         @Html.LanguageString("Topic.Subscribe")
@@ -66,6 +66,7 @@
                 }
             </div>
             <h1>@Html.Raw(Model.Topic.Name)</h1>
+            <img src="@Model.Topic.Imagem" class="latestby" alt="@Model.Topic.Name">
         </div>
         <div class="col-md-4" style="margin-top: -30px;">
             <a href="#" class="btn btn-primary" style="cursor: context-menu;">TENHO INTERESSE</a>
@@ -73,8 +74,11 @@
     </div>
 
     <div class="row name-date">
-        @*TODO: Colocar a situção do post NOVO, USADO...*@
-        <a href="#" style="cursor: context-menu;">NOVO</a>
+       
+        <a href="#" style="cursor: context-menu;">
+            @Model.Topic.NomeCategoriaAnuncio
+           
+        </a>
     </div> 
 
     @if (Html.Settings().EnablePolls == true && Model.Poll != null)
@@ -86,7 +90,7 @@
     <div class="topicstarterpost">
 
         @{
-            Html.RenderPartial("_Post", Model.StarterPost);
+            Html.RenderPartial("_PostAnuncio", Model.StarterPost);
         }
 
         @if (Model.TotalCount > 0)
@@ -110,7 +114,7 @@
     </div>
     @foreach (var post in Model.Posts)
     {
-        Html.RenderPartial("_Post", post);
+        Html.RenderPartial("_PostAnuncio", post);
     }
     @if (Model.TotalPages > 1)
     {

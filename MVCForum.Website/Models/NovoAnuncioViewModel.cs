@@ -17,7 +17,7 @@ namespace MvcForum.Web.Models
 
         public HttpPostedFileBase[] Imagem { get; set; }
 
-        public decimal Valor { get; set; }
+        public string Valor { get; set; }
 
         public string Marca { get; set; }
 

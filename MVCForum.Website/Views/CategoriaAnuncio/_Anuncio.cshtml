@@ -9,7 +9,7 @@
     <div class="col-md-12">
         <div class="topic-item side topicrow topicsticky-@(Model.Topic.IsSticky.ToString().ToLower()) topiclocked-@(Model.Topic.IsLocked.ToString().ToLower()) topicsolved-@(Model.Topic.Solved.ToString().ToLower())">
 
-            @if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success)
+            @*@if (Regex.Match(Model.Topic.Posts.FirstOrDefault().PostContent, @"(<img([^>]+)>)").Success)
             {
                 <div class="topic-image">
                     <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">
@@ -18,11 +18,12 @@
                 </div>
             }
             else
-            {
+            {*@
                 <div class="topic-image text-image">
+                    <img src="@Model.Topic.Imagem" class="latestby" alt="@Model.Topic.Name">
                     <a title="@postToolTip" href="@Html.Raw(Model.Topic.NiceUrl)">@Html.Raw(Model.Topic.Name)</a>
                 </div>
-            }
+            @*}*@
             <!-- ./ topic-image -->
 
             <div class="topic-title">
@@ -43,10 +44,15 @@
                 <div class="view-comment">
                     <span class="stats topicviews"><i class="far fa-eye"></i> @Model.Views.KiloFormat()</span>
                     <span class="stats topicanswers"><i class="far fa-comment-alt"></i> @Model.Answers.KiloFormat()</span>
-                </div>
-            </div>
-            <!-- ./ topic-info-actions -->
 
-        </div>
-    </div>
+</div>
+
+</div>
+
+<!-- ./ topic-info-actions -->
+
+
+</div>
+
+</div>
 }

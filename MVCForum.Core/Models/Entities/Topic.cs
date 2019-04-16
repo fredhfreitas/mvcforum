@@ -56,7 +56,7 @@
         public string CidadeUsuario { get; set; }
         public string EstadoUsuario { get; set; }
         public string Observacoes { get; set; }
-
+        public string Imagem { get; set; }
 
         public string NomeCategoriaAnuncio
         {
