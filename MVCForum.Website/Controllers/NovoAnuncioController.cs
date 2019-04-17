@@ -16,6 +16,9 @@
     using MvcForum.Core.Models.General;
     using System.Threading.Tasks;
     using System;
+    using System.Web;
+    using System.Web.Hosting;
+    using System.IO;
 
     public partial class NovoAnuncioController : BaseController
     {
@@ -216,6 +219,13 @@
                 else if (originalTopic.IsCategoryNew.HasValue) { model.TipoCategoria = "Novo"; }
                 else if (originalTopic.IsCategoryUsed.HasValue) { model.TipoCategoria = "Usado"; }
 
+                if (model.Imagem.Any(x => x != null))
+                {
+                    // See if file is ok and then convert to image
+
+                    originalTopic.Imagem = FileUpload(model.Imagem[0], originalTopic.User.Id);
+                    
+                }
                 
 
                 CarregarCamposTopicViewModel(originalTopic, model);
@@ -258,6 +268,30 @@
             }
 
             return View(topicViewModel);
+        }
+
+        public string FileUpload(HttpPostedFileBase file, Guid guid)
+        {
+            if (file != null)
+            {
+                string pic = System.IO.Path.GetFileName(file.FileName);
+
+                var uploadFolderPath =
+                        HostingEnvironment.MapPath(string.Concat(ForumConfiguration.Instance.UploadFolderPath,
+                            guid));
+                if (uploadFolderPath != null && !Directory.Exists(uploadFolderPath))
+                {
+                    Directory.CreateDirectory(uploadFolderPath);
+                    
+                }
+
+                // file is uploaded
+                file.SaveAs(Path.Combine(uploadFolderPath, file.FileName));
+
+                return uploadFolderPath + "\\" + file.FileName;
+
+            }
+            return string.Empty;
         }
 
         //[HttpPost]
@@ -423,6 +457,14 @@
                 var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
 
                 CarregarCamposTopicViewModel(topic, model);
+
+                if (model.Imagem.Any(x => x != null))
+                {
+                    // See if file is ok and then convert to image
+
+                    FileUpload(model.Imagem[0], topic.User.Id);
+
+                }
 
                 // Run the create pipeline
                 var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,

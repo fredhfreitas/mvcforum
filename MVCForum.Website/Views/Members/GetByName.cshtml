@@ -86,17 +86,40 @@
                         @if (Model.User.LastActivityDate != null)
                         {
                             <p>@(Html.LanguageString("Members.Profile.LastOnline")): @DatesUi.GetPrettyDate(Model.User.LastActivityDate.ToString())</p>
-                        }                        
+                        }
                         <p>@Html.LanguageString("Members.Profile.Posts") @Model.User.Posts.Count</p>
                         <p>@Html.LanguageString("Members.Profile.Points") @Model.User.TotalPoints</p>
-                        <p>@Html.LanguageString("Members.Profile.Age") @Html.Raw(Model.User.Age > 0 ? Model.User.Age.ToString() : "")</p>  
+                        <p>@Html.LanguageString("Members.Profile.Age") @Html.Raw(Model.User.Age > 0 ? Model.User.Age.ToString() : "")</p>
                     </div>
                     <div class="col-md-6">
                         <p>@Html.LanguageString("Members.Profile.Location") @Html.Raw(string.IsNullOrEmpty(Model.User.Location) ? "" : Model.User.Location)</p>
                         <p>@Html.LanguageString("Members.Profile.Website") @Html.Raw(string.IsNullOrEmpty(Model.User.Website) ? "" : string.Format("<a href='{0}' rel='nofollow'>{0}</a>", Model.User.Website))</p>
                         <p>@Html.LanguageString("Members.Profile.Twitter") @Html.Raw(string.IsNullOrEmpty(Model.User.Twitter) ? "" : string.Format("<a href='{0}' rel='nofollow'>{0}</a>", Model.User.Twitter))</p>
-                        <p>@Html.LanguageString("Members.Profile.Facebook") @Html.Raw(string.IsNullOrEmpty(Model.User.Facebook) ? "" : string.Format("<a href='{0}' rel='nofollow'>{0}</a>", Model.User.Facebook))</p>  
+                        <p>@Html.LanguageString("Members.Profile.Facebook") @Html.Raw(string.IsNullOrEmpty(Model.User.Facebook) ? "" : string.Format("<a href='{0}' rel='nofollow'>{0}</a>", Model.User.Facebook))</p>
                     </div>
+                    @if(!string.IsNullOrEmpty(Model.User.Marca1)){
+                    <div class="col-md-6">
+                        <h4>Dados da Retro:</h4>
+                        <div class="form-group">
+                            Marca
+                            @Html.Raw(Model.User.Marca1)
+                            
+                        </div>
+                        <div class="form-group">
+                            Modelo
+                            @Html.Raw(Model.User.Modelo1)
+                        </div>
+                        <div class="form-group">
+                            Ano de Fabricação
+                            @Html.Raw(Model.User.AnoFabricacao1)
+                            
+                        </div>
+                        <div class="form-group">
+                            Empresa
+                            @Html.Raw(Model.User.Empresa1)
+                        </div>
+                    </div>
+                    }
                 </div>
             </div>
 

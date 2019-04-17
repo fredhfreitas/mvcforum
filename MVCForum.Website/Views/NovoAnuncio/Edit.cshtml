@@ -90,7 +90,7 @@
     <!-- Passo 2-->
 
     @*<div id="Passo3">*@
-  
+
     <div class="row bordered" style="border-bottom: 0px; margin-bottom: -10px;">
         <div class="col-md-12" style="margin-top: -40px;">
             <h4 style="text-align: left"><b>Por qual valor você quer vender a sua retroescavadeira ou acessório?</b></h4>
@@ -273,11 +273,24 @@
     <!-- Próximo, Anterior e Anunciar -->
 }
 
+<script src="https://rawgit.com/RobinHerbots/Inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+
 <script>
 
     $(document).ready(function () {
 
-
+        $("#Valor").inputmask('decimal', {
+            radixPoint: ",",
+            groupSeparator: ".",
+            autoGroup: true,
+            digits: 2,
+            digitsOptional: false,
+            placeholder: '0',
+            rightAlign: false,
+            onBeforeMask: function (value, opts) {
+                return value;
+            }
+        });
 
         OcultarDivs();
 
