@@ -38,7 +38,7 @@
                                           IFavouriteService favouriteService, INotificationService notificationService, IPollService pollService,
                                           IVoteService voteService,
                                           ILoggingService loggingService, IMembershipService membershipService, IRoleService roleService,
-                                          ILocalizationService localizationService, ISettingsService settingsService, 
+                                          ILocalizationService localizationService, ISettingsService settingsService,
                                           ICacheService cacheService, IMvcForumContext context)
             : base(loggingService, membershipService, localizationService, roleService,
                    settingsService, cacheService, context)
@@ -53,11 +53,14 @@
             _notificationService = notificationService;
             _pollService = pollService;
             _voteService = voteService;
-        }
+        }        
 
         // GET: CategoriaAnuncio
         public ActionResult Index()
         {
+            ViewBag.novoCount = _topicService.GetQuantidadeTipoAnuncios("Novos");
+            ViewBag.usadoCount = _topicService.GetQuantidadeTipoAnuncios("Usados");
+            ViewBag.trocaCount = _topicService.GetQuantidadeTipoAnuncios("Trocas");
             return View();
         }
 

@@ -100,7 +100,7 @@
         <div class="row">
             <div class="col-md-12">
                 <label>Valor</label>
-                @Html.TextBoxFor(model => model.Valor, new { id = "Valor", @class = "form-control", @style = "width: 30%" })
+                @Html.TextBoxFor(model => model.Valor, new { id = "Valor", @class = "form-control", @style = "width: 30%", Value = String.Format("{0:C}", Model.Valor) })
             </div>
         </div>
     </div>
@@ -177,7 +177,7 @@
 
             <div class="col-md-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="pathImage" placeholder="Incluir foto ao perfil">
+                    <input type="text" class="form-control" id="pathImage" placeholder="Incluir imagem">
                     <span class="input-group-btn">
                         <span class="btn btn-default btn-file">
                             @Html.LanguageString("Post.Browse") @Html.TextBoxFor(m => Model.Imagem, new { type = "file" })

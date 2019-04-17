@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<MvcForum.Web.ViewModels.Post.MovePostViewModel>
+
+@{
     Layout = "_LayoutDireitoCategoriaAnuncio.cshtml";
     ViewBag.Title = "Clube da Retro | Categoria Anúncio";
     ViewBag.MetaDesc = "Saiba como comprar, vender e trocar retroescavadeiras Case.";
@@ -11,5 +13,52 @@
         <a href="/home/topicosMaisVistos" class="btn btn-primary">Ver todos</a>
     </div>
 }
+@*@Html.Action("GetPostByGuid", "Post", new { value = "0D423969-D56A-45FA-B702-AA310187B0F8" })*@
+@*@Html.Action("ListarCategoriasAnuncio", "CategoriaAnuncio", new { value = "76999701-995d-4d27-b35f-a9d9000f1e96" })*@
+<div class="categoryindex">
+    <div class="row forum-header">
+        <div class="col-md-4 col-xs-12">
+            <h3 class="title-bar">Categorias</h3>
+        </div>
+    </div>
+    <div class="categoryrow row">
+        <div class="col-md-9">
+            <h2>
+                <a href="/VerAnuncios/Index?tipoAnuncio=0">Novos</a>
+            </h2>
+            <p>
+                Arqui você posta de tudo. Todo e qualquer assunto que seja de interesse da nossa comunidade. Se tem a ver com construção e tem a ver com retro, tem a ver com todo mundo. Pode postar à vontade. A gente quer saber.
+            </p>
+        </div>
+        <div class="categoryrowfooter col-md-3">
+            <span>@Html.Raw(ViewBag.novoCount)</span>
+        </div>
+    </div>
+    <div class="categoryrow row">
+        <div class="col-md-9">
+            <h2>
+                <a href="/VerAnuncios/Index?tipoAnuncio=1">Usados</a>
+            </h2>
+            <p>
+                Quais as modas? O que há de novo? Lançamentos de novos produtos, eventos interessantes, novas tecnologias. Vamos dividir com os colegas as novidades. É notícia na obra, é notícia aqui, no Clube da Retro.
+            </p>
+        </div>
+        <div class="categoryrowfooter col-md-3">
+            <span>@Html.Raw(ViewBag.usadoCount)</span>
+        </div>
+    </div>
+    <div class="categoryrow row">
+        <div class="col-md-9">
+            <h2>
+                <a href="/VerAnuncios/Index?tipoAnuncio=2">Trocas</a>
+            </h2>
+            <p>
+                Quem trabalha com retro sabe que para manter as bichinhas rodando sem problemas é preciso entender o coração de cada uma. Se você é um expert em equipamentos, tem dicas, dúvidas ou quer trocar ideias sobre mecânica de máquinas, essa é a categoria certa para o seu post.
+            </p>
+        </div>
+        <div class="categoryrowfooter col-md-3">
+            <span>@Html.Raw(ViewBag.trocaCount)</span>
+        </div>
+    </div>
 
-@Html.Action("ListarCategoriasAnuncio", "CategoriaAnuncio", new { value = "76999701-995d-4d27-b35f-a9d9000f1e96" })
+</div>

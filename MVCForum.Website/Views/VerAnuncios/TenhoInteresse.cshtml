@@ -66,11 +66,12 @@
                 }
             </div>
             <h1>@Html.Raw(Model.Topic.Name)</h1>
-            <img src="@Model.Topic.Imagem" class="latestby" alt="@Model.Topic.Name">
+            
+           <img src="@Url.Content(Model.Topic.Imagem)" class="latestby" alt="@Model.Topic.Name" />           
         </div>
-        <div class="col-md-4" style="margin-top: -30px;">
+        @*<div class="col-md-4" style="margin-top: -30px;">
             <a href="#" class="btn btn-primary" style="cursor: context-menu;">TENHO INTERESSE</a>
-        </div>
+        </div>*@
     </div>
 
     <div class="row name-date">
@@ -114,7 +115,7 @@
     </div>
     @foreach (var post in Model.Posts)
     {
-        Html.RenderPartial("_PostAnuncio", post);
+        Html.RenderPartial("_Post", post);
     }
     @if (Model.TotalPages > 1)
     {

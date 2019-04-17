@@ -92,6 +92,10 @@
                     dadosUsuario.Estado = loggedOnReadOnlyUser.Estado == null ? "" : loggedOnReadOnlyUser.Estado;
                     dadosUsuario.Email = loggedOnReadOnlyUser.Email;
                     dadosUsuario.NomeUsuario = loggedOnReadOnlyUser.UserName;
+                    dadosUsuario.Cidade = topic.CidadeUsuario;
+                    dadosUsuario.Estado = topic.EstadoUsuario;
+                    dadosUsuario.Telefone = topic.TelefoneUsuario;
+                    dadosUsuario.TelefoneZAP = topic.TelefoneWhatsApp;
 
                     var viewModel = new NovoAnuncioViewModel {
                         TituloAnuncio = topic.Name,
@@ -101,7 +105,7 @@
                         Marca = topic.Marca,
                         Modelo = topic.Modelo,
                         Valor = topic.Price.ToString(),
-                        ImagemPath = topic.Imagem,
+                        ImagemPath = topic.Imagem,                        
                         // Usuário
                         Usuario = dadosUsuario
                     };
@@ -153,6 +157,7 @@
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
+        [Authorize]
         [HttpPost]
         public virtual async Task<ActionResult> Edit(NovoAnuncioViewModel model)
         {
@@ -170,7 +175,7 @@
             // Cria o objeto de TopicViewModel
             var topicViewModel = new CreateEditTopicViewModel();
             topicViewModel.Category = model.CategoriaId;
-
+            topicViewModel.Files = null;
             topicViewModel.Name = model.TituloAnuncio;
             topicViewModel.Files = model.Imagem;
             topicViewModel.Content = model.Observacao;
@@ -203,13 +208,20 @@
 
             if (ModelState.IsValid)
             {
-                // Map the new topic (Pass null for new topic)
-                var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
+                
+                if (originalTopic.IsMecanico.HasValue) { model.TipoCategoria = "Mecânico"; }
+                else if (originalTopic.IsInstrutor.HasValue) { model.TipoCategoria = "Instrutor"; }
+                else if (originalTopic.IsOperador.HasValue) { model.TipoCategoria = "Operador"; }
+                else if (originalTopic.IsCategoryExchange.HasValue) { model.TipoCategoria = "Troca"; }
+                else if (originalTopic.IsCategoryNew.HasValue) { model.TipoCategoria = "Novo"; }
+                else if (originalTopic.IsCategoryUsed.HasValue) { model.TipoCategoria = "Usado"; }
 
-                CarregarCamposTopicViewModel(topic, model);
+                
+
+                CarregarCamposTopicViewModel(originalTopic, model);
 
                 // Run the create pipeline
-                var editPipeLine = await _topicService.Edit(topic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,
+                var editPipeLine = await _topicService.Edit(originalTopic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,
                                                                 topicViewModel.Content, topicViewModel.Name, topicViewModel.PollAnswers, topicViewModel.PollCloseAfterDays);
 
                 successful = editPipeLine.Successful;
@@ -224,7 +236,7 @@
                 {
                     // Tell the user the topic is awaiting moderation
                     ModelState.AddModelError(string.Empty, message);
-                    return View(topicViewModel);
+                    return View(model);
                 }
 
 
@@ -237,7 +249,7 @@
                         MessageType = GenericMessages.info
                     };
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "VerAnuncios");
                 }
 
 
@@ -415,6 +427,7 @@
                 // Run the create pipeline
                 var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,
                                                                 topicViewModel.Content, null);
+               
 
                 if (createPipeLine.Successful == false)
                 {
@@ -458,8 +471,8 @@
             topic.IsInstrutor = model.TipoCategoria.Equals("Instrutor") ? true : (bool?)null;
             topic.IsOperador = model.TipoCategoria.Equals("Operador") ? true : (bool?)null;
             topic.IsCategoryExchange = model.TipoCategoria.Equals("Troca") ? true : (bool?)null;
-            topic.IsCategoryNew = model.TipoCategoria.Equals("Novos") ? true : (bool?)null;
-            topic.IsCategoryUsed = model.TipoCategoria.Equals("Usados") ? true : (bool?)null;
+            topic.IsCategoryNew = model.TipoCategoria.Equals("Novo") ? true : (bool?)null;
+            topic.IsCategoryUsed = model.TipoCategoria.Equals("Usado") ? true : (bool?)null;
             topic.Marca = model.Marca;
             topic.Modelo = model.Modelo;
             topic.Price = Convert.ToDecimal(model.Valor);
@@ -472,8 +485,8 @@
             topic.User.Id = model.Usuario.IdUsuarioLogado;
             topic.TelefoneUsuario = model.Usuario.Telefone;
             topic.TelefoneWhatsApp = model.Usuario.TelefoneZAP;
-            topic.CidadeUsuario = model.Usuario.CidadeAdicional;
-            topic.EstadoUsuario = model.Usuario.EstadoAdicional;
+            topic.CidadeUsuario = model.Usuario.CidadeAdicional ?? model.Usuario.Cidade;
+            topic.EstadoUsuario = model.Usuario.EstadoAdicional ?? model.Usuario.Estado;
         }
 
         private void PreencherUsuario(MembershipUser usuario)

@@ -15,7 +15,25 @@
         <div class="main-side-box clearfix">
             <a href="/NovoAnuncio/Index" class="btn btn-primary" style="width: 100%">NOVO ANÚNCIO</a>
 
-            @Html.Action("ListarFiltrosSideMenu", "VerAnuncios", new { value = "76999701-995d-4d27-b35f-a9d9000f1e96" })
+            @*@Html.Action("ListarFiltrosSideMenu", "VerAnuncios", new { value = "76999701-995d-4d27-b35f-a9d9000f1e96" })*@
+            <div class="categoryindex">
+                <div class="side-box categories-box">
+                    <h3 class="title-bar">Filtro</h3>
+                    <h5>Escolha uma ou mais opções para filtrar sua busca</h5>
+                    <ul>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=0">Novos</a>
+                        </li>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=1">Usados</a>
+                        </li>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=2">Trocas</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
 
             @RenderSection("side", false)
         </div>
