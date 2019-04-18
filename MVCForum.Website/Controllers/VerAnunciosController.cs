@@ -101,6 +101,15 @@
                     case 2:
                         result = Task.Run(() => _topicService.GetAnunciosTrocas(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
                         break;
+                    case 3:
+                        result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Retro")).Result;
+                        break;
+                    case 4:
+                        result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Acessorio")).Result;
+                        break;
+                    case 5:
+                        result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Servico")).Result;
+                        break;
                 }
             else
                 result = Task.Run(() => _topicService.GetAnuncios(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;

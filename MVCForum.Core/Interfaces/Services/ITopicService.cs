@@ -97,6 +97,8 @@
 
         Task<PaginatedList<Topic>> GetAnunciosTrocas(int pageIndex, int pageSize, int amountToTake);
 
+        Task<PaginatedList<Topic>> GetAnunciosPorTipo(int pageIndex, int pageSize, int amountToTake, string paramTipo);
+
         int GetQuantidadeTipoAnuncios(string tipoAnuncio);
     }
 }
