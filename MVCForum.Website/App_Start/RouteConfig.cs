@@ -15,6 +15,11 @@
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{*favicon}", new {favicon = @"(.*/)?favicon.ico(/.*)?"});
 
+            routes.MapRoute(
+               "TenhoInteresse", // Route name
+               "TenhoInteresse",
+               new { controller = "Favourite", action = "IndexAnuncio" } // Parameter defaults
+           );
 
             routes.MapRoute(
                 "registerDefault", // Route name
