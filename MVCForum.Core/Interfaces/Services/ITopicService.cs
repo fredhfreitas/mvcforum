@@ -39,6 +39,8 @@
         Task<PaginatedList<Topic>> GetTopicosDestacados(int pageIndex, int pageSize, int amountToTake,
             List<Category> allowedCategories);
 
+        Task<PaginatedList<Topic>> GetAnuncioPorValores(int pageIndex, int pageSize, int amountToTake, decimal paramInicio, decimal paramFim);
+
         IList<Topic> GetRecentRssTopics(int amountToTake, List<Category> allowedCategories);
         IList<Topic> GetTopicsByUser(Guid memberId, List<Category> allowedCategories);
         IList<Topic> GetTopicsByLastPost(List<Guid> postIds, List<Category> allowedCategories);

@@ -89,31 +89,54 @@
 
             PaginatedList<Topic> result = null;
 
-            if (TipoAnuncio != -1)
-                switch (TipoAnuncio)
-                {
-                    case 0:
-                        result = Task.Run(() => _topicService.GetAnunciosNovos(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
-                        break;
-                    case 1:
-                        result = Task.Run(() => _topicService.GetAnunciosUsados(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
-                        break;
-                    case 2:
-                        result = Task.Run(() => _topicService.GetAnunciosTrocas(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
-                        break;
-                    case 3:
-                        result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Retro")).Result;
-                        break;
-                    case 4:
-                        result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Acessorio")).Result;
-                        break;
-                    case 5:
-                        result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Servico")).Result;
-                        break;
-                }
-            else
-                result = Task.Run(() => _topicService.GetAnuncios(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+            if (!string.IsNullOrEmpty(Request.QueryString["valor"]))
+            {
+                var valores = Request.QueryString["valor"];
 
+                valores = valores.Substring(valores.LastIndexOf('=') + 1);
+
+                var valorInicio = valores.Split('-')[0];
+                var valorFim = valores.Split('-')[1];
+
+                decimal novoValorInicio;
+                decimal novoValorFim;
+
+                if (decimal.TryParse(valorInicio, out novoValorInicio)) {
+                    if (decimal.TryParse(valorFim, out novoValorFim)) {
+                        if (novoValorInicio >= 0 && novoValorFim >= 0)
+                        {
+                            result = Task.Run(() => _topicService.GetAnuncioPorValores(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, novoValorInicio, novoValorFim)).Result;
+                        }
+                    }
+                }
+            }
+            else { 
+
+                if (TipoAnuncio != -1)
+                    switch (TipoAnuncio)
+                    {
+                        case 0:
+                            result = Task.Run(() => _topicService.GetAnunciosNovos(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+                            break;
+                        case 1:
+                            result = Task.Run(() => _topicService.GetAnunciosUsados(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+                            break;
+                        case 2:
+                            result = Task.Run(() => _topicService.GetAnunciosTrocas(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+                            break;
+                        case 3:
+                            result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Retro")).Result;
+                            break;
+                        case 4:
+                            result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Acessorio")).Result;
+                            break;
+                        case 5:
+                            result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Servico")).Result;
+                            break;
+                    }
+                else
+                    result = Task.Run(() => _topicService.GetAnuncios(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+            }
             // Cria a classe do post indicado
             var topics = ViewModelMapping.CreateTopicViewModels(result, RoleService, role, membershipUser, allowedCategories, settings,
                                                                 _postService, _notificationService, _pollService, _voteService, _favouriteService);

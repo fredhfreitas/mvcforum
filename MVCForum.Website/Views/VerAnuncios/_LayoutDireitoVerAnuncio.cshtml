@@ -7,6 +7,8 @@
 @section Header {
     @RenderSection("Header", false)
 }
+<script src="~/Scripts/ion.rangeSlider.min.js"></script>
+<link href="~/Themes/ion.rangeSlider.min.css" rel="stylesheet" />
 <div class="row">
     <div class="col-md-8">
         @RenderBody()
@@ -39,18 +41,49 @@
                         <li class="catitem">
                             <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=5">Serviços</a>
                         </li>
+                        <li class="catitem">
+                            <input id="price" type="text" class="js-range-slider" name="my_range" />
+                        </li>
                     </ul>
                 </div>
             </div>
-            
+
 
             @RenderSection("side", false)
         </div>
     </div>
 </div>
 @section Footer {
+
     @RenderSection("Footer", false)
 }
 
 
+<script>
 
+    $(document).ready(function () {
+        var url = window.location.href;
+        var values = url.split("?valor=")[1];
+        var valInicio = 5000;
+        var valFinal = 90000;
+        if (values != null) {            
+            valInicio = values.split("-")[0];
+            valFinal = values.split("-")[1];
+        }       
+
+        $("#price").ionRangeSlider({
+            type: "double",
+            min: 0,
+            max: 100000,
+            from: valInicio,
+            to: valFinal,
+            onChange: function (data) {
+                //console.log(data.from);
+                //console.log(data.to);
+                window.location.href = ("/VerAnuncios/Index?valor=" + data.from + "-" + data.to);
+            }
+        });
+
+        
+    });
+</script>
