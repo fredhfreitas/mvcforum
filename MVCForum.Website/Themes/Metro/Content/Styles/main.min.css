@@ -150,7 +150,7 @@ a, a:visited {
     clear: left; } }
 @media only screen and (min-width: 320px) and (max-width: 767px) {
   .navbar-brand img {
-    width: 250px !important; } }
+    width: 200px !important; } }
 header {
   background: #FFF; }
   header .logo {
@@ -206,6 +206,8 @@ header {
   margin-top: -50px; }
   .destaque img {
     height: auto; }
+  .destaque .slick-slide img {
+    width: 100%; }
   .destaque .slick-arrow {
     display: block;
     width: 48px;
@@ -237,6 +239,10 @@ header {
 
 .homesection {
   padding-top: 32px; }
+
+.sobre p {
+  font-size: 20px;
+  font-weight: 400; }
 
 .topic-item {
   background: #FFF;
@@ -334,8 +340,15 @@ header {
     float: left;
     max-width: 40%;
     margin-left: 12px;
-    min-height: 80px;
-    font-size: 15px; }
+    height: 104px;
+    font-size: 15px;
+    min-height: 0;
+    max-height: 104px; }
+    .side .topic-item .topic-image img {
+      width: 135%;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%); }
   .side .topic-item .topic-info-actions {
     border: none;
     float: left;
@@ -749,5 +762,34 @@ button.close {
     font-weight: 500;
     line-height: 1.5;
     margin: 0; }
+
+.item-noticia {
+  padding: 15px;
+  background: #FFF;
+  border-radius: 6px;
+  margin: 30px 0; }
+  .item-noticia h2 {
+    font-size: 32px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6); }
+  .item-noticia p {
+    font-size: 20px;
+    color: #64696C;
+    font-weight: 400; }
+  .item-noticia a:hover {
+    text-decoration: none; }
+    .item-noticia a:hover h2, .item-noticia a:hover p {
+      text-decoration: none; }
+
+.noticia-show h2 {
+  font-size: 32px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6); }
+.noticia-show p {
+  font-size: 20px;
+  color: #64696C;
+  font-weight: 400; }
+  .noticia-show p a {
+    font-size: 16px; }
 
 /*# sourceMappingURL=main.min.css.map */

@@ -16,7 +16,7 @@ a, a:visited {
 @media only screen and (min-width: 320px) and (max-width: 767px) {
   .navbar-brand {
     img {
-      width: 250px !important;
+      width: 200px !important;
     }
   }
 }
@@ -91,6 +91,11 @@ header {
   img {
     height: auto;
   }
+  .slick-slide {
+    img {
+      width: 100%;
+    }
+  }
   .slick-arrow {
     display: block;
     width: 48px;
@@ -128,7 +133,12 @@ header {
 .homesection {
   padding-top: 32px;
 }
-
+.sobre {
+  p {
+    font-size: 20px;
+    font-weight: 400;
+  }
+}
 .topic-item {
   background: $white;
   border-radius: 6px;
@@ -250,9 +260,16 @@ header {
       float: left;
       max-width: 40%;
       margin-left: 12px;
-      // min-height: 105px;
-      min-height: 80px;
+      height: 104px;
       font-size: 15px;
+      min-height: 0;
+      max-height: 104px;
+      img {
+        width: 135%;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
     .topic-info-actions {
       border: none;
@@ -775,6 +792,43 @@ button.close {
           margin: 0;
         }
       }
+    }
+  }
+}
+.item-noticia {
+  padding: 15px;
+  background: $white;
+  border-radius: 6px;
+  margin: 30px 0;
+  h2 {
+    font-size: 32px;
+    font-weight: 500;
+    color: $light-black;
+  }
+  p {
+    font-size: 20px;
+    color: #64696C;
+    font-weight: 400;
+  }
+  a:hover {
+    text-decoration: none;
+    h2, p {
+      text-decoration: none;
+    }
+  }
+}
+.noticia-show {
+  h2 {
+    font-size: 32px;
+    font-weight: 500;
+    color: $light-black;
+  }
+  p {
+    font-size: 20px;
+    color: #64696C;
+    font-weight: 400;
+    a {
+      font-size: 16px;
     }
   }
 }

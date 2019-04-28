@@ -31,19 +31,19 @@
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 20px; }
+  @media only screen and (min-width: 320px) and (max-width: 767px) {
+    .navbar-brand {
+      margin: -45px 0 0 0; } }
   .navbar-brand:hover, .navbar-brand:focus {
     color: #efefef; }
 
 .dropdown-menu {
   -ms-border-radius: 0;
-  border-radius: 0;
-  padding: 0;
-  margin: 4px 0 0; }
+  border-radius: 0; }
 
 .navbar-toggle {
   padding: 7px 8px;
-  background-color: #ddd;
-  margin-top: 40px; }
+  background-color: #ddd; }
 
 .navbar-toggle:hover, .navbar-toggle:focus {
   background-color: #d3d3d3 !important; }
@@ -70,7 +70,7 @@ blockquote {
   margin-right: 10px; }
 
 body {
-  font-family: "Rubik", Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
   color: #3b3b3b; }
   @media (max-width: 991px) {
     body.loggedin-true .main-section {
@@ -398,23 +398,7 @@ section.content-strip {
         color: #3b3b3b;
         padding: 7px 18px 9px 18px;
         border-top: 5px transparent solid;
-        font-size: 18px;
-        text-transform: uppercase; }
-        section.content-strip ul:not(.dropdown-menu) li a:hover, section.content-strip ul:not(.dropdown-menu) li a:focus, section.content-strip ul:not(.dropdown-menu) li a.active, section.content-strip ul:not(.dropdown-menu) li a:visited:hover, section.content-strip ul:not(.dropdown-menu) li a:visited:focus, section.content-strip ul:not(.dropdown-menu) li a:visited.active {
-          color: rgba(0, 0, 0, 0.6);
-          text-decoration: none; }
-        section.content-strip ul:not(.dropdown-menu) li a i, section.content-strip ul:not(.dropdown-menu) li a:visited i {
-          color: #FFF;
-          font-size: 14px;
-          margin-left: 10px; }
-  section.content-strip ul.dropdown-menu {
-    margin: 19px 0 0 0; }
-    section.content-strip ul.dropdown-menu li {
-      margin-top: 0px; }
-      section.content-strip ul.dropdown-menu li > a {
-        font-size: 14px !important; }
-        section.content-strip ul.dropdown-menu li > a:hover, section.content-strip ul.dropdown-menu li > a:focus {
-          background: #fbb64d; }
+        font-size: 18px; }
   @media (max-width: 767px) {
     section.content-strip {
       height: 8px; }
@@ -429,14 +413,10 @@ section.content-strip {
 .breadcrumb {
   background: none;
   padding: 0 0 15px 0;
+  margin: -12px 0 0 0;
   font-size: 12px; }
-  .breadcrumb li a, .breadcrumb li a:visited {
-    color: #64696C;
-    font-size: 16px;
-    font-weight: 400;
-    text-transform: uppercase; }
-    .breadcrumb li a span, .breadcrumb li a:visited span {
-      color: #FAA21B; }
+  .breadcrumb a, .breadcrumb a:visited {
+    color: #636267; }
 
 .side-box {
   padding: 0 0 20px 0; }
@@ -465,7 +445,7 @@ section.content-strip {
   .categories-box ul li {
     margin: 3px 0;
     list-style: none;
-    min-height: 46px;
+    height: 46px;
     background: #FFF;
     border-radius: 6px; }
     .categories-box ul li a, .categories-box ul li a:visited {
@@ -478,12 +458,6 @@ section.content-strip {
       padding-left: 15px; }
       .categories-box ul li ul li a, .categories-box ul li ul li a:visited {
         font-size: 14px; }
-    .categories-box ul li h2 {
-      text-transform: capitalize;
-      font-size: 16px;
-      line-height: 46px; }
-    .categories-box ul li p {
-      display: none; }
 
 .subcategoryholder {
   border-top: 1px #ecf0f1 solid;
@@ -664,13 +638,10 @@ section.content-strip {
       color: #000; }
 
 .topicstarterpostbeginpostsheading {
-  padding-bottom: 3px;
-  border-bottom: 1px solid rgba(112, 112, 112, 0.5); }
-  .topicstarterpostbeginpostsheading h5 {
-    font-size: 21px;
-    font-weight: 700;
-    color: #373A3C;
-    text-transform: uppercase; }
+  padding-bottom: 3px; }
+
+.topicstarterpost {
+  border-bottom: 2px #f2f2f2 solid; }
 
 .topicrow-slim {
   padding: 8px; }
@@ -707,8 +678,6 @@ section.content-strip {
       float: none;
       margin: 0;
       padding: 15px 0; } }
-  .widgetright .btn {
-    margin-top: 0; }
 
 .widgetleft {
   float: left;
@@ -730,10 +699,8 @@ section.content-strip {
 .topicshow .topicheading {
   margin-bottom: 20px; }
   .topicshow .topicheading h1 {
-    font-size: 32px;
-    margin-bottom: 19px;
-    color: #64696C;
-    font-weight: 500; }
+    font-size: 26px;
+    margin-bottom: 19px; }
   .topicshow .topicheading .topicinfo {
     display: block;
     clear: both;
@@ -761,8 +728,7 @@ section.content-strip {
   text-align: center;
   display: block;
   font-weight: 300;
-  font-size: 16px;
-  margin-top: 10px; }
+  font-size: 16px; }
   .total-topics span {
     font-weight: 500;
     color: #FAA21B; }
@@ -772,10 +738,6 @@ section.content-strip {
   border-radius: 6px;
   margin-bottom: 30px;
   padding: 20px 20px 35px 20px; }
-  @media only screen and (min-width: 320px) and (max-width: 767px) {
-    .categoryrow {
-      width: 100%;
-      margin: 0 auto 30px; } }
   .categoryrow a, .categoryrow a:visited {
     color: #FAA21B;
     font-size: 20px;
@@ -785,23 +747,23 @@ section.content-strip {
   .categoryrow p {
     font-size: 18px;
     color: rgba(0, 0, 0, 0.6);
-    font-weight: 400;
-    text-align: justify; }
+    font-weight: 400; }
 
 .categoryrowfooter {
   color: #B3B3B3;
   font-size: 13px;
   font-weight: 300;
   padding-bottom: 10px; }
-  @media only screen and (min-width: 1170px) {
-    .categoryrowfooter:before {
-      content: '';
-      height: 75px;
-      width: 1px;
-      background: #707070;
-      display: block;
-      position: absolute;
-      top: 35%; } }
+  .categoryrowfooter:before {
+    content: '';
+    height: 75px;
+    width: 1px;
+    background: #707070;
+    display: block;
+    position: absolute;
+    top: 35%; }
+  .categoryrowfooter .catmostrecent a, .categoryrowfooter .catmostrecent a:visited {
+    font-weight: 400; }
   .categoryrowfooter h4 {
     font-size: 20px;
     font-weight: 500;
@@ -816,7 +778,8 @@ section.content-strip {
 
 .following-categories {
   padding-bottom: 20px;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  border-bottom: 4px #f2f2f2 solid; }
 
 .mainheading {
   padding-bottom: 20px; }
@@ -841,25 +804,15 @@ section.content-strip {
   border-color: #a1a0a0; }
 
 .post {
-  border-bottom: 1px rgba(112, 112, 112, 0.5) solid;
-  padding: 65px 0 35px 0; }
-  @media only screen and (min-width: 320px) and (max-width: 767px) {
-    .post {
-      padding: 25px 0 15px 0; } }
-  .post:first-of-type {
-    border-bottom: none; }
+  border-top: 1px #f2f2f2 solid;
+  padding: 15px 0 15px 0; }
   .post .glyphicon-star {
     color: #f2f226; }
-  .post .rowdetails {
-    margin-left: 45px; }
-    @media only screen and (min-width: 320px) and (max-width: 767px) {
-      .post .rowdetails {
-        margin: 0; } }
 
 .postcontent {
   position: relative; }
   .postcontent p {
-    font-size: 20px;
+    font-size: 15px;
     overflow-x: hidden; }
   .postcontent ol p, .postcontent ul p {
     overflow-x: visible; }
@@ -888,8 +841,8 @@ section.content-strip {
   color: #2abd54; }
 
 .postsocial {
-  padding: 30px 0;
-  color: #FAA21B; }
+  padding-bottom: 10px;
+  color: #b3b3b3; }
   .postsocial ul {
     padding: 0;
     margin: 0; }
@@ -897,11 +850,7 @@ section.content-strip {
       list-style: none;
       display: inline-block;
       padding: 0 4px 0 0;
-      font-size: 13px;
-      font-size: 21px; }
-      .postsocial ul li i {
-        color: #373A3C;
-        font-size: 21px; }
+      font-size: 13px; }
       .postsocial ul li a, .postsocial ul li a:visited {
         font-weight: 400;
         cursor: pointer; }
@@ -921,7 +870,7 @@ section.content-strip {
       @media (max-width: 600px) {
         .postsocial ul li {
           padding: 10px 10px 0 0;
-          width: 100%; } }
+          width: 45%; } }
     @media (max-width: 600px) {
       .postsocial ul {
         padding: 10px 0 0 0; } }
@@ -952,15 +901,15 @@ section.content-strip {
   margin-right: 0; }
 
 .postadmin {
-  width: 100%; }
+  float: right;
+  width: 70px; }
   .postadmin ul {
     padding: 0;
     margin: 0; }
     .postadmin ul li {
       list-style: none;
       text-align: right;
-      padding: 0 0 2px 0;
-      display: inline-block; }
+      padding: 0 0 2px 0; }
   @media (max-width: 600px) {
     .postadmin {
       float: none;
@@ -968,12 +917,9 @@ section.content-strip {
       .postadmin ul li {
         text-align: center;
         float: left;
-        width: 50%;
-        padding: 10px; }
+        width: 50%; }
         .postadmin ul li a.btn-mvc {
-          width: 97%; }
-        .postadmin ul li .btn-gray {
-          width: 100%; } }
+          width: 97%; } }
   @media (max-width: 600px) {
     .postadmin .postadminlist {
       display: none; } }
@@ -1052,10 +998,9 @@ span.tag {
   padding: 0 4px 0 2px;
   text-transform: uppercase; }
   span.tag .badge {
-    background-color: #FFF;
+    background-color: #4891dc;
     font-size: 10px;
-    margin-top: -1px;
-    color: #000; }
+    margin-top: -1px; }
   span.tag:before {
     content: "";
     float: left;
@@ -1300,21 +1245,6 @@ footer {
 
 .editmemberform .membereditavatar {
   padding-bottom: 12px; }
-  .editmemberform .membereditavatar img {
-    min-width: 128px; }
-  .editmemberform .membereditavatar .username-readonly {
-    font-size: 32px;
-    font-weight: 400;
-    color: #64696C;
-    margin-bottom: 18px;
-    display: block;
-    line-height: 32px; }
-
-.editmemberform h4 {
-  font-size: 22px;
-  font-weight: 400;
-  color: #64696C;
-  margin: 35px 0 21px; }
 
 .privatemessages {
   clear: both;
@@ -1441,8 +1371,7 @@ footer {
   padding: 15px 0 0 0; }
 
 #createpostholder {
-  padding: 5px 0 0 0;
-  margin-top: 55px; }
+  padding: 5px 0 0 0; }
 
 @media (max-width: 767px) {
   #PostContent {
@@ -1491,7 +1420,8 @@ footer {
 
 .mce-container, .mce-container *,
 .mce-widget, .mce-widget * {
-  color: inherit; }
+  color: inherit;
+  font-family: inherit; }
 
 #mce-modal-block.mce-in {
   opacity: .7;
@@ -1859,6 +1789,12 @@ div.mce-path {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   color: #fff;
   font-size: 12px; }
+
+.mce-ico {
+  font-family: tinymce,Arial; }
+
+.mce-btn-small .mce-ico {
+  font-family: tinymce-small,Arial; }
 
 .mce-toolbar .mce-ico {
   color: #777;

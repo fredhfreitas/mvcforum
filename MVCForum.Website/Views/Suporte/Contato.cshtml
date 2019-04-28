@@ -23,7 +23,7 @@
 </div>
 <div class="postedin row">
     
-    <div class="mainregisterform col-md-10 col-md-offset-1">
+    <div class="mainregisterform col-md-8">
 
         <!-- <h3 class="title-bar">@ViewBag.Title</h3> -->
         <p>Sabemos que a gente se fala muito, afinal é esse o objetivo desse espaço, falar e ouvir. Mas se você precisa esclarecer uma dúvida ou fazer uma sugestão diretamente aos gestores do site, escreva seu recado e deixe seu contato que responderemos o mais rápido possível.</p>
@@ -76,7 +76,7 @@
 
 
                 @Html.LabelFor(x => x.Assunto)
-                @Html.DropDownListFor(model => model.Assunto, listItems)
+                @Html.DropDownListFor(model => model.Assunto, listItems, new { @class="form-control" })
                 @Html.ValidationMessageFor(x => x.Assunto)
             </div>
             <div class="form-group">
@@ -90,6 +90,14 @@
                 <button type="submit" class="btn-mvc-green btn-mvc-large btn btn-primary">Enviar</button>
             </div>
         }
+    </div>
+    <div class="col-md-4">
+        <div style="border: 1px solid #ccc; padding: 15px;">
+            <h4><b>Outras formas de contato:</b></h4><br>
+            <p>Telefone</p>
+            <h3>0800 70 70 77</h3>
+            <br><br><br>
+        </div>
     </div>
 
 </div>

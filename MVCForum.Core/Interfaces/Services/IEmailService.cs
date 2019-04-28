@@ -11,8 +11,10 @@
         void SendMail(List<Email> email);
         void SendMail(List<Email> email, Settings settings);
         void ProcessMail(List<Email> emails);
+        string EmailTemplate(string to, string content, string topo);
         string EmailTemplate(string to, string content);
         string EmailTemplate(string to, string content, Settings settings);
+        string EmailTemplateCustom(string to, string content, Settings settings, string topo);
         void SendEmailConfirmationEmail(MembershipUser userToSave, bool manuallyAuthoriseMembers, bool memberEmailAuthorisationNeeded);
     }
 }
