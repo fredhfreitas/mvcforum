@@ -1242,7 +1242,7 @@
                 NameTo = user.UserName,
                 Subject = LocalizationService.GetResourceString("Members.ForgotPassword.Subject")
             };
-            email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString());
+            email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString(), "header-recuperacao-de-senha.jpg.png");
             _emailService.SendMail(email);
 
             try

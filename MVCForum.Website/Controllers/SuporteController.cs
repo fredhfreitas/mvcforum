@@ -73,7 +73,7 @@ namespace MvcForum.Web.Views.Suporte
                     NameTo = "Olá Administrador, temos uma nova mensagem",
                     Subject = "[Case da Retro] [Fale com a CASE] "
                 };
-                email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString());
+                email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString(), "header-nova-mensagem.jpg");
                 _emailService.SendMail(email);
 
                 var message = new GenericMessageViewModel
