@@ -91,5 +91,11 @@
                 return -1;
             }
         }
+
+        public bool? IsEvento { get; set; }
+        public string DataEvento { get; set; }
+        public string LocalEvento { get; set; }
+
+        public string LinkExternoEvento { get; set; }
     }
 }

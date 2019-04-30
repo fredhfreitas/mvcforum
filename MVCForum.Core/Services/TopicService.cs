@@ -357,6 +357,28 @@
         /// <param name="pageSize"></param>
         /// <param name="amountToTake"></param>
         /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetEventos(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anuncios que tiveram mais visualizações
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
         public async Task<PaginatedList<Topic>> GetAnuncios(int pageIndex, int pageSize, int amountToTake)
         {
             // Get the topics using an efficient

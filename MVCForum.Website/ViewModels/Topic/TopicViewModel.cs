@@ -47,6 +47,12 @@
 
         public int Views { get; set; }
 
+        public int InteresseCount { get; set; }
+        public int EuVouCount { get; set; }
+
+        public bool IsInteresse { get; set; }
+        public bool IsEuVou { get; set; }
+
         // Misc
         public bool ShowUnSubscribedLink { get; set; }
     }

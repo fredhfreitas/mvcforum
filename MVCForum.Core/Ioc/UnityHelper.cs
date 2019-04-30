@@ -4,6 +4,7 @@ namespace MvcForum.Core.Ioc
     using Data.Context;
     using Interfaces;
     using Interfaces.Services;
+    using MvcForum.Core.Models.Entities;
     using Reflection;
     using Services;
     using Unity;
@@ -81,6 +82,8 @@ namespace MvcForum.Core.Ioc
             Container.BindInRequestScope<IPostEditService, PostEditService>();
             Container.BindInRequestScope<IAssemblyProvider, AssemblyProvider>();
             Container.BindInRequestScope<ISpamService, SpamService>();
+            Container.BindInRequestScope<IMembershipUserTopicInterestService, MembershipUserTopicInterestService>();
+            Container.BindInRequestScope<IMembershipUserTopicIGoService, MembershipUserTopicIGoService>();
         }
     }
 

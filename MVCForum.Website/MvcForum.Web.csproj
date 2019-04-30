@@ -89,6 +89,7 @@
     <Compile Include="Areas\Admin\Controllers\BannedWordController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Controllers\CategoriaAnuncioController.cs" />
+    <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\ModerateController.cs" />
     <Compile Include="Controllers\NovoAnuncioController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
@@ -1249,6 +1250,13 @@
     <Content Include="Views\Shared\_PostAnuncio.cshtml" />
     <Content Include="Views\NovoAnuncio\Edit.cshtml" />
     <Content Include="Views\Favourite\IndexAnuncio.cshtml" />
+    <Content Include="Views\Eventos\Index.cshtml" />
+    <Content Include="Views\Eventos\_LayoutDireitoVerEventos.cshtml" />
+    <Content Include="Views\Eventos\_Calendario.cshtml" />
+    <Content Include="Views\Eventos\ShowEventos.cshtml" />
+    <Content Include="Views\Eventos\_ShowEventos.cshtml" />
+    <Content Include="Views\Eventos\TenhoInteresse.cshtml" />
+    <Content Include="Views\Shared\_PostEventos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\StorageProviders\" />

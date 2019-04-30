@@ -55,6 +55,7 @@
     <Compile Include="Interfaces\Pipeline\IPipe.cs" />
     <Compile Include="Interfaces\Pipeline\IPipelineProcess.cs" />
     <Compile Include="Interfaces\Services\IBaseService.cs" />
+    <Compile Include="Interfaces\Services\IMembershipUserTopicIGoService.cs" />
     <Compile Include="Interfaces\Services\INotificationService.cs" />
     <Compile Include="Interfaces\Services\ISpamService.cs" />
     <Compile Include="MemoryFile.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Models\Attributes\NameAttribute.cs" />
     <Compile Include="Models\Attributes\IdAttribute.cs" />
     <Compile Include="Models\CategoriesSummary.cs" />
+    <Compile Include="Models\Entities\MemberShipUserTopicIGo.cs" />
     <Compile Include="Models\Entities\MemberShipUserTopicInterest.cs" />
     <Compile Include="Models\Entities\Badge.cs" />
     <Compile Include="Models\Entities\BannedEmail.cs" />
@@ -270,10 +272,12 @@
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\FavouriteService.cs" />
     <Compile Include="Services\GlobalPermissionForRoleService.cs" />
+    <Compile Include="Interfaces\Services\IMembershipUserTopicInterestService.cs" />
     <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\MembershipUserPointsService.cs" />
+    <Compile Include="Services\MembershipUserTopicIGoService.cs" />
     <Compile Include="Services\MembershipUserTopicInterestService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\PermissionService.cs" />
