@@ -49,7 +49,7 @@
 
         public string Avatar { get; set; }
 
-        [Required(ErrorMessage = "Por favor selecione o arquivo.")]
+        //[Required(ErrorMessage = "Por favor selecione o arquivo.")]
         public HttpPostedFileBase[] Files { get; set; }
 
         public string FuncaoEmpresario { get; set; }

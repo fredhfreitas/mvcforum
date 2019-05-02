@@ -32,7 +32,7 @@
                 Modelo1 = viewModel.Modelo1,
                 AnoFabricacao1 = viewModel.AnoFabricacao1,
                 Empresa1 = viewModel.Empresa1,
-                Avatar = viewModel.Files[0].FileName,
+                Avatar = viewModel.Files[0] != null ?  viewModel.Files[0].FileName : string.Empty,
                 Marca2 = viewModel.Marca2,
                 Modelo2 = viewModel.Modelo2,
                 AnoFabricacao2 = viewModel.AnoFabricacao2,
@@ -80,7 +80,7 @@
                 userToSave.SetExtendedDataValue(Constants.ExtendedDataKeys.ReturnUrl, viewModel.ReturnUrl);
             }
 
-            if (!string.IsNullOrWhiteSpace(viewModel.Avatar))
+            if (viewModel.Avatar != null && !string.IsNullOrWhiteSpace(viewModel.Avatar))
             {
                 userToSave.Avatar = viewModel.Avatar;
             }

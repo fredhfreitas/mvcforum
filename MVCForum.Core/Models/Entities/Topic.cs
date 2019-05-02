@@ -93,9 +93,18 @@
         }
 
         public bool? IsEvento { get; set; }
-        public string DataEvento { get; set; }
+        public DateTime DataEventoInicio { get; set; }
+        public DateTime DataEventoFim { get; set; }
+
+        public TimeSpan HoraEventoInicio { get; set; }
+        public TimeSpan HoraEventoFim { get; set; }
+
         public string LocalEvento { get; set; }
 
         public string LinkExternoEvento { get; set; }
+
+        public string CidadeEvento { get; set; }
+
+        public string EstadoEvento { get; set; }
     }
 }

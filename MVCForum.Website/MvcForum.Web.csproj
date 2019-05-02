@@ -95,6 +95,7 @@
     <Compile Include="Controllers\RedirectController.cs" />
     <Compile Include="Controllers\VerAnunciosController.cs" />
     <Compile Include="ExtensionMethods\CategoryViewModelExtensions.cs" />
+    <Compile Include="ExtensionMethods\TopicEventViewModelExtensions.cs" />
     <Compile Include="Models\DadosUsuario.cs" />
     <Compile Include="Models\NovoAnuncioViewModel.cs" />
     <Compile Include="ViewModels\Admin\AdminBadgeViewModels.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="ViewModels\Registration\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\Topic\ActiveTopicsViewModel.cs" />
     <Compile Include="ViewModels\Topic\CheckCreateTopicPermissions.cs" />
+    <Compile Include="ViewModels\Topic\CreateEditTopicEventViewModel.cs" />
     <Compile Include="ViewModels\Topic\CreateEditTopicViewModel.cs" />
     <Compile Include="ViewModels\Topic\CreateTopicButtonViewModel.cs" />
     <Compile Include="ViewModels\Topic\GetMorePostsViewModel.cs" />
@@ -1257,6 +1259,8 @@
     <Content Include="Views\Eventos\_ShowEventos.cshtml" />
     <Content Include="Views\Eventos\TenhoInteresse.cshtml" />
     <Content Include="Views\Shared\_PostEventos.cshtml" />
+    <Content Include="Views\Eventos\Novo.cshtml" />
+    <Content Include="Views\Shared\_CreateEdit_TopicPostEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\StorageProviders\" />
