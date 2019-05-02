@@ -653,6 +653,119 @@
             return View();
         }
 
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<ActionResult> EditEvent(CreateEditTopicEventViewModel model)
+        {
+            // Get the user and roles
+            var loggedOnUser = User.GetMembershipUser(MembershipService, false);
+            var loggedOnUsersRole = loggedOnUser.GetRole(RoleService);
+
+            //if (loggedOnUsersRole.RoleName != "Editores")
+            //    //{
+            //    //    return View("Index", "Eventos");
+            //    //}
+
+
+            // Cria o objeto de TopicViewModel
+            var topicViewModel = new CreateEditTopicViewModel();
+            topicViewModel.Category = _categoryService.GetAll().FirstOrDefault().Id;
+
+            topicViewModel.Name = model.Name;
+            topicViewModel.Files = model.Files;
+            topicViewModel.Content = model.Content;
+
+
+            // ID do Usuário Logado
+            //model.Usuario.IdUsuarioLogado = loggedOnUser.Id;
+
+            // Get the category
+            var category = _categoryService.Get(topicViewModel.Category);
+
+            // First check this user is allowed to create topics in this category
+            var permissions = RoleService.GetPermissions(category, loggedOnUsersRole);
+
+            // Now we have the category and permissionSet - Populate the optional permissions 
+            // This is just in case the viewModel is return back to the view also sort the allowedCategories
+            topicViewModel.OptionalPermissions = GetCheckCreateTopicPermissions(permissions);
+
+            topicViewModel.Categories = _categoryService.GetBaseSelectListCategories(AllowedCreateCategories(loggedOnUsersRole));
+
+            topicViewModel.IsTopicStarter = true;
+
+            if (topicViewModel.PollAnswers == null)
+                topicViewModel.PollAnswers = new List<PollAnswer>();
+
+            if (ModelState.IsValid)
+            {
+                var topic = _topicService.Get(model.TopicId);
+
+                // Map the new topic (Pass null for new topic)
+                topic = topicViewModel.ToTopic(category, loggedOnUser, null);
+
+                topic.LocalEvento = model.LocalEvento;
+                topic.DataEventoInicio = model.DataEventoInicio;
+                topic.DataEventoFim = model.DataEventoFim;
+                topic.HoraEventoInicio = model.HoraInicio;
+                topic.HoraEventoFim = model.HoraFim;
+                topic.LocalEvento = model.LocalEvento;
+                topic.LinkExternoEvento = model.LinkExternoEvento;
+                topic.CidadeEvento = model.CidadeEvento;
+                topic.EstadoEvento = model.EstadoEvento;
+                topic.IsEvento = true;
+                if (model.Files != null && model.Files.First() != null)
+                    topic.Imagem = string.Format("\\content\\uploads\\{0}\\{1}", loggedOnUser.Id, model.Files.First().FileName);
+                else
+                    topic.Imagem = "\\content\\images\\imagemDefault.jpg";
+
+                if (model.Files.Any(x => x != null))
+                {
+                    // See if file is ok and then convert to image
+
+                    FileUpload(model.Files[0], topic.User.Id);
+
+                }
+
+                // Run the create pipeline
+                var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,
+                                                                topicViewModel.Content, null);
+
+
+                if (createPipeLine.Successful == false)
+                {
+                    // TODO - Not sure on this?
+                    // Remove the topic if unsuccessful, as we may have saved some items.
+                    await _topicService.Delete(createPipeLine.EntityToProcess);
+
+                    // Tell the user the topic is awaiting moderation
+                    ModelState.AddModelError(string.Empty, createPipeLine.ProcessLog.FirstOrDefault());
+
+                    return View(model);
+                }
+
+                if (createPipeLine.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
+                {
+                    var moderate = createPipeLine.ExtendedData[Constants.ExtendedDataKeys.Moderate] as bool?;
+
+                    if (moderate == true)
+                    {
+                        // Tell the user the topic is awaiting moderation
+                        TempData[Constants.MessageViewBagName] = new GenericMessageViewModel
+                        {
+                            Message = LocalizationService.GetResourceString("Moderate.AwaitingModeration"),
+                            MessageType = GenericMessages.info
+                        };
+
+                        return RedirectToAction("Index", "Eventos");
+                    }
+                }
+            }
+
+            return View();
+        }
+
         /// <summary>
         ///     Creates a topic via the pipeline system
         /// </summary>
