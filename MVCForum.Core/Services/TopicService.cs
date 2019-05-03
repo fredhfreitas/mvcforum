@@ -371,6 +371,21 @@
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
         }
+        public List<EventoDto> GetEventosData()
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)                
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .Where(x => x.DataEventoInicio >= DateTime.Now)
+                .Select(x=> new EventoDto { date = x.DataEventoInicio, title = x.Slug, id = x.Id.ToString()})
+                .ToList<EventoDto>()
+                ;
+
+            // Return a paged list
+            return query;
+        }
 
         /// <summary>
         /// Recupera os anuncios que tiveram mais visualizações

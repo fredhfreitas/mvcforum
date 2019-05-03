@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Core.Models.Entities;
     using Core.Models.General;
+    using MvcForum.Core.Interfaces.Services;
     using Poll;
     using Post;
 
@@ -54,6 +55,6 @@
         public bool IsEuVou { get; set; }
 
         // Misc
-        public bool ShowUnSubscribedLink { get; set; }
+        public bool ShowUnSubscribedLink { get; set; }       
     }
 }

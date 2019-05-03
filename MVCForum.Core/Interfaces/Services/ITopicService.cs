@@ -95,6 +95,8 @@
 
         Task<PaginatedList<Topic>> GetEventos(int pageIndex, int pageSize, int amountToTake);
 
+        List<EventoDto> GetEventosData();
+
         Task<PaginatedList<Topic>> GetAnunciosNovos(int pageIndex, int pageSize, int amountToTake);
 
         Task<PaginatedList<Topic>> GetAnunciosUsados(int pageIndex, int pageSize, int amountToTake);
@@ -104,5 +106,15 @@
         Task<PaginatedList<Topic>> GetAnunciosPorTipo(int pageIndex, int pageSize, int amountToTake, string paramTipo);
 
         int GetQuantidadeTipoAnuncios(string tipoAnuncio);
+    }
+
+    public class EventoDto
+    {
+        public DateTime date { get; set; }
+        public string title { get; set; }
+        public string id { get; set; }
+
+        public bool badget = true;
+
     }
 }
