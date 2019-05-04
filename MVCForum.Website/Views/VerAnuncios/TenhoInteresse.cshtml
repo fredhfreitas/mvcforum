@@ -43,6 +43,13 @@
         var topicId = '@(Model.Topic.Id)';
     </script>
 }
+
+    <style>
+        .btn-primary-interest {
+            background: #fff;
+            border-color: #FAA21B;
+        }
+    </style>
 <div class="row default-header">
     <div class="col-md-12">
         <h3 class="title-bar">Anúncios</h3>
@@ -52,35 +59,29 @@
 <div class="topicshow">
     <div class="row">
         <div class="col-md-8 topicheading">
-            <div class="widgetright">
-                @if (Html.CurrentMember() != null && Html.Settings().EnableEmailSubscriptions)
-                {
-                    <a @Html.Raw(subScribe) href="#" class="emailsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        @Html.LanguageString("Topic.Subscribe")
-                    </a>
-                    <a @Html.Raw(unSubscribe) href="#" class="emailunsubscription btn btn-primary" data-id="@Model.Topic.Id" data-type="topic">
-                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                        @Html.LanguageString("Topic.UnSubscribe")
-                    </a>
-                }
-            </div>
             <h1>@Html.Raw(Model.Topic.Name)</h1>
-            
-           <img src="@Url.Content(Model.Topic.Imagem)" class="latestby" alt="@Model.Topic.Name" />           
+            <p>@Html.Raw(Model.Topic.Price)</p>
+            <img src="@Url.Content(Model.Topic.Imagem)" width="500px" class="latestby" alt="@Model.Topic.Name" />
         </div>
-        @*<div class="col-md-4" style="margin-top: -30px;">
-            <a href="#" class="btn btn-primary" style="cursor: context-menu;">TENHO INTERESSE</a>
-        </div>*@
+        <div class="col-md-4" style="margin-top: -30px;">
+            @if (@Model.IsInteresse)
+            {
+                <a id="tenhoInteresse" href="#" class="btn btn-primary-interest">Tenho Interesse</a>
+            }
+            else
+            {
+                <a id="tenhoInteresse" href="#" class="btn btn-primary">Tenho Interesse</a>
+            }
+        </div>
     </div>
 
     <div class="row name-date">
-       
+
         <a href="#" style="cursor: context-menu;">
             @Model.Topic.NomeCategoriaAnuncio
-           
+
         </a>
-    </div> 
+    </div>
 
     @if (Html.Settings().EnablePolls == true && Model.Poll != null)
     {
@@ -144,3 +145,34 @@
     <input type="hidden" id="totalPages" value="@Model.TotalPages" />
 
 </div>
+<section class="container main-section">
+    <div class="alert alert-success" role="alert" style="display:none">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div id="divAlert"></div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+     $("#tenhoInteresse").click(function (e) {
+        //alert("button click");
+        e.preventDefault();
+        $.ajax({
+            type: 'post',
+            url: '@Url.Action("TenhoInteresseEvent", "VerAnuncios")',
+            data: JSON.stringify({ id: '@Model.StarterPost.Post.Id'}),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            success: function (data) {
+                $('#divAlert').html('');
+                $("#divAlert").append(data);
+                $(".alert").show();
+                $('div.alert').delay(600000).fadeOut();
+                setTimeout(function () {
+                    $('div.alert').hide();
+                }, 2000);
+            }
+        });
+     });
+    });
+</script>

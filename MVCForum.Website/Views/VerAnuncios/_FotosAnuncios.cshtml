@@ -41,7 +41,15 @@
                 <span class="stats topicanswers"><i class="far fa-comment-alt"></i> @Model.Answers.KiloFormat()</span>
             </div>
 
-            <a href="@Url.Action("TenhoInteresse", "VerAnuncios", new { slug = Model.Topic.Slug })" class="btn btn-primary" style="width: 50%">TENHO INTERESSE</a>
+            <a id="linkTenhoInteresse-@Model.Topic.Id" href="@Url.Action("TenhoInteresse", "VerAnuncios", new { slug = Model.Topic.Slug })" class="btn btn-primary" style="width: 50%">TENHO INTERESSE</a>
         </div>
     </div>
+    @{
+        if (User.Identity.IsAuthenticated)
+        {
+            <script>
+            PossuiInteresse('@Model.Topic.Id');
+            </script>
+        }
+    }
 </div>

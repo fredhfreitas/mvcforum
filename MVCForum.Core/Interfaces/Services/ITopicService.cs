@@ -95,6 +95,10 @@
 
         Task<PaginatedList<Topic>> GetEventos(int pageIndex, int pageSize, int amountToTake);
 
+        Task<PaginatedList<Topic>> GetEventosByRegiao(int pageIndex, int pageSize, int amountToTake, string cidade, string estado);
+
+        Task<PaginatedList<Topic>> GetAllEventosByID(int pageIndex, int pageSize, int amountToTake, List<Guid> itens);
+        Task<PaginatedList<Topic>> GetAllAnunciosByID(int pageIndex, int pageSize, int amountToTake, List<Guid> itens);
         List<EventoDto> GetEventosData();
 
         Task<PaginatedList<Topic>> GetAnunciosNovos(int pageIndex, int pageSize, int amountToTake);

@@ -4,9 +4,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul>
-                   
+
                     <li><a href="/universoRetro/">Universo da Retro</a></li>
-                    @*<li><a href="/eventos/">Eventos</a></li>*@
                     <li class="dropdown ">
                         <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
                             Forum <i class="fas fa-chevron-down"></i>
@@ -18,17 +17,9 @@
                             <li><a href="/meusTopicos/">Meus Tópicos</a></li>
                         </ul>
                     </li>
-                    @*<li><a href="/anuncios/">Anúncios</a></li>*@
-                    <li><a href="/perguntasfrequentes/">Perguntas Frequentes</a></li>
                    
-                    @*@if (User.Identity.IsAuthenticated)
-                    {
-                        
-                        <li><a href="/moderate/">Moderar</a></li>
-
-                    }*@
                     <li><a href="/sobre/">Sobre</a></li>
-                    @*<li class="dropdown ">
+                    <li class="dropdown ">
                         <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
                             Suporte <i class="fas fa-chevron-down"></i>
                         </a>
@@ -37,13 +28,19 @@
                             <li><a href="/perguntasfrequentes/">Perguntas Frequentes</a></li>
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <li><a href="/suporte/contato">Contato</a></li>
+                                <li><a href="https://clubedaretro.com.br/suporte/contato" data-toggle="tooltip" data-placement="top" title="Área de contato exclusiva para proprietários de retroescavadeiras CASE"><i class="fas fa-lock" style="color: #000;"></i> Fale com a Case</a></li>
                             }
-                            </ul>
-                    </li>*@
+                        </ul>
+                    </li>
                     <li><a href="/contato/">Contato</a></li>
 
                 </ul>
+
+                <script>
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
             </div>
         </div>
     </div>

@@ -349,7 +349,44 @@
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
         }
+        
 
+        public async Task<PaginatedList<Topic>> GetEventosByRegiao(int pageIndex, int pageSize, int amountToTake, string cidade, string estado)
+        {
+           
+            if (!string.IsNullOrEmpty(cidade))
+            {
+                var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .Where(x => x.CidadeEvento.Contains(cidade))
+                .Where(x => x.EstadoEvento.Equals(estado))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+                // Return a paged list
+                return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+            }
+            else
+            {
+                var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .Where(x => x.EstadoEvento.Equals(estado))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+                // Return a paged list
+                return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+            }
+            
+
+            return null;
+        }
         /// <summary>
         /// Recupera os anuncios que tiveram mais visualizações
         /// </summary>
@@ -371,20 +408,48 @@
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
         }
+
         public List<EventoDto> GetEventosData()
         {
             // Get the topics using an efficient
             var query = _context.Topic
                 .Include(x => x.LastPost.User)
-                .Include(x => x.User)                
+                .Include(x => x.User)
                 .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
                 .Where(x => x.DataEventoInicio >= DateTime.Now)
-                .Select(x=> new EventoDto { date = x.DataEventoInicio, title = x.Slug, id = x.Id.ToString()})
+                .Select(x => new EventoDto { date = x.DataEventoInicio, title = x.Slug, id = x.Id.ToString() })
                 .ToList<EventoDto>()
                 ;
 
             // Return a paged list
             return query;
+        }
+        public async Task<PaginatedList<Topic>> GetAllAnunciosByID(int pageIndex, int pageSize, int amountToTake, List<Guid> itens)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value)
+                .Where(x => itens.Contains(x.Id))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+        
+        public async Task<PaginatedList<Topic>> GetAllEventosByID(int pageIndex, int pageSize, int amountToTake, List<Guid> itens)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .Where(x => itens.Contains(x.Id))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
         }
 
         /// <summary>

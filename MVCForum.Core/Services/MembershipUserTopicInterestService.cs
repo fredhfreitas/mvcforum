@@ -12,7 +12,7 @@
     using Utilities;
 
 
-    class MembershipUserTopicInterestService : IMembershipUserTopicInterestService
+    public class MembershipUserTopicInterestService : IMembershipUserTopicInterestService
     {
         private readonly ICacheService _cacheService;
         private IMvcForumContext _context;

@@ -703,8 +703,8 @@
                 var topic = _topicService.Get(model.TopicId);
 
                 // Map the new topic (Pass null for new topic)
-                topic = topicViewModel.ToTopic(category, loggedOnUser, null);
-
+                //topic = topicViewModel.ToTopic(category, loggedOnUser, null);
+                topic.Name = model.Name;
                 topic.LocalEvento = model.LocalEvento;
                 topic.DataEventoInicio = model.DataEventoInicio;
                 topic.DataEventoFim = model.DataEventoFim;
@@ -715,22 +715,21 @@
                 topic.CidadeEvento = model.CidadeEvento;
                 topic.EstadoEvento = model.EstadoEvento;
                 topic.IsEvento = true;
-                if (model.Files != null && model.Files.First() != null)
-                    topic.Imagem = string.Format("\\content\\uploads\\{0}\\{1}", loggedOnUser.Id, model.Files.First().FileName);
-                else
-                    topic.Imagem = "\\content\\images\\imagemDefault.jpg";
-
-                if (model.Files.Any(x => x != null))
+                
+                if (model.Files != null && model.Files.Any(x => x != null))
                 {
+                    topic.Imagem = string.Format("\\content\\uploads\\{0}\\{1}", loggedOnUser.Id, model.Files.First().FileName);
                     // See if file is ok and then convert to image
 
                     FileUpload(model.Files[0], topic.User.Id);
 
                 }
+                else
+                    topic.Imagem = "\\content\\images\\imagemDefault.jpg";
 
                 // Run the create pipeline
-                var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,
-                                                                topicViewModel.Content, null);
+                var createPipeLine = await _topicService.Edit(topic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,
+                                                                topicViewModel.Content, topicViewModel.Name, topicViewModel.PollAnswers, topicViewModel.PollCloseAfterDays);
 
 
                 if (createPipeLine.Successful == false)

@@ -45,12 +45,16 @@
         private readonly IPollService _pollService;
         private readonly IVoteService _voteService;
         private readonly IRoleService _roleService;
+        private readonly IMembershipUserTopicInterestService _membershipUserTopicInterestService;
+        private readonly IMembershipUserTopicIGoService _membershipUserTopicIGoService;
 
         public VerAnunciosController(IPostService postService, ITopicService topicService, ICategoryService categoryService,
                                      IFavouriteService favouriteService, INotificationService notificationService, IPollService pollService,
                                      IVoteService voteService,
                                      ILoggingService loggingService, IMembershipService membershipService, IRoleService roleService,
                                      ILocalizationService localizationService, ISettingsService settingsService,
+                                     IMembershipUserTopicIGoService membershipUserTopicIGoService,
+                                     IMembershipUserTopicInterestService membershipUserTopicInterestService,
                                      ICacheService cacheService, IMvcForumContext context)
             : base(loggingService, membershipService, localizationService, roleService,
                    settingsService, cacheService, context)
@@ -63,7 +67,8 @@
             _notificationService = notificationService;
             _pollService = pollService;
             _voteService = voteService;
-
+            _membershipUserTopicInterestService = membershipUserTopicInterestService;
+            _membershipUserTopicIGoService = membershipUserTopicIGoService;
             _roleService = roleService;
         }
 
@@ -132,6 +137,11 @@
                             break;
                         case 5:
                             result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Servico")).Result;
+                            break;
+                        case 6:
+                            var interesse = _membershipUserTopicInterestService.GetByUser(membershipUser.Id).Select(x => x.IdTopic).ToList();
+
+                            result = Task.Run(() => _topicService.GetAllAnunciosByID(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, interesse)).Result;
                             break;
                     }
                 else
@@ -297,10 +307,70 @@
                     }
                 }
 
+                if (User.Identity.IsAuthenticated)
+                {
+                    IEnumerable<MembershipUserTopicInterest> dataInteresse = _membershipUserTopicInterestService.GetByUser(loggedOnReadOnlyUser.Id).Where(x => x.IdTopic.Equals(topic.Id));
+                    IEnumerable<MemberShipUserTopicIGo> dataEuVou = _membershipUserTopicIGoService.GetByUser(loggedOnReadOnlyUser.Id).Where(x => x.IdTopic.Equals(topic.Id));
+
+                    viewModel.IsInteresse = dataInteresse.Any();
+                    viewModel.IsEuVou = dataEuVou.Any();
+
+                }
+                else
+                {
+                    viewModel.IsInteresse = false;
+                    viewModel.IsEuVou = false;
+
+                }
+
                 return View(viewModel);
             }
 
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
         }
+
+        [HttpPost]
+        public JsonResult TenhoInteresseEvent(Guid id)
+        {
+            // Get the post
+            Post post = _postService.Get(id);
+
+            if (post != null)
+            {
+                MembershipUser loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+                MembershipRole loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+
+                if (loggedOnReadOnlyUser != null && loggedOnReadOnlyUser.DisablePosting != true)
+                {
+                    IEnumerable<MembershipUserTopicInterest> novo = _membershipUserTopicInterestService.GetByUser(loggedOnReadOnlyUser.Id).Where(x => x.IdTopic.Equals(post.Topic.Id));
+                    try
+                    {
+                        if (!novo.Any())
+                        {
+                            //new item
+                            MembershipUserTopicInterest memberInterest = new MembershipUserTopicInterest
+                            {
+                                IdTopic = post.Topic.Id,
+                                IdUser = loggedOnReadOnlyUser.Id
+                            };
+                            MembershipUserTopicInterest interesse = _membershipUserTopicInterestService.Add(memberInterest);
+                            _membershipUserTopicInterestService.SaveChanges();
+                            return Json("Interesse incluído com sucesso!");
+                        }
+                        else
+                        {
+                            _membershipUserTopicInterestService.Delete(novo.FirstOrDefault());
+                            _membershipUserTopicInterestService.SaveChanges();
+                            return Json("Interesse removido com sucesso!");
+                        }
+                    }
+                    catch { return Json("Erro. Por favor, tente novamente!"); }
+
+
+                }
+            }
+            return Json("Você precisa estar logado para realizar esta ação.");
+        }
+
     }
 }
