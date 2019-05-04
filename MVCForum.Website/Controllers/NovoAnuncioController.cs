@@ -37,7 +37,7 @@
             _categoryService = categoryService;
             _notificationService = notificationService;
         }
-
+        [Authorize]
         public ActionResult Index()
         {
             var usuario = User.GetMembershipUser(MembershipService);
@@ -294,142 +294,22 @@
             return string.Empty;
         }
 
-        //[HttpPost]
-        //[ValidateInput(false)]
-        //[ValidateAntiForgeryToken]
-        //public virtual async Task<ActionResult> EditPostTopic(NovoAnuncioViewModel editPostViewModel)
-        //{
-        //    // Get the current user and role
-        //    var loggedOnUser = User.GetMembershipUser(MembershipService, false);
-        //    var loggedOnUsersRole = loggedOnUser.GetRole(RoleService, false);
-
-        //    // Get the category
-        //    //var category = _categoryService.Get(editPostViewModel.Category);
-
-        //    // Get all the permissions for this user
-        //    var permissions = RoleService.GetPermissions(category, loggedOnUsersRole);
-
-        //    // Now we have the category and permissionSet - Populate the optional permissions 
-        //    // This is just in case the viewModel is return back to the view also sort the allowedCategories
-        //    // Get the allowed categories for this user
-        //    var allowedAccessCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole);
-        //    var allowedCreateTopicCategories = _categoryService.GetAllowedCategories(loggedOnUsersRole,
-        //        ForumConfiguration.Instance.PermissionCreateTopics);
-        //    var allowedCreateTopicCategoryIds = allowedCreateTopicCategories.Select(x => x.Id);
-
-        //    // TODO ??? Is this correct ??
-        //    allowedAccessCategories.RemoveAll(x => allowedCreateTopicCategoryIds.Contains(x.Id));
-
-        //    // Set the categories
-        //    editPostViewModel.Categories = _categoryService.GetBaseSelectListCategories(allowedAccessCategories);
-
-        //    // Get the users permissions for the topic
-        //    editPostViewModel.OptionalPermissions = GetCheckCreateTopicPermissions(permissions);
-
-        //    // See if this is a topic starter or not
-        //    editPostViewModel.IsTopicStarter = editPostViewModel.Id == Guid.Empty;
-
-        //    // IS the model valid
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Got to get a lot of things here as we have to check permissions
-        //        // Get the post
-        //        var originalPost = _postService.Get(editPostViewModel.Id);
-
-        //        // Get the topic
-        //        var originalTopic = originalPost.Topic;
-
-        //        // See if the user has actually added some content to the topic
-        //        if (string.IsNullOrWhiteSpace(editPostViewModel.Content))
-        //        {
-        //            ModelState.AddModelError(string.Empty,
-        //                LocalizationService.GetResourceString("Errors.GenericMessage"));
-        //        }
-        //        else
-        //        {
-
-        //            bool successful;
-        //            bool? moderate = false;
-        //            string message;
-
-        //            if (editPostViewModel.IsPostEdit)
-        //            {
-        //                var editPostPipe = await _postService.Edit(originalPost, editPostViewModel.Files,
-        //                    originalPost.IsTopicStarter, string.Empty, editPostViewModel.Content);
-
-        //                successful = editPostPipe.Successful;
-        //                message = editPostPipe.ProcessLog.FirstOrDefault();
-        //                if (editPostPipe.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
-        //                {
-        //                    moderate = editPostPipe.ExtendedData[Constants.ExtendedDataKeys.Moderate] as bool?;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                // Map the new topic (Pass null for new topic)
-        //                var topic = editPostViewModel.ToTopic(category, loggedOnUser, originalTopic);
-
-        //                // Run the create pipeline
-        //                var editPipeLine = await _topicService.Edit(topic, editPostViewModel.Files,
-        //                    editPostViewModel.Tags, editPostViewModel.SubscribeToTopic, editPostViewModel.Content,
-        //                    editPostViewModel.Name, editPostViewModel.PollAnswers, editPostViewModel.PollCloseAfterDays);
-
-        //                successful = editPipeLine.Successful;
-        //                message = editPipeLine.ProcessLog.FirstOrDefault();
-        //                if (editPipeLine.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.Moderate))
-        //                {
-        //                    moderate = editPipeLine.ExtendedData[Constants.ExtendedDataKeys.Moderate] as bool?;
-        //                }
-        //            }
-
-
-        //            // Check if successful
-        //            if (successful == false)
-        //            {
-        //                // Tell the user the topic is awaiting moderation
-        //                ModelState.AddModelError(string.Empty, message);
-        //                return View(editPostViewModel);
-        //            }
-
-
-        //            if (moderate == true)
-        //            {
-        //                // Tell the user the topic is awaiting moderation
-        //                TempData[Constants.MessageViewBagName] = new GenericMessageViewModel
-        //                {
-        //                    Message = LocalizationService.GetResourceString("Moderate.AwaitingModeration"),
-        //                    MessageType = GenericMessages.info
-        //                };
-
-        //                return RedirectToAction("Index", "Home");
-        //            }
-
-
-        //            // Redirect to the newly created topic
-        //            return Redirect($"{originalTopic.NiceUrl}?postbadges=true");
-        //        }
-        //    }
-
-        //    return View(editPostViewModel);
-        //}
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Index(NovoAnuncioViewModel model)
         {
             // Get the user and roles
             var loggedOnUser = User.GetMembershipUser(MembershipService, false);
             var loggedOnUsersRole = loggedOnUser.GetRole(RoleService);
-
-            // Como inicialmente vamos voltar para a mesma página, estou carregand as View bags novamente
-            PreencherUsuario(loggedOnUser);
-
             // Cria o objeto de TopicViewModel
             var topicViewModel = new CreateEditTopicViewModel();
-            topicViewModel.Category = model.CategoriaId;
+            topicViewModel.Category = _categoryService.GetAll().FirstOrDefault().Id;
 
             topicViewModel.Name = model.TituloAnuncio;
             topicViewModel.Files = model.Imagem;
             topicViewModel.Content = model.Observacao;
-            
+
 
             // ID do Usuário Logado
             model.Usuario.IdUsuarioLogado = loggedOnUser.Id;
@@ -453,10 +333,51 @@
 
             if (ModelState.IsValid)
             {
+                PreencherUsuario(loggedOnUser);                
+
                 // Map the new topic (Pass null for new topic)
                 var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
 
-                CarregarCamposTopicViewModel(topic, model);
+                topic.LocalEvento = "";
+                topic.DataEventoInicio = DateTime.Now;
+                topic.DataEventoFim = DateTime.Now;
+                topic.HoraEventoInicio = TimeSpan.Zero;
+                topic.HoraEventoFim = TimeSpan.Zero;                
+                topic.LinkExternoEvento = "";
+                topic.CidadeEvento = "";
+                topic.EstadoEvento = "";
+                topic.IsEvento = null;
+
+                //CarregarCamposTopicViewModel(topic, model);
+                topic.Name = model.TituloAnuncio;
+                topic.TipoAnuncio = model.TipoAnuncio;
+                topic.IsAnuncio = true;
+                topic.IsMecanico = model.TipoCategoria.Equals("Mecânico") ? true : (bool?)null;
+                topic.IsInstrutor = model.TipoCategoria.Equals("Instrutor") ? true : (bool?)null;
+                topic.IsOperador = model.TipoCategoria.Equals("Operador") ? true : (bool?)null;
+                topic.IsCategoryExchange = model.TipoCategoria.Equals("Troca") ? true : (bool?)null;
+                topic.IsCategoryNew = model.TipoCategoria.Equals("Novo") ? true : (bool?)null;
+                topic.IsCategoryUsed = model.TipoCategoria.Equals("Usado") ? true : (bool?)null;
+                topic.Marca = model.Marca;
+                topic.Modelo = model.Modelo;
+                topic.Price = Convert.ToDecimal(model.Valor);
+                if (model.Imagem.First() != null)
+                    topic.Imagem = string.Format("\\content\\uploads\\{0}\\{1}", model.Usuario.IdUsuarioLogado, model.Imagem.First().FileName);
+                else
+                    topic.Imagem = "\\content\\images\\imagemDefault.jpg";
+
+                // Usuário
+                topic.User.Id = model.Usuario.IdUsuarioLogado;
+                topic.TelefoneUsuario = model.Usuario.Telefone;
+                topic.TelefoneWhatsApp = model.Usuario.TelefoneZAP;
+                topic.CidadeUsuario = model.Usuario.CidadeAdicional ?? model.Usuario.Cidade;
+                topic.EstadoUsuario = model.Usuario.EstadoAdicional ?? model.Usuario.Estado;
+
+
+                if(model.Imagem.First() != null)
+                    topic.Imagem = string.Format("\\content\\uploads\\{0}\\{1}", loggedOnUser.Id, model.Imagem.First().FileName);
+                else
+                    topic.Imagem = "\\content\\images\\imagemDefault.jpg";
 
                 if (model.Imagem.Any(x => x != null))
                 {
@@ -469,7 +390,8 @@
                 // Run the create pipeline
                 var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags, topicViewModel.SubscribeToTopic,
                                                                 topicViewModel.Content, null);
-               
+
+
 
                 if (createPipeLine.Successful == false)
                 {
@@ -529,6 +451,7 @@
             topic.TelefoneWhatsApp = model.Usuario.TelefoneZAP;
             topic.CidadeUsuario = model.Usuario.CidadeAdicional ?? model.Usuario.Cidade;
             topic.EstadoUsuario = model.Usuario.EstadoAdicional ?? model.Usuario.Estado;
+            
         }
 
         private void PreencherUsuario(MembershipUser usuario)
@@ -569,23 +492,34 @@
             var model = new CheckCreateTopicPermissions();
 
             if (permissionSet[ForumConfiguration.Instance.PermissionCreateStickyTopics].IsTicked)
+            {
                 model.CanStickyTopic = true;
+            }
 
             if (permissionSet[ForumConfiguration.Instance.PermissionLockTopics].IsTicked)
+            {
                 model.CanLockTopic = true;
+            }
 
             if (permissionSet[ForumConfiguration.Instance.PermissionAttachFiles].IsTicked)
+            {
                 model.CanUploadFiles = true;
+            }
 
             if (permissionSet[ForumConfiguration.Instance.PermissionCreatePolls].IsTicked)
+            {
                 model.CanCreatePolls = true;
+            }
 
             if (permissionSet[ForumConfiguration.Instance.PermissionInsertEditorImages].IsTicked)
+            {
                 model.CanInsertImages = true;
+            }
 
             if (permissionSet[ForumConfiguration.Instance.PermissionCreateTags].IsTicked)
+            {
                 model.CanCreateTags = true;
-
+            }
             return model;
         }
     }

@@ -17,6 +17,7 @@
     using Core.Models.Enums;
     using Core.Models.General;
     using Core.Utilities;
+    using MvcForum.Web.Models;
     using ViewModels;
     using ViewModels.Breadcrumb;
     using ViewModels.ExtensionMethods;
@@ -479,7 +480,15 @@
                 {
                     // Map the new topic (Pass null for new topic)
                     var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
-
+                    topic.LocalEvento = "";
+                    topic.DataEventoInicio = DateTime.Now;
+                    topic.DataEventoFim = DateTime.Now;
+                    topic.HoraEventoInicio = TimeSpan.Zero;
+                    topic.HoraEventoFim = TimeSpan.Zero;
+                    topic.LinkExternoEvento = "";
+                    topic.CidadeEvento = "";
+                    topic.EstadoEvento = "";
+                    topic.IsEvento = null;
                     // Run the create pipeline
                     var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags,
                         topicViewModel.SubscribeToTopic, topicViewModel.Content, null);
@@ -542,6 +551,7 @@
             }
             return string.Empty;
         }
+       
 
         [HttpPost]
         [Authorize]
@@ -798,6 +808,7 @@
 
             if (ModelState.IsValid)
             {
+
                 // See if the user has actually added some content to the topic
                 if (string.IsNullOrWhiteSpace(topicViewModel.Content))
                 {
@@ -808,6 +819,16 @@
                 {
                     // Map the new topic (Pass null for new topic)
                     var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
+
+                    topic.LocalEvento = "";
+                    topic.DataEventoInicio = DateTime.Now;
+                    topic.DataEventoFim = DateTime.Now;
+                    topic.HoraEventoInicio = TimeSpan.Zero;
+                    topic.HoraEventoFim = TimeSpan.Zero;
+                    topic.LinkExternoEvento = "";
+                    topic.CidadeEvento = "";
+                    topic.EstadoEvento = "";
+                    topic.IsEvento = null;
 
                     // Run the create pipeline
                     var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags,
@@ -891,6 +912,16 @@
                 {
                     // Map the new topic (Pass null for new topic)
                     var topic = topicViewModel.ToTopic(category, loggedOnUser, null);
+
+                    topic.LocalEvento = "";
+                    topic.DataEventoInicio = DateTime.Now;
+                    topic.DataEventoFim = DateTime.Now;
+                    topic.HoraEventoInicio = TimeSpan.Zero;
+                    topic.HoraEventoFim = TimeSpan.Zero;
+                    topic.LinkExternoEvento = "";
+                    topic.CidadeEvento = "";
+                    topic.EstadoEvento = "";
+                    topic.IsEvento = null;
 
                     // Run the create pipeline
                     var createPipeLine = await _topicService.Create(topic, topicViewModel.Files, topicViewModel.Tags,

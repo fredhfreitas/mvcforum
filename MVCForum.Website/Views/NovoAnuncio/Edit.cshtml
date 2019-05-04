@@ -4,6 +4,19 @@
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
     ViewBag.Title = "Clube da Retro | Editar anúncio";
 }
+@section Header
+{
+    @(
+         Bundle.JavaScript()
+                    .Add("~/Scripts/jquery.tagsinput.min.js")
+                    .Add("~/Scripts/tags.js")
+                    .Add("~/Scripts/createtopic.js")
+                    .MvcRender("~/scripts/cache/topic-combined_#.js")
+    )
+    @*<script type="text/javascript">
+            counter = @(Model.PollAnswers != null ? Model.PollAnswers.Count : 0);
+        </script>*@
+}
 
 @using (Html.BeginForm("Edit", "NovoAnuncio", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {

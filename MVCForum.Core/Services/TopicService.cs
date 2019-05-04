@@ -169,6 +169,9 @@
             // Get the pipelines
             var topicCreatePipes = ForumConfiguration.Instance.PipelinesTopicCreate;
 
+            //if (topic.IsAnuncio != null)
+            //    topicCreatePipes.Remove("MvcForum.Plugins.Pipelines.Topic.TopicNotificationsAndBadgesPipe");
+
             // The model to process
             var piplineModel = new PipelineProcess<Topic>(topic);
 
@@ -319,6 +322,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.LastPost.DateCreated);
 
             // Return a paged list
@@ -647,6 +651,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.LastPost.DateCreated);
 
             // Return a paged list
@@ -700,6 +705,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.Views);
 
             // Return a paged list
@@ -719,6 +725,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
 
             // Return a paged list
@@ -808,6 +815,7 @@
                         .Include(x => x.Tags)
                         .Where(x => x.Category.Id == categoryId)
                         .Where(x => x.Pending != true && x.User.UserName != "editor")
+                        .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                         .OrderByDescending(x => x.IsSticky)
                         .ThenByDescending(x => x.LastPost.DateCreated);
 
@@ -836,6 +844,7 @@
                             .Include(x => x.Tags)
                             .AsNoTracking()
                             .Where(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                            .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                             .OrderBy(x => x.LastPost.DateCreated);
 
             // Return a paged list
@@ -927,6 +936,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.IsSticky)
                 .ThenByDescending(x => x.LastPost.DateCreated)
                 .Where(e => e.Tags.Any(t => t.Slug.Equals(tag)));
@@ -1090,6 +1100,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => topicIds.Contains(x.Id) && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.LastPost.DateCreated)
                 .ToList();
         }
@@ -1240,6 +1251,7 @@
                                 .AsNoTracking()
                                 .Where(x => x.Category.Id == categoryId)
                                 .Where(x => x.Pending != true && x.User.UserName != "editor")
+                                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                                 .ToList();
 
             return results;
@@ -1273,6 +1285,7 @@
                                 .Include(x => x.User)
                                 .Include(x => x.Poll)
                             .Where(x => x.Slug.Contains(slug) && x.User.UserName != "editor")
+
                             .ToList();
         }
 

@@ -16,6 +16,30 @@
             routes.IgnoreRoute("{*favicon}", new {favicon = @"(.*/)?favicon.ico(/.*)?"});
 
             routes.MapRoute(
+               "verAnuncios", // Route name
+               "Anuncios",
+               new { controller = "VerAnuncios", action = "Index" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                  name: "categoriaAnuncio",
+                  url: "Anuncios/Categoria",
+               defaults: new { controller = "CategoriaAnuncio", action = "Index" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+              name: "NovoAnuncio", // Route name
+              url: "Anuncios/Novo",
+              defaults: new { controller = "NovoAnuncio", action = "Index" } // Parameter defaults
+           );
+
+           // routes.MapRoute(
+           //   name: "/verAnuncios/?tipoAnuncio=6", // Route name
+           //   url: "Anuncio/Interesse",
+           //   defaults: new { controller = "VerAnuncio", action = "Index" } // Parameter defaults
+           //);
+
+            routes.MapRoute(
                "TenhoInteresse", // Route name
                "TenhoInteresse",
                new { controller = "Favourite", action = "IndexAnuncio" } // Parameter defaults

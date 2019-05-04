@@ -1,12 +1,35 @@
 ﻿@model MvcForum.Web.Models.NovoAnuncioViewModel
-
+@using MvcForum.Web.Application.ExtensionMethods
 @{
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
     ViewBag.Title = "Clube da Retro | Novo anúncio";
 }
+@{
+    var count = 0;
+    const string displayNone = "style=\"display: none;\"";
+}
+
+@Html.HiddenFor(x => x.TopicId)
+
+@section Header
+{
+    @(
+                                         Bundle.JavaScript()
+                                                    .Add("~/Scripts/jquery.tagsinput.min.js")
+                                                    .Add("~/Scripts/tags.js")
+                                                    .Add("~/Scripts/createtopic.js")
+                                                    .MvcRender("~/scripts/cache/topic-combined_#.js")
+    )
+    @*<script type="text/javascript">
+            counter = @(Model.PollAnswers != null ? Model.PollAnswers.Count : 0);
+        </script>*@
+}
 
 @using (Html.BeginForm("Index", "NovoAnuncio", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.ValidationSummary(false)
+    @Html.AntiForgeryToken()
+
     <div class="row">
         <div class="col-md-12">
             <h1 class="title-bar">Novo anúncio</h1>

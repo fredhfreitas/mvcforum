@@ -139,9 +139,14 @@
                             result = Task.Run(() => _topicService.GetAnunciosPorTipo(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, "Servico")).Result;
                             break;
                         case 6:
-                            var interesse = _membershipUserTopicInterestService.GetByUser(membershipUser.Id).Select(x => x.IdTopic).ToList();
 
-                            result = Task.Run(() => _topicService.GetAllAnunciosByID(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, interesse)).Result;
+                            if (membershipUser != null)
+                            {
+                                var interesse = _membershipUserTopicInterestService.GetByUser(membershipUser.Id).Select(x => x.IdTopic).ToList();
+
+                                result = Task.Run(() => _topicService.GetAllAnunciosByID(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize, interesse)).Result;
+                            }else result = Task.Run(() => _topicService.GetAnuncios(pageIndex, settings.TopicsPerPage, ForumConfiguration.Instance.ActiveTopicsListSize)).Result;
+
                             break;
                     }
                 else

@@ -15,7 +15,7 @@
     </div>
     <div class="col-md-4 sidelayoutsection">
         <div class="main-side-box clearfix">
-            <a href="/NovoAnuncio/Index" class="btn btn-primary" style="width: 100%">NOVO ANÚNCIO</a>
+            <a href="/anuncios/novo" class="btn btn-primary" style="width: 100%">NOVO ANÚNCIO</a>
 
             @*@Html.Action("ListarFiltrosSideMenu", "VerAnuncios", new { value = "76999701-995d-4d27-b35f-a9d9000f1e96" })*@
             <div class="categoryindex">
@@ -24,22 +24,22 @@
                     <h5>Escolha uma ou mais opções para filtrar sua busca</h5>
                     <ul>
                         <li class="catitem">
-                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=0">Novos</a>
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=0">Novos</a>
                         </li>
                         <li class="catitem">
-                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=1">Usados</a>
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=1">Usados</a>
                         </li>
                         <li class="catitem">
-                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=2">Troca</a>
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=2">Troca</a>
                         </li>
                         <li class="catitem">
-                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=3">Retro</a>
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=3">Retro</a>
                         </li>
                         <li class="catitem">
-                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=4">Acessório</a>
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=4">Acessório</a>
                         </li>
                         <li class="catitem">
-                            <a style="border-color: #ced1d1" href="/VerAnuncios/Index?tipoAnuncio=5">Serviços</a>
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=5">Serviços</a>
                         </li>
                         <li class="catitem">
                             <input id="price" type="text" class="js-range-slider" name="my_range" />
@@ -80,7 +80,7 @@
             onChange: function (data) {
                 //console.log(data.from);
                 //console.log(data.to);
-                window.location.href = ("/VerAnuncios/Index?valor=" + data.from + "-" + data.to);
+                window.location.href = ("/anuncios/?valor=" + data.from + "-" + data.to);
             }
         });
 

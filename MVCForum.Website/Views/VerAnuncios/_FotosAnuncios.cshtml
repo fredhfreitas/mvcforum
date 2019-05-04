@@ -21,7 +21,7 @@
                 @*TODO: Fazer validação do tipo do produto e qual produto*@
                 @*<a href="@Model.Topic.LastPost.User.NiceUrl">@Model.Topic.LastPost.User.UserName</a> | <span>@DatesUi.GetPrettyDate(Model.Topic.LastPost.DateCreated.ToString()).</span>*@
 
-                <a href="/VerAnuncios/Index?tipoAnuncio=@Model.Topic.CodigoCategoriaAnuncio">@Model.Topic.NomeCategoriaAnuncio</a> | <a href="#">@Model.Topic.TipoAnuncio</a>
+                <a href="/anuncios/?tipoAnuncio=@Model.Topic.CodigoCategoriaAnuncio">@Model.Topic.NomeCategoriaAnuncio</a> | <a href="#">@Model.Topic.TipoAnuncio</a>
             </p>
         </div>
         <div class="topic-info-actions">
