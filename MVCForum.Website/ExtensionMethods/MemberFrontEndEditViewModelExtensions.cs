@@ -29,11 +29,7 @@
             {
                 user.Avatar = viewModel.Avatar;
             }           
-            user.DisableEmailNotifications = viewModel.DisableEmailNotifications;   
-            
-
-
-
+            user.DisableEmailNotifications = viewModel.DisableEmailNotifications;      
             return user;
         }
 

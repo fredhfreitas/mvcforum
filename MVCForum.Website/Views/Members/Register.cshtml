@@ -4,6 +4,7 @@
     ViewBag.Title = Html.LanguageString("Members.Register");
 }
 
+
 @if (!User.Identity.IsAuthenticated)
 {
     <div class="row default-header">
@@ -21,360 +22,422 @@
             {
             <div class="mainregisterform">
 
-                @using (Html.BeginForm("Register", "Members", FormMethod.Post, new { @class = "form-register" }))
+                @using (Html.BeginForm("Register", "Members", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-register" }))
                 {
                     @Html.ValidationSummary(true)
                     @Html.AntiForgeryToken()
 
+                    @*@if (!Model.DisableFileUploads)
+            {*@
                     <div class="form-group">
-                        @Html.LabelFor(x => Model.UserName)
-                        @Html.TextBoxFor(x => Model.UserName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.UserName)
+                        <div class="row membereditavatar">
+                            @*<div class="col-md-4">
+                    <img src="@AppHelpers.MemberImage(Model.Avatar, Model.Email, 0, ForumConfiguration.Instance.GravatarProfileSize)" alt="@Model.UserName">
+                    </div>*@
+                            <div class="col-md-8">
+                                <span class="username-readonly"></span>
+                                @*@Html.LabelFor(x => x.Files)*@
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="pathImage" readonly="" placeholder="Incluir foto ao perfil">
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-default btn-file">
+                                            @Html.LanguageString("Post.Browse") @Html.TextBoxFor(m => Model.Files, new { type = "file" })
+                                        </span>
+                                    </span>
+                                </div>
+                               @* @Html.ValidationMessageFor(m => Model.Files, "", new { @class = "error" })*@
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(x => Model.Cidade)
-                        @Html.TextBoxFor(x => Model.Cidade, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Cidade)
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(x => Model.Estado)
-                        @Html.TextBoxFor(x => Model.Estado, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Estado)
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(x => Model.Password)
-                        @Html.PasswordFor(x => Model.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Password)
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(x => Model.ConfirmPassword)
-                        @Html.PasswordFor(x => Model.ConfirmPassword, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.ConfirmPassword)
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Email)
-                        @Html.TextBoxFor(x => x.Email, new { type = "email", @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Email)
-                    </div>
-
-                    <div class="form-group">
-                        <p>
-                            @{string Empresário = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Empresário");}
-                            @Html.RadioButtonFor(model => model.FuncaoEmpresario, "Empresário", new { id = Empresário, name = "imp_tx_tipo", value = "Empresário", @class = "with-gap" })
-                            <label for="Empresário">Empresário</label>
-                        </p>
-                        <p>
-                            @{string Operador = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Operador");}
-                            @Html.RadioButtonFor(model => model.FuncaoOperador, "Operador", new { id = Operador, name = "imp_tx_tipo", value = "Operador", @class = "with-gap" })
-                            <label for="Operador">Operador</label>
-                        </p>
-                        <p>
-                            @{string Mecânico = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Mecânico");}
-                            @Html.RadioButtonFor(model => model.FuncaoMecanico, "Mecânico", new { id = Mecânico, name = "imp_tx_tipo", value = "Mecânico", @class = "with-gap" })
-                            <label for="Mecânico">Mecânico</label>
-                        </p>
-
+                    //}
+                   
                         <div class="form-group">
-                            Outro
-                            @Html.TextBoxFor(x => Model.FuncaoOutro, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.FuncaoOutro)
+                            @Html.LabelFor(x => Model.UserName)
+                            @Html.TextBoxFor(x => Model.UserName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.UserName)
                         </div>
 
-                        
-                    </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => Model.Cidade)
+                            @Html.TextBoxFor(x => Model.Cidade, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Cidade)
+                        </div>
 
-                    <div class="dados-retro" id="retro1">
-                        <h4>Dados da Retro:</h4>
                         <div class="form-group">
-                            Marca
-                            @Html.TextBoxFor(x => Model.Marca1, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Marca1)
+                            @Html.LabelFor(x => Model.Estado)
+                            @Html.TextBoxFor(x => Model.Estado, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Estado)
                         </div>
-                        <div class="form-group">
-                            Modelo
-                            @Html.TextBoxFor(x => Model.Modelo1, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Modelo1)
-                        </div>
-                        <div class="form-group">
-                            Ano de Fabricação
-                            @Html.TextBoxFor(x => Model.AnoFabricacao1, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.AnoFabricacao1)
-                        </div>
-                        <div class="form-group">
-                            Empresa
-                            @Html.TextBoxFor(x => Model.Empresa1, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Empresa1)
-                        </div>
-                        <a href="#" class="btn btn-secondary" onclick="ShowItem(2, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
-                    </div>
 
-                    <div class="dados-retro" id="retro2" style="display:none">
-                        <h4>Dados da Retro:</h4>
                         <div class="form-group">
-                            Marca
-                            @Html.TextBoxFor(x => Model.Marca2, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Marca2)
+                            @Html.LabelFor(x => Model.Password)
+                            @Html.PasswordFor(x => Model.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Password)
                         </div>
-                        <div class="form-group">
-                            Modelo
-                            @Html.TextBoxFor(x => Model.Modelo2, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Modelo2)
-                        </div>
-                        <div class="form-group">
-                            Ano de Fabricação
-                            @Html.TextBoxFor(x => Model.AnoFabricacao2, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.AnoFabricacao2)
-                        </div>
-                        <div class="form-group">
-                            Empresa
-                            @Html.TextBoxFor(x => Model.Empresa2, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Empresa2)
-                        </div>
-                        <a href="#" class="btn btn-secondary" onclick="ShowItem(3, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
-                    </div>
 
-                    <div class="dados-retro" id="retro3" style="display:none">
                         <div class="form-group">
-                            Marca
-                            @Html.TextBoxFor(x => Model.Marca3, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Marca3)
+                            @Html.LabelFor(x => Model.ConfirmPassword)
+                            @Html.PasswordFor(x => Model.ConfirmPassword, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
                         </div>
-                        <div class="form-group">
-                            Modelo
-                            @Html.TextBoxFor(x => Model.Modelo3, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Modelo3)
-                        </div>
-                        <div class="form-group">
-                            Ano de Fabricação
-                            @Html.TextBoxFor(x => Model.AnoFabricacao3, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.AnoFabricacao3)
-                        </div>
-                        <div class="form-group">
-                            Empresa
-                            @Html.TextBoxFor(x => Model.Empresa3, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Empresa3)
-                        </div>
-                        <a href="#" class="btn btn-secondary" onclick="ShowItem(4, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
-                    </div>
 
-                    <div class="dados-retro" id="retro4" style="display:none">
-                        <h4>Dados da Retro:</h4>
                         <div class="form-group">
-                            Marca
-                            @Html.TextBoxFor(x => Model.Marca4, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Marca4)
+                            @Html.LabelFor(x => x.Email)
+                            @Html.TextBoxFor(x => x.Email, new { type = "email", @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Email)
                         </div>
-                        <div class="form-group">
-                            Modelo
-                            @Html.TextBoxFor(x => Model.Modelo4, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Modelo4)
-                        </div>
-                        <div class="form-group">
-                            Ano de Fabricação
-                            @Html.TextBoxFor(x => Model.AnoFabricacao4, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.AnoFabricacao4)
-                        </div>
-                        <div class="form-group">
-                            Empresa
-                            @Html.TextBoxFor(x => Model.Empresa4, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Empresa4)
-                        </div>
-                        <a href="#" class="btn btn-secondary" onclick="ShowItem(5, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
-                    </div>
 
-                    <div class="dados-retro" id="retro5" style="display:none">
-                        <h4>Dados da Retro:</h4>
                         <div class="form-group">
-                            Marca
-                            @Html.TextBoxFor(x => Model.Marca5, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Marca5)
-                        </div>
-                        <div class="form-group">
-                            Modelo
-                            @Html.TextBoxFor(x => Model.Modelo5, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Modelo5)
-                        </div>
-                        <div class="form-group">
-                            Ano de Fabricação
-                            @Html.TextBoxFor(x => Model.AnoFabricacao5, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.AnoFabricacao5)
-                        </div>
-                        <div class="form-group">
-                            Empresa
-                            @Html.TextBoxFor(x => Model.Empresa5, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Empresa5)
-                        </div>
-                        
-                    </div>
+                            <p>
+                                @{string Empresário = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Empresário");}
+                                @Html.RadioButtonFor(model => model.FuncaoEmpresario, "Empresário", new { id = Empresário, name = "imp_tx_tipo", value = "Empresário", @class = "with-gap" })
+                                <label for="Empresário">Empresário</label>
+                            </p>
+                            <p>
+                                @{string Operador = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Operador");}
+                                @Html.RadioButtonFor(model => model.FuncaoOperador, "Operador", new { id = Operador, name = "imp_tx_tipo", value = "Operador", @class = "with-gap" })
+                                <label for="Operador">Operador</label>
+                            </p>
+                            <p>
+                                @{string Mecânico = ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId("Mecânico");}
+                                @Html.RadioButtonFor(model => model.FuncaoMecanico, "Mecânico", new { id = Mecânico, name = "imp_tx_tipo", value = "Mecânico", @class = "with-gap" })
+                                <label for="Mecânico">Mecânico</label>
+                            </p>
 
-                    if (!string.IsNullOrEmpty(Html.Settings().SpamQuestion))
-                    {
+                            <div class="form-group">
+                                Outro
+                                @Html.TextBoxFor(x => Model.FuncaoOutro, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.FuncaoOutro)
+                            </div>
+
+
+                        </div>
+
+                        <div class="dados-retro" id="retro1">
+                            <h4>Dados da Retro:</h4>
+                            <div class="form-group">
+                                Marca
+                                @Html.TextBoxFor(x => Model.Marca1, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Marca1)
+                            </div>
+                            <div class="form-group">
+                                Modelo
+                                @Html.TextBoxFor(x => Model.Modelo1, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Modelo1)
+                            </div>
+                            <div class="form-group">
+                                Ano de Fabricação
+                                @Html.TextBoxFor(x => Model.AnoFabricacao1, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.AnoFabricacao1)
+                            </div>
+                            <div class="form-group">
+                                Empresa
+                                @Html.TextBoxFor(x => Model.Empresa1, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Empresa1)
+                            </div>
+                            <a href="#" class="btn btn-secondary" onclick="ShowItem(2, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
+                        </div>
+
+                        <div class="dados-retro" id="retro2" style="display:none">
+                            <h4>Dados da Retro:</h4>
+                            <div class="form-group">
+                                Marca
+                                @Html.TextBoxFor(x => Model.Marca2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Marca2)
+                            </div>
+                            <div class="form-group">
+                                Modelo
+                                @Html.TextBoxFor(x => Model.Modelo2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Modelo2)
+                            </div>
+                            <div class="form-group">
+                                Ano de Fabricação
+                                @Html.TextBoxFor(x => Model.AnoFabricacao2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.AnoFabricacao2)
+                            </div>
+                            <div class="form-group">
+                                Empresa
+                                @Html.TextBoxFor(x => Model.Empresa2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Empresa2)
+                            </div>
+                            <a href="#" class="btn btn-secondary" onclick="ShowItem(3, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
+                        </div>
+
+                        <div class="dados-retro" id="retro3" style="display:none">
+                            <div class="form-group">
+                                Marca
+                                @Html.TextBoxFor(x => Model.Marca3, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Marca3)
+                            </div>
+                            <div class="form-group">
+                                Modelo
+                                @Html.TextBoxFor(x => Model.Modelo3, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Modelo3)
+                            </div>
+                            <div class="form-group">
+                                Ano de Fabricação
+                                @Html.TextBoxFor(x => Model.AnoFabricacao3, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.AnoFabricacao3)
+                            </div>
+                            <div class="form-group">
+                                Empresa
+                                @Html.TextBoxFor(x => Model.Empresa3, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Empresa3)
+                            </div>
+                            <a href="#" class="btn btn-secondary" onclick="ShowItem(4, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
+                        </div>
+
+                        <div class="dados-retro" id="retro4" style="display:none">
+                            <h4>Dados da Retro:</h4>
+                            <div class="form-group">
+                                Marca
+                                @Html.TextBoxFor(x => Model.Marca4, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Marca4)
+                            </div>
+                            <div class="form-group">
+                                Modelo
+                                @Html.TextBoxFor(x => Model.Modelo4, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Modelo4)
+                            </div>
+                            <div class="form-group">
+                                Ano de Fabricação
+                                @Html.TextBoxFor(x => Model.AnoFabricacao4, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.AnoFabricacao4)
+                            </div>
+                            <div class="form-group">
+                                Empresa
+                                @Html.TextBoxFor(x => Model.Empresa4, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Empresa4)
+                            </div>
+                            <a href="#" class="btn btn-secondary" onclick="ShowItem(5, event);"><i class="fas fa-plus"></i> Adicionar outra retro</a>
+                        </div>
+
+                        <div class="dados-retro" id="retro5" style="display:none">
+                            <h4>Dados da Retro:</h4>
+                            <div class="form-group">
+                                Marca
+                                @Html.TextBoxFor(x => Model.Marca5, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Marca5)
+                            </div>
+                            <div class="form-group">
+                                Modelo
+                                @Html.TextBoxFor(x => Model.Modelo5, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Modelo5)
+                            </div>
+                            <div class="form-group">
+                                Ano de Fabricação
+                                @Html.TextBoxFor(x => Model.AnoFabricacao5, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.AnoFabricacao5)
+                            </div>
+                            <div class="form-group">
+                                Empresa
+                                @Html.TextBoxFor(x => Model.Empresa5, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Empresa5)
+                            </div>
+
+                        </div>
+
+                        if (!string.IsNullOrEmpty(Html.Settings().SpamQuestion))
+                        {
                         <div class="form-group">
                             <label for="SpamAnswer">@Html.Settings().SpamQuestion</label>
                             @Html.TextBoxFor(x => x.SpamAnswer, new { @class = "form-control" })
                         </div>
-                    }
+                        }
 
-                    <div class="checkbox">
-                        <label><input type="checkbox" id="chkTermos" class="chk-termos"> Estou de acordo com os <a href="#" data-toggle="modal" data-target="#modalTermos">termos de uso e política de privacidade do Clube da Retro</a></label>
-                    </div>
-
-                    <div id="modalTermos" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4>TERMOS DE USO – CASE CE</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>A CASE Construction Equipment é uma marca pertencente à CNH Industrial, uma das líderes
-                                globais no setor de bens de capital. O site Clube da Retro criado e gerenciado pela CASE
-                                Construction Equipment Brasil é um local para os proprietários, operadores e entusiastas de
-                                retroescavadeiras se relacionarem e discutirem sobre os produtos, mercado e sobre ações
-                                relacionadas a esses temas, como eventos, anúncios, dicas e discussões técnicas. Todos os
-                                comentários, imagens, vídeos e outros tipos de materiais postados por fãs neste site
-                                (“Conteúdo do Usuário”) não refletem as opiniões e ideais da CASE Construction Equipment,
-                                seus colaboradores e/ou afiliados.</p>
-
-                                <p>A CASE Construction Equipment não representa nem garante a exatidão de qualquer
-                                afirmação ou reclamação feitas aqui sobre seus produtos, bem como não se responsabiliza por
-                                qualquer Conteúdo do Usuário postado neste site, além de não endossar quaisquer opiniões
-                                expressas nesta página.</p>
-
-                                <p>Todos os usuários devem estar de acordo com os Termos de Uso da CASE Construction
-                                Equipment. Nós não monitoramos todos os posts feitos por usuários na página do Clube da
-                                Retro. No entanto, esperamos que os usuários não postem quaisquer materiais que estejam
-                                nas seguintes categorias, eliminando aqueles que se enquadrem qualquer das hipóteses
-                                abaixo:</p>
-
-                                <ul>
-                                <li>Difamem, abusem, molestem, importunem, ameacem ou violem os direitos e
-                                atributos (tais como os direitos de privacidade e intimidade) além de outros.</li>
-                                <li>Publiquem, postem, distribuam ou disseminem qualquer informação ou material
-                                difamatório (inclusive relacionado aos nossos produtos e serviços), transgressor,
-                                obsceno, indecente, enganoso ou ilícito.</li>
-                                <li>Façam o upload ou anexem arquivos que contenham software ou outros materiais
-                                protegidos por leis de propriedade intelectual (ou por direitos de privacidade e
-                                publicidade), a menos que o usuário detenha ou controle os direitos ou tenha
-                                recebido todos os consentimentos necessários.</li>
-                                <li>Façam o upload ou anexem arquivos que contenham vírus, estejam corrompidos, ou
-                                qualquer outro software similar ou programas que possam danificar a operação de
-                                qualquer computador.</li>
-                                <li>Excluam quaisquer atribuições autorais, avisos legais ou de propriedade.
-                                <li>Falsifiquem a origem ou fonte do software ou outro material presente num arquivo
-                                que já foi postado.</li>
-                                <li>Difamem ou, de alguma forma, prejudiquem a imagem do(s) produto(s) da CASE
-                                Construction Equipment perante seu público consumidor.</li>
-                                </ul>
-
-                                <br>
-                                <strong>POLÍTICA DE PRIVACIDADE</strong>
-                                <br>
-                                <br>
-                                <p>PEDIMOS QUE LEIA COM ATENÇÃO NOSSA POLÍTICA DE PRIVACIDADE PARA CONHECER AS
-                                VANTAGENS, FACILIDADES E RECURSOS DISPONÍVEIS NO SITE CLUBE DA RETRO, BEM COMO OS
-                                TERMOS E CONDIÇÕES EM QUE SUAS INFORMAÇÕES PESSOAIS SERÃO UTILIZADAS. ESTA
-                                POLÍTICA PODERÁ SER ATUALIZADA, A QUALQUER TEMPO, PELA CASE.
-                                Assim, verifique sempre as eventuais mudanças ocorridas, mantendo-se em dia com os novos
-                                procedimentos adotados. E, caso não concorde com qualquer alteração, lembre-se que você
-                                poderá alterar seu perfil a qualquer momento.</p>
-
-                                <strong>1.1 – Privacidade</strong>
-                                <p>O site do Clube da Retro foi desenvolvido visando assegurar que sua privacidade online seja
-                                respeitada e suas informações pessoais devidamente protegidas. Conheça a seguir as
-                                providências que tomamos para proteger as informações pessoais que nossos visitantes
-                                poderão compartilhar conosco, assim como as formas de utilização destas informações e com
-                                quem estas poderão ser compartilhadas. Outras importantes informações sobre os termos e
-                                condições de utilização deste Site estão disponíveis na página Termos de Uso.</p>
-
-                                <strong>1.2 – Informações coletadas – finalidade, atualização ou mudança de perfil e forma de
-                                utilização</strong>
-
-                                <p>Através deste Site, a CASE Construction Equipment busca criar mais um canal de
-                                comunicação com você, com a possibilidade de conhecê-lo melhor e poder prestar serviços e
-                                informações que atendam às suas necessidades, expectativas e preferências. Ao preencher o
-                                cadastro, você perceberá que algumas informações são obrigatórias para o seu
-                                cadastramento, sendo certo que outras se fazem importantes para que a CASE possa
-                                identificá-lo melhor. Portanto, quanto mais informações forem compartilhadas com a CASE,
-                                maior será a chance de sucesso deste nosso relacionamento.</p>
-
-                                <p>Com o seu cadastramento, você terá acesso aos diversos recursos disponíveis neste Site,
-                                alguns dos quais, são restritos aos clientes cadastrados.</p>
-
-                                <p>Suas informações serão armazenadas em um Servidor Seguro e somente poderão ser acessadas
-                                através de uma senha pessoal, que será escolhida por você no momento de seu cadastro. Não
-                                divulgue sua senha à terceiros sob nenhuma circunstância.</p>
-
-                                <p>Você poderá atualizar, adicionar ou até mesmo excluir, a qualquer tempo, quaisquer
-                                informações que tenham sido compartilhadas conosco. Para tanto, basta atualizar seu
-                                cadastro.</p>
-
-                                <p>Seus dados pessoais poderão ser compartilhados com os Parceiros e aliados da CASE
-                                Construction Equipment. A não ser que você especifique no seu cadastro, suas informações
-                                CASE bem poderão ser divulgadas aos Parceiros de negócios da CASE.</p>
-
-                                <p>A CASE Construction Equipment poderá utilizar seu e-mail para enviar correspondências,
-                                materiais promocionais e institucionais, bem como para fazer confirmações ou cancelamentos
-                                de reservas. Se você não quiser receber e-mails da CASE ou de nossos Parceiros e aliados,
-                                atualize seu Cadastro.</p>
-
-                                <strong>1.3 - Cookies</strong>
-
-                                <p>A CASE Construction Equipment poderá utilizar instruções eletrônicas, conhecidas como
-                                (&quot;cookies&quot;), que serão enviadas ao browser e armazenadas no disco do seu computador. A
-                                finalidade dos cookies é verificar quem são os usuários do(s) website(s) da Case, para,
-                                eventualmente, facilitar sua navegação com as características, preferências e qualidade das
-                                informações veiculadas por seus cadastrados. Esses dados são usados para certificarmos de
-                                que estamos enviando a você as informações que deseja receber e ler.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                            </div>
-                            </div>
-
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="chkTermos" class="chk-termos"> Estou de acordo com os <a href="#" data-toggle="modal" data-target="#modalTermos">termos de uso e política de privacidade do Clube da Retro</a></label>
                         </div>
-                    </div>
 
-                    <div class="submit-holder">
-                        <button type="submit" class="btn btn-primary" id="btnRegister" disabled="true">
-                            @Html.LanguageString("Members.Register")
-                        </button>
-                    </div>
+                        <div id="modalTermos" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4>TERMOS DE USO – CASE CE</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>
+                                            A CASE Construction Equipment é uma marca pertencente à CNH Industrial, uma das líderes
+                                            globais no setor de bens de capital. O site Clube da Retro criado e gerenciado pela CASE
+                                            Construction Equipment Brasil é um local para os proprietários, operadores e entusiastas de
+                                            retroescavadeiras se relacionarem e discutirem sobre os produtos, mercado e sobre ações
+                                            relacionadas a esses temas, como eventos, anúncios, dicas e discussões técnicas. Todos os
+                                            comentários, imagens, vídeos e outros tipos de materiais postados por fãs neste site
+                                            (“Conteúdo do Usuário”) não refletem as opiniões e ideais da CASE Construction Equipment,
+                                            seus colaboradores e/ou afiliados.
+                                        </p>
 
-                    @Html.HiddenFor(x => x.ReturnUrl)
+                                        <p>
+                                            A CASE Construction Equipment não representa nem garante a exatidão de qualquer
+                                            afirmação ou reclamação feitas aqui sobre seus produtos, bem como não se responsabiliza por
+                                            qualquer Conteúdo do Usuário postado neste site, além de não endossar quaisquer opiniões
+                                            expressas nesta página.
+                                        </p>
+
+                                        <p>
+                                            Todos os usuários devem estar de acordo com os Termos de Uso da CASE Construction
+                                            Equipment. Nós não monitoramos todos os posts feitos por usuários na página do Clube da
+                                            Retro. No entanto, esperamos que os usuários não postem quaisquer materiais que estejam
+                                            nas seguintes categorias, eliminando aqueles que se enquadrem qualquer das hipóteses
+                                            abaixo:
+                                        </p>
+
+                                        <ul>
+                                            <li>
+                                                Difamem, abusem, molestem, importunem, ameacem ou violem os direitos e
+                                                atributos (tais como os direitos de privacidade e intimidade) além de outros.
+                                            </li>
+                                            <li>
+                                                Publiquem, postem, distribuam ou disseminem qualquer informação ou material
+                                                difamatório (inclusive relacionado aos nossos produtos e serviços), transgressor,
+                                                obsceno, indecente, enganoso ou ilícito.
+                                            </li>
+                                            <li>
+                                                Façam o upload ou anexem arquivos que contenham software ou outros materiais
+                                                protegidos por leis de propriedade intelectual (ou por direitos de privacidade e
+                                                publicidade), a menos que o usuário detenha ou controle os direitos ou tenha
+                                                recebido todos os consentimentos necessários.
+                                            </li>
+                                            <li>
+                                                Façam o upload ou anexem arquivos que contenham vírus, estejam corrompidos, ou
+                                                qualquer outro software similar ou programas que possam danificar a operação de
+                                                qualquer computador.
+                                            </li>
+                                            <li>Excluam quaisquer atribuições autorais, avisos legais ou de propriedade.
+                                            <li>
+                                                Falsifiquem a origem ou fonte do software ou outro material presente num arquivo
+                                                que já foi postado.
+                                            </li>
+                                            <li>
+                                                Difamem ou, de alguma forma, prejudiquem a imagem do(s) produto(s) da CASE
+                                                Construction Equipment perante seu público consumidor.
+                                            </li>
+                                        </ul>
+
+                                        <br>
+                                        <strong>POLÍTICA DE PRIVACIDADE</strong>
+                                        <br>
+                                        <br>
+                                        <p>
+                                            PEDIMOS QUE LEIA COM ATENÇÃO NOSSA POLÍTICA DE PRIVACIDADE PARA CONHECER AS
+                                            VANTAGENS, FACILIDADES E RECURSOS DISPONÍVEIS NO SITE CLUBE DA RETRO, BEM COMO OS
+                                            TERMOS E CONDIÇÕES EM QUE SUAS INFORMAÇÕES PESSOAIS SERÃO UTILIZADAS. ESTA
+                                            POLÍTICA PODERÁ SER ATUALIZADA, A QUALQUER TEMPO, PELA CASE.
+                                            Assim, verifique sempre as eventuais mudanças ocorridas, mantendo-se em dia com os novos
+                                            procedimentos adotados. E, caso não concorde com qualquer alteração, lembre-se que você
+                                            poderá alterar seu perfil a qualquer momento.
+                                        </p>
+
+                                        <strong>1.1 – Privacidade</strong>
+                                        <p>
+                                            O site do Clube da Retro foi desenvolvido visando assegurar que sua privacidade online seja
+                                            respeitada e suas informações pessoais devidamente protegidas. Conheça a seguir as
+                                            providências que tomamos para proteger as informações pessoais que nossos visitantes
+                                            poderão compartilhar conosco, assim como as formas de utilização destas informações e com
+                                            quem estas poderão ser compartilhadas. Outras importantes informações sobre os termos e
+                                            condições de utilização deste Site estão disponíveis na página Termos de Uso.
+                                        </p>
+
+                                        <strong>
+                                            1.2 – Informações coletadas – finalidade, atualização ou mudança de perfil e forma de
+                                            utilização
+                                        </strong>
+
+                                        <p>
+                                            Através deste Site, a CASE Construction Equipment busca criar mais um canal de
+                                            comunicação com você, com a possibilidade de conhecê-lo melhor e poder prestar serviços e
+                                            informações que atendam às suas necessidades, expectativas e preferências. Ao preencher o
+                                            cadastro, você perceberá que algumas informações são obrigatórias para o seu
+                                            cadastramento, sendo certo que outras se fazem importantes para que a CASE possa
+                                            identificá-lo melhor. Portanto, quanto mais informações forem compartilhadas com a CASE,
+                                            maior será a chance de sucesso deste nosso relacionamento.
+                                        </p>
+
+                                        <p>
+                                            Com o seu cadastramento, você terá acesso aos diversos recursos disponíveis neste Site,
+                                            alguns dos quais, são restritos aos clientes cadastrados.
+                                        </p>
+
+                                        <p>
+                                            Suas informações serão armazenadas em um Servidor Seguro e somente poderão ser acessadas
+                                            através de uma senha pessoal, que será escolhida por você no momento de seu cadastro. Não
+                                            divulgue sua senha à terceiros sob nenhuma circunstância.
+                                        </p>
+
+                                        <p>
+                                            Você poderá atualizar, adicionar ou até mesmo excluir, a qualquer tempo, quaisquer
+                                            informações que tenham sido compartilhadas conosco. Para tanto, basta atualizar seu
+                                            cadastro.
+                                        </p>
+
+                                        <p>
+                                            Seus dados pessoais poderão ser compartilhados com os Parceiros e aliados da CASE
+                                            Construction Equipment. A não ser que você especifique no seu cadastro, suas informações
+                                            CASE bem poderão ser divulgadas aos Parceiros de negócios da CASE.
+                                        </p>
+
+                                        <p>
+                                            A CASE Construction Equipment poderá utilizar seu e-mail para enviar correspondências,
+                                            materiais promocionais e institucionais, bem como para fazer confirmações ou cancelamentos
+                                            de reservas. Se você não quiser receber e-mails da CASE ou de nossos Parceiros e aliados,
+                                            atualize seu Cadastro.
+                                        </p>
+
+                                        <strong>1.3 - Cookies</strong>
+
+                                        <p>
+                                            A CASE Construction Equipment poderá utilizar instruções eletrônicas, conhecidas como
+                                            (&quot;cookies&quot;), que serão enviadas ao browser e armazenadas no disco do seu computador. A
+                                            finalidade dos cookies é verificar quem são os usuários do(s) website(s) da Case, para,
+                                            eventualmente, facilitar sua navegação com as características, preferências e qualidade das
+                                            informações veiculadas por seus cadastrados. Esses dados são usados para certificarmos de
+                                            que estamos enviando a você as informações que deseja receber e ler.
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="submit-holder">
+                            <button type="submit" class="btn btn-primary" id="btnRegister" disabled="true">
+                                @Html.LanguageString("Members.Register")
+                            </button>
+                        </div>
+
+                        @Html.HiddenFor(x => x.ReturnUrl)
+                        }
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#chkTermos').on('click', function () {
+                                if ($(this).is(':checked')) {
+                                    $('#btnRegister').attr('disabled', false);
+                                } else {
+                                    $('#btnRegister').attr('disabled', true);
+                                }
+                            });
+                        });
+                        function ShowItem(item, event) {
+                            event.preventDefault();
+                            var x = document.getElementById("retro" + item);
+
+
+                            if (x.style.display === "none") {
+                                x.style.display = "block";
+
+                            } else {
+
+                                x.style.display = "none";
+                            }
+                        }
+                    </script>
                 }
             </div>
-            <script>
-                $(document).ready( function () {
-                    $('#chkTermos').on('click', function () {
-                        if ($(this).is(':checked')) {
-                            $('#btnRegister').attr('disabled', false);
-                        } else {
-                            $('#btnRegister').attr('disabled', true);
-                        }
-                    });
-                });
-                function ShowItem(item, event) {
-                    event.preventDefault();
-                    var x = document.getElementById("retro" + item);
-                   
-
-                    if(x.style.display === "none") {
-                            x.style.display = "block";
-
-                    } else {
-                       
-                        x.style.display = "none";
-                    }
-                }
-            </script>
-            }
-        </div>
 
     </div>
 }

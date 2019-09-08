@@ -1,0 +1,105 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+    ViewBag.Title = "Clube da Retro | Fale com a CASE";
+    ViewBag.MetaDesc = "Fale com a CASE: dúvidas, elogios e sugestões";
+}
+@section side
+{
+    @*@Html.Partial("_CommonSideNav")*@
+    @*@Html.Action("GetPostByGuid", "Post", new { value = "f7d90b4f-3bb9-440a-91af-a98200078c59" })*@
+
+    <div class="dados-contato hidden">
+        <h3 class="title-bar">Outras formas <span>de contato</span></h3>
+        <p>Telefone: <strong>0800 70 70 77</strong></p>
+        <p>WhatsApp: <strong>31 95555-5555</strong></p>
+        <p>Caixa Postal: <strong>317874</strong>Belo Horizonte</p>
+    </div>
+}
+@model MvcForum.Web.ViewModels.Suporte.ContactFormModel
+<div class="row default-header">
+    <div class="col-md-12">
+        <h3 class="title-bar">Fale com a CASE</h3>
+    </div>
+</div>
+<div class="postedin row">
+    
+    <div class="mainregisterform col-md-8">
+
+        <!-- <h3 class="title-bar">@ViewBag.Title</h3> -->
+        <p>Sabemos que a gente se fala muito, afinal é esse o objetivo desse espaço, falar e ouvir. Mas se você precisa esclarecer uma dúvida ou fazer uma sugestão diretamente aos gestores do site, escreva seu recado e deixe seu contato que responderemos o mais rápido possível.</p>
+        @using (Html.BeginForm("ContactForm", "Suporte", FormMethod.Post))
+        {
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.Label("Nome")
+                @Html.TextBoxFor(x => Model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Name)
+            </div>            
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Email)
+                @Html.TextBoxFor(x => x.Email, new { type = "email", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Telefone)
+                @Html.TextBoxFor(x => x.Telefone, new { type = "telefone", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Telefone)
+            </div>
+            <div class="form-group">
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Sugestão",
+                        Value = "Sugestão"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Dúvida",
+                        Value = "Dúvida",
+                        Selected = true
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Reclamação",
+                        Value = "Reclamação"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Elogio",
+                        Value = "Elogio"
+                    });
+                }
+
+
+                @Html.LabelFor(x => x.Assunto)
+                @Html.DropDownListFor(model => model.Assunto, listItems, new { @class="form-control" })
+                @Html.ValidationMessageFor(x => x.Assunto)
+            </div>
+            <div class="form-group">
+                @Html.Label("Mensagem")
+                <br>
+                @Html.TextAreaFor(m => m.Message, new { @cols = 80, @rows = 10, @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Message)
+            </div>
+
+            <div class="submit-holder">
+                <button type="submit" class="btn-mvc-green btn-mvc-large btn btn-primary">Enviar</button>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        <div style="border: 1px solid #ccc; padding: 15px;">
+            <h4><b>Outras formas de contato:</b></h4><br>
+            <p>Telefone</p>
+            <h3>0800 70 70 77</h3>
+            <br><br><br>
+        </div>
+    </div>
+
+</div>
+
+

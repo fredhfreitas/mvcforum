@@ -67,7 +67,7 @@
                     NameTo = "Olá Administrador, temos uma nova mensagem",
                     Subject = "[Case da Retro] [Contato] "
                 };
-                email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString());
+                email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString(), "header-nova-mensagem.jpg");
                 _emailService.SendMail(email);
 
                 var message = new GenericMessageViewModel

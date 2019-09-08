@@ -32,7 +32,7 @@
                 Modelo1 = viewModel.Modelo1,
                 AnoFabricacao1 = viewModel.AnoFabricacao1,
                 Empresa1 = viewModel.Empresa1,
-
+                Avatar = viewModel.Files[0] != null ?  viewModel.Files[0].FileName : string.Empty,
                 Marca2 = viewModel.Marca2,
                 Modelo2 = viewModel.Modelo2,
                 AnoFabricacao2 = viewModel.AnoFabricacao2,
@@ -52,7 +52,7 @@
                 Modelo5 = viewModel.Modelo5,
                 AnoFabricacao5 = viewModel.AnoFabricacao5,
                 Empresa5 = viewModel.Empresa5
-            };
+            };           
 
             if (viewModel.LoginType == LoginType.Facebook)
             {
@@ -78,6 +78,11 @@
             if (!string.IsNullOrWhiteSpace(viewModel.ReturnUrl))
             {
                 userToSave.SetExtendedDataValue(Constants.ExtendedDataKeys.ReturnUrl, viewModel.ReturnUrl);
+            }
+
+            if (viewModel.Avatar != null && !string.IsNullOrWhiteSpace(viewModel.Avatar))
+            {
+                userToSave.Avatar = viewModel.Avatar;
             }
 
             return userToSave;

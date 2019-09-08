@@ -1,6 +1,7 @@
 ﻿namespace MvcForum.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Principal;
     using System.Text;
@@ -19,6 +20,7 @@
     using Core.Models.General;
     using Core.Pipeline;
     using Core.Reflection;
+    using MvcForum.Core.Models.Entities;
     using ViewModels;
     using ViewModels.Admin;
     using ViewModels.ExtensionMethods;
@@ -42,6 +44,7 @@
         private readonly IReportService _reportService;
         private readonly ITopicService _topicService;
         private readonly IVoteService _voteService;
+        private readonly IMembershipUserTopicInterestService _membershipUserTopicInterestService;
 
         /// <summary>
         ///     Constructor
@@ -68,6 +71,7 @@
             IPostService postService, IReportService reportService, IEmailService emailService,
             IPrivateMessageService privateMessageService, ICategoryService categoryService, ITopicService topicService,
             ICacheService cacheService, INotificationService notificationService,
+            IMembershipUserTopicInterestService membershipUserTopicInterestService,
             IPollService pollService, IVoteService voteService, IFavouriteService favouriteService,
             IMvcForumContext context)
             : base(loggingService, membershipService, localizationService, roleService,
@@ -83,6 +87,7 @@
             _pollService = pollService;
             _voteService = voteService;
             _favouriteService = favouriteService;
+            _membershipUserTopicInterestService = membershipUserTopicInterestService;
         }
 
         /// <summary>
@@ -376,12 +381,25 @@
                     }
                 }
 
-                // Get the user model
                 var user = userModel.ToMembershipUser();
 
-                var pipeline = await MembershipService.CreateUser(user, LoginType.Standard);
+                // Avatar holding image
+                HttpPostedFileBase avatar = null;
+
+                // Check image for upload
+                if (userModel.Files.Any(x => x != null))
+                {
+                    // See if file is ok and then convert to image
+                    avatar = userModel.Files[0];
+
+
+                }
+
+                var pipeline = await MembershipService.CreateUser(user, LoginType.Standard, avatar);
                 if (!pipeline.Successful)
                 {
+                                      
+
                     ModelState.AddModelError(string.Empty, pipeline.ProcessLog.FirstOrDefault());
                     return View();
                 }
@@ -406,7 +424,7 @@
                 // Get the user model
                 var user = userModel.ToMembershipUser();
 
-                var pipeline = await MembershipService.CreateUser(user, userModel.LoginType);
+                var pipeline = await MembershipService.CreateUser(user, userModel.LoginType, null);
                 if (!pipeline.Successful)
                 {
                     ModelState.AddModelError(string.Empty, pipeline.ProcessLog.FirstOrDefault());
@@ -1229,7 +1247,7 @@
                 NameTo = user.UserName,
                 Subject = LocalizationService.GetResourceString("Members.ForgotPassword.Subject")
             };
-            email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString());
+            email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString(), "header-recuperacao-de-senha.jpg.png");
             _emailService.SendMail(email);
 
             try
@@ -1343,10 +1361,18 @@
             return View();
         }
 
-        //[HttpGet]
-        //public virtual ViewResult AllBadgesUser()
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public bool IsInteresse(Guid topicID)
+        {
+            MembershipUser loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            if (User.Identity.IsAuthenticated)
+            {
+                IEnumerable<MembershipUserTopicInterest> dataInteresse = _membershipUserTopicInterestService.GetByUser(loggedOnReadOnlyUser.Id).Where(x => x.IdTopic.Equals(topicID));
+
+                return dataInteresse.Any();
+            }
+
+            return false;
+        }
     }
 }

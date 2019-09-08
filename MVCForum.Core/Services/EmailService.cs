@@ -115,6 +115,12 @@
             }
         }
 
+        public string EmailTemplate(string to, string content, string topo)
+        {
+            var settings = _settingsService.GetSettings();
+            return EmailTemplateCustom(to, content, settings, topo);
+        }
+
         /// <summary>
         ///     Returns the HTML email template with values replaced
         /// </summary>
@@ -136,6 +142,27 @@
                 sb = sb.Replace("#CONTENT#", content);
                 sb = sb.Replace("#SITENAME#", settings.ForumName);
                 sb = sb.Replace("#SITEURL#", settings.ForumUrl);
+                if (!string.IsNullOrWhiteSpace(to))
+                {
+                    to = $"<p>{to},</p>";
+                    sb = sb.Replace("#TO#", to);
+                }
+
+                return sb;
+            }
+        }
+
+        public string EmailTemplateCustom(string to, string content, Settings settings, string topo)
+        {
+            using (var sr = File.OpenText(HostingEnvironment.MapPath(@"~/Content/Emails/EmailNotificationCustom.htm")))
+            {
+                var sb = sr.ReadToEnd();
+                sr.Close();
+                sb = sb.Replace("#TOPO#", topo);
+                sb = sb.Replace("#CONTENT#", content);
+                sb = sb.Replace("#SITENAME#", settings.ForumName);
+                sb = sb.Replace("#SITEURL#", settings.ForumUrl);
+                sb = sb.Replace("#RODAPE#", "rodape.jpg");
                 if (!string.IsNullOrWhiteSpace(to))
                 {
                     to = $"<p>{to},</p>";
@@ -184,7 +211,7 @@
                         Subject = _localizationService.GetResourceString("Members.MemberEmailAuthorisation.Subject")
                     };
 
-                    email.Body = EmailTemplate(email.NameTo, sb.ToString());
+                    email.Body = EmailTemplate(email.NameTo, sb.ToString(), "header-recuperacao-de-senha.jpg.png");
 
                     SendMail(email);
 

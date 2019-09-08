@@ -33,9 +33,8 @@
         private readonly ILoggingService _loggingService;
 
         public TopicService(IMvcForumContext context, IMembershipUserPointsService membershipUserPointsService,
-            ISettingsService settingsService, INotificationService notificationService,
-            IFavouriteService favouriteService,
-            IPostService postService, IRoleService roleService, IPollService pollService, ICacheService cacheService, ILoggingService loggingService)
+                            ISettingsService settingsService, INotificationService notificationService, IFavouriteService favouriteService,
+                            IPostService postService, IRoleService roleService, IPollService pollService, ICacheService cacheService, ILoggingService loggingService)
         {
             _membershipUserPointsService = membershipUserPointsService;
             _settingsService = settingsService;
@@ -66,7 +65,7 @@
         public async Task<int> SaveChanges()
         {
             return await _context.SaveChangesAsync();
-        }      
+        }
 
         /// <summary>
         /// Get all topics
@@ -88,19 +87,19 @@
         public IList<SelectListItem> GetAllSelectList(List<Category> allowedCategories, int amount)
         {
 
-                // get the category ids
-                var allowedCatIds = allowedCategories.Select(x => x.Id);
-                return _context.Topic.AsNoTracking()
-                                    .Include(x => x.Category)
-                                    .Where(x => allowedCatIds.Contains(x.Category.Id) && x.Pending != true && x.User.UserName != "editor")
-                                    .OrderByDescending(x => x.CreateDate)
-                                    .Take(amount)
-                                    .Select(x => new SelectListItem
-                                    {
-                                        Text = x.Name,
-                                        Value = x.Id.ToString()
-                                    }).ToList();
-         
+            // get the category ids
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            return _context.Topic.AsNoTracking()
+                                .Include(x => x.Category)
+                                .Where(x => allowedCatIds.Contains(x.Category.Id) && x.Pending != true && x.User.UserName != "editor")
+                                .OrderByDescending(x => x.CreateDate)
+                                .Take(amount)
+                                .Select(x => new SelectListItem
+                                {
+                                    Text = x.Name,
+                                    Value = x.Id.ToString()
+                                }).ToList();
+
         }
 
         public IList<Topic> GetHighestViewedTopics(int amountToTake, List<Category> allowedCategories)
@@ -163,12 +162,15 @@
         public async Task<IPipelineProcess<Topic>> Create(Topic topic, HttpPostedFileBase[] files, string tags, bool subscribe, string postContent, Post post)
         {
             // url slug generator
-            topic.Slug = ServiceHelpers.GenerateSlug(topic.Name, 
+            topic.Slug = ServiceHelpers.GenerateSlug(topic.Name,
                                     GetTopicBySlugLike(ServiceHelpers.CreateUrl(topic.Name))
                                     .Select(x => x.Slug).ToList(), null);
 
             // Get the pipelines
             var topicCreatePipes = ForumConfiguration.Instance.PipelinesTopicCreate;
+
+            //if (topic.IsAnuncio != null)
+            //    topicCreatePipes.Remove("MvcForum.Plugins.Pipelines.Topic.TopicNotificationsAndBadgesPipe");
 
             // The model to process
             var piplineModel = new PipelineProcess<Topic>(topic);
@@ -217,7 +219,7 @@
         }
 
         /// <inheritdoc />
-        public async Task<IPipelineProcess<Topic>> Edit(Topic topic, HttpPostedFileBase[] files, string tags, bool subscribe, 
+        public async Task<IPipelineProcess<Topic>> Edit(Topic topic, HttpPostedFileBase[] files, string tags, bool subscribe,
             string postContent, string topicName, List<PollAnswer> pollAnswers, int closePollAfterDays)
         {
             // url slug generator
@@ -320,7 +322,309 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.LastPost.DateCreated);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anúncios que foram mais vistos
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosMaisVistos(int pageIndex, int pageSize, int amountToTake)
+        {
+            // TODO: Colocar validação para pegar tópicos de anúncio Is Anuncio
+
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value)
+                .OrderByDescending(x => x.Views);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+        
+
+        public async Task<PaginatedList<Topic>> GetEventosByRegiao(int pageIndex, int pageSize, int amountToTake, string cidade, string estado)
+        {
+           
+            if (!string.IsNullOrEmpty(cidade))
+            {
+                var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .Where(x => x.CidadeEvento.Contains(cidade))
+                .Where(x => x.EstadoEvento.Equals(estado))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+                // Return a paged list
+                return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+            }
+            else
+            {
+                var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .Where(x => x.EstadoEvento.Equals(estado))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+                // Return a paged list
+                return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+            }
+            
+
+            return null;
+        }
+        /// <summary>
+        /// Recupera os anuncios que tiveram mais visualizações
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetEventos(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        public List<EventoDto> GetEventosData()
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .Where(x => x.DataEventoInicio >= DateTime.Now)
+                .Select(x => new EventoDto { date = x.DataEventoInicio, title = x.Slug, id = x.Id.ToString() })
+                .ToList<EventoDto>()
+                ;
+
+            // Return a paged list
+            return query;
+        }
+        public async Task<PaginatedList<Topic>> GetAllAnunciosByID(int pageIndex, int pageSize, int amountToTake, List<Guid> itens)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value)
+                .Where(x => itens.Contains(x.Id))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+        
+        public async Task<PaginatedList<Topic>> GetAllEventosByID(int pageIndex, int pageSize, int amountToTake, List<Guid> itens)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsEvento.HasValue && x.IsEvento.Value)
+                .Where(x => itens.Contains(x.Id))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anuncios que tiveram mais visualizações
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnuncios(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anúncios mais vistos e Novo
+        /// </summary>
+        /// <param name="tipoAnuncio">Novo</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosNovos(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue &&
+                       x.IsAnuncio.Value && x.IsCategoryNew.HasValue && x.IsCategoryNew.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera a quantidade Itens Novos
+        /// </summary>
+        /// <returns>Quantidade de novos anuncios</returns>
+        public int GetQuantidadeTipoAnuncios(string tipoAnuncio)
+        {
+            var quantidadeItens = 0;
+
+            switch (tipoAnuncio)
+            {
+                case "Novos":
+                    // Get the topics using an efficient
+                    quantidadeItens = _context.Topic
+                                      .Include(x => x.LastPost.User)
+                                      .Include(x => x.User)
+                                      .Include(x => x.Poll)
+                                      .Include(x => x.Tags)
+                                      .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value && 
+                                             x.IsCategoryNew.HasValue && x.IsCategoryNew.Value)
+                                      .Count();
+                    break;
+                case "Usados":
+                    // Get the topics using an efficient
+                    quantidadeItens = _context.Topic
+                                      .Include(x => x.LastPost.User)
+                                      .Include(x => x.User)
+                                      .Include(x => x.Poll)
+                                      .Include(x => x.Tags)
+                                      .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value && 
+                                             x.IsCategoryUsed.HasValue && x.IsCategoryUsed.Value)
+                                      .Count();
+                    break;
+                case "Trocas":
+                    // Get the topics using an efficient
+                    quantidadeItens = _context.Topic
+                                      .Include(x => x.LastPost.User)
+                                      .Include(x => x.User)
+                                      .Include(x => x.Poll)
+                                      .Include(x => x.Tags)
+                                      .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue && x.IsAnuncio.Value && 
+                                             x.IsCategoryExchange.HasValue && x.IsCategoryExchange.Value)
+                                      .Count();
+                    break;
+            }
+
+            return quantidadeItens;
+        }
+
+        /// <summary>
+        /// Recupera os anúncios mais vistos e Usados
+        /// </summary>
+        /// <param name="tipoAnuncio">Usados</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosUsados(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue &&
+                       x.IsAnuncio.Value && x.IsCategoryUsed.HasValue && x.IsCategoryUsed.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Recupera os anúncios mais vistos e Trocas
+        /// </summary>
+        /// <param name="tipoAnuncio">Trocas</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="amountToTake"></param>
+        /// <returns></returns>
+        public async Task<PaginatedList<Topic>> GetAnunciosTrocas(int pageIndex, int pageSize, int amountToTake)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue &&
+                       x.IsAnuncio.Value && x.IsCategoryExchange.HasValue && x.IsCategoryExchange.Value)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        public async Task<PaginatedList<Topic>> GetAnuncioPorValores(int pageIndex, int pageSize, int amountToTake, decimal paramInicio, decimal paramFim)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue &&
+                       x.IsAnuncio.Value && (paramInicio <= x.Price && x.Price <= paramFim))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
+
+            // Return a paged list
+            return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
+        }
+
+        public async Task<PaginatedList<Topic>> GetAnunciosPorTipo(int pageIndex, int pageSize, int amountToTake, string paramTipo)
+        {
+            // Get the topics using an efficient
+            var query = _context.Topic
+                .Include(x => x.LastPost.User)
+                .Include(x => x.User)
+                .Include(x => x.Poll)
+                .Include(x => x.Tags)
+                .Where(x => x.Pending != true && x.User.UserName != "editor" && x.IsAnuncio.HasValue &&
+                       x.IsAnuncio.Value && x.TipoAnuncio.Equals(paramTipo))
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
 
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
@@ -346,7 +650,8 @@
                 .Include(x => x.User)
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
-                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName !=  "editor")
+                .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.LastPost.DateCreated);
 
             // Return a paged list
@@ -368,11 +673,11 @@
             var guid = Guid.Parse("028B824F-6900-4FB3-8897-A984002E732D");
             // Get the topics using an efficient
             var query = _context.Post
-                
+
                 .Include(x => x.User)
                 .Include(x => x.Topic)
-                
-                .Where(x =>  x.Topic.Id == guid)
+
+                .Where(x => x.Topic.Id == guid)
                 .OrderByDescending(x => x.DateCreated);
 
             // Return a paged list
@@ -400,6 +705,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.Views);
 
             // Return a paged list
@@ -419,7 +725,8 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
-                .OrderByDescending(x => x.Views).ThenByDescending(x=>x.Posts.Count);
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
+                .OrderByDescending(x => x.Views).ThenByDescending(x => x.Posts.Count);
 
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
@@ -508,6 +815,7 @@
                         .Include(x => x.Tags)
                         .Where(x => x.Category.Id == categoryId)
                         .Where(x => x.Pending != true && x.User.UserName != "editor")
+                        .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                         .OrderByDescending(x => x.IsSticky)
                         .ThenByDescending(x => x.LastPost.DateCreated);
 
@@ -536,6 +844,7 @@
                             .Include(x => x.Tags)
                             .AsNoTracking()
                             .Where(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                            .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                             .OrderBy(x => x.LastPost.DateCreated);
 
             // Return a paged list
@@ -545,41 +854,41 @@
         public IList<Topic> GetPendingTopics(List<Category> allowedCategories, MembershipRole usersRole)
         {
 
-                var allowedCatIds = allowedCategories.Select(x => x.Id);
-                var allPendingTopics = _context.Topic.AsNoTracking().Include(x => x.Category).Where(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id)).ToList();
-                if (usersRole != null)
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            var allPendingTopics = _context.Topic.AsNoTracking().Include(x => x.Category).Where(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id)).ToList();
+            if (usersRole != null)
+            {
+                var pendingTopics = new List<Topic>();
+                var permissionSets = new Dictionary<Guid, PermissionSet>();
+                foreach (var category in allowedCategories)
                 {
-                    var pendingTopics = new List<Topic>();
-                    var permissionSets = new Dictionary<Guid, PermissionSet>();
-                    foreach (var category in allowedCategories)
-                    {
-                        var permissionSet = _roleService.GetPermissions(category, usersRole);
-                        permissionSets.Add(category.Id, permissionSet);
-                    }
+                    var permissionSet = _roleService.GetPermissions(category, usersRole);
+                    permissionSets.Add(category.Id, permissionSet);
+                }
 
-                    foreach (var pendingTopic in allPendingTopics)
+                foreach (var pendingTopic in allPendingTopics)
+                {
+                    if (permissionSets.ContainsKey(pendingTopic.Category.Id))
                     {
-                        if (permissionSets.ContainsKey(pendingTopic.Category.Id))
+                        var permissions = permissionSets[pendingTopic.Category.Id];
+                        if (permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
                         {
-                            var permissions = permissionSets[pendingTopic.Category.Id];
-                            if (permissions[ForumConfiguration.Instance.PermissionEditPosts].IsTicked)
-                            {
-                                pendingTopics.Add(pendingTopic);
-                            }
+                            pendingTopics.Add(pendingTopic);
                         }
                     }
-                    return pendingTopics;
                 }
-                return allPendingTopics;
-           
+                return pendingTopics;
+            }
+            return allPendingTopics;
+
         }
 
         public int GetPendingTopicsCount(List<Category> allowedCategories)
         {
 
-                var allowedCatIds = allowedCategories.Select(x => x.Id);
-                return _context.Topic.AsNoTracking().Include(x => x.Category).Count(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id));
-        
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            return _context.Topic.AsNoTracking().Include(x => x.Category).Count(x => x.Pending == true && allowedCatIds.Contains(x.Category.Id));
+
 
         }
 
@@ -627,10 +936,11 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.IsSticky)
                 .ThenByDescending(x => x.LastPost.DateCreated)
                 .Where(e => e.Tags.Any(t => t.Slug.Equals(tag)));
-                           
+
 
             // Return a paged list
             return await PaginatedList<Topic>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
@@ -767,16 +1077,16 @@
         public Topic Get(Guid topicId)
         {
 
-                var topic = _context.Topic
-                                    .Include(x => x.Category)
-                                    .Include(x => x.LastPost.User)
-                                    .Include(x => x.User)
-                                    .Include(x => x.Poll)
-                                    .Include(x => x.Tags)
-                                .FirstOrDefault(x => x.Id == topicId);
+            var topic = _context.Topic
+                                .Include(x => x.Category)
+                                .Include(x => x.LastPost.User)
+                                .Include(x => x.User)
+                                .Include(x => x.Poll)
+                                .Include(x => x.Tags)
+                            .FirstOrDefault(x => x.Id == topicId);
 
-                return topic;
-         
+            return topic;
+
         }
 
         public List<Topic> Get(List<Guid> topicIds, List<Category> allowedCategories)
@@ -790,6 +1100,7 @@
                 .Include(x => x.Poll)
                 .Include(x => x.Tags)
                 .Where(x => topicIds.Contains(x.Id) && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor")
+                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                 .OrderByDescending(x => x.LastPost.DateCreated)
                 .ToList();
         }
@@ -826,14 +1137,14 @@
 
         public int TopicCount(List<Category> allowedCategories)
         {
- 
-                // get the category ids
-                var allowedCatIds = allowedCategories.Select(x => x.Id);
-                return _context.Topic
-                    .Include(x => x.Category)
-                    .AsNoTracking()
-                    .Count(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor");
-      
+
+            // get the category ids
+            var allowedCatIds = allowedCategories.Select(x => x.Id);
+            return _context.Topic
+                .Include(x => x.Category)
+                .AsNoTracking()
+                .Count(x => x.Pending != true && allowedCatIds.Contains(x.Category.Id) && x.User.UserName != "editor");
+
 
         }
 
@@ -940,6 +1251,7 @@
                                 .AsNoTracking()
                                 .Where(x => x.Category.Id == categoryId)
                                 .Where(x => x.Pending != true && x.User.UserName != "editor")
+                                .Where(x => x.IsEvento == null && x.IsAnuncio == null)
                                 .ToList();
 
             return results;
@@ -973,6 +1285,7 @@
                                 .Include(x => x.User)
                                 .Include(x => x.Poll)
                             .Where(x => x.Slug.Contains(slug) && x.User.UserName != "editor")
+
                             .ToList();
         }
 

@@ -276,40 +276,6 @@
             user.DisablePrivateMessages = userModel.DisablePrivateMessages;
             user.IsTrustedUser = userModel.IsTrustedUser;
 
-            user.Estado = userModel.Estado;
-            user.Cidade = userModel.Cidade;
-
-            user.FuncaoEmpresario = userModel.FuncaoEmpresario;
-            user.FuncaoOperador = userModel.FuncaoOperador;
-            user.FuncaoMecanico = userModel.FuncaoMecanico;
-            user.FuncaoOutro = userModel.FuncaoOutro;
-
-
-            user.Marca1 = userModel.Marca1;
-            user.Modelo1 = userModel.Modelo1;
-            user.AnoFabricacao1 = userModel.AnoFabricacao1;
-            user.Empresa1 = userModel.Empresa1;
-
-            user.Marca2 = userModel.Marca2;
-            user.Modelo2 = userModel.Modelo2;
-            user.AnoFabricacao2 = userModel.AnoFabricacao2;
-            user.Empresa2 = userModel.Empresa2;
-
-            user.Marca3 = userModel.Marca3;
-            user.Modelo3 = userModel.Modelo3;
-            user.AnoFabricacao3 = userModel.AnoFabricacao3;
-            user.Empresa3 = userModel.Empresa3;
-
-            user.Marca4 = userModel.Marca4;
-            user.Modelo4 = userModel.Modelo4;
-            user.AnoFabricacao4 = userModel.AnoFabricacao4;
-            user.Empresa4 = userModel.Empresa4;
-
-            user.Marca5 = userModel.Marca5;
-            user.Modelo5 = userModel.Modelo5;
-            user.AnoFabricacao5 = userModel.AnoFabricacao5;
-            user.Empresa5 = userModel.Empresa5;
-
             try
             {
                 Context.SaveChanges();

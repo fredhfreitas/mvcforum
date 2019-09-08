@@ -1,0 +1,89 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section SocialMeta{
+    @RenderSection("SocialMeta", false)
+}
+@section Header {
+    @RenderSection("Header", false)
+}
+<script src="~/Scripts/ion.rangeSlider.min.js"></script>
+<link href="~/Themes/ion.rangeSlider.min.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-8">
+        @RenderBody()
+    </div>
+    <div class="col-md-4 sidelayoutsection">
+        <div class="main-side-box clearfix">
+            <a href="/anuncios/novo" class="btn btn-primary" style="width: 100%">NOVO ANÚNCIO</a>
+
+            @*@Html.Action("ListarFiltrosSideMenu", "VerAnuncios", new { value = "76999701-995d-4d27-b35f-a9d9000f1e96" })*@
+            <div class="categoryindex">
+                <div class="side-box categories-box">
+                    <h3 class="title-bar">Filtro</h3>
+                    <h5>Escolha uma ou mais opções para filtrar sua busca</h5>
+                    <ul>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=0">Novos</a>
+                        </li>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=1">Usados</a>
+                        </li>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=2">Troca</a>
+                        </li>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=3">Retro</a>
+                        </li>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=4">Acessório</a>
+                        </li>
+                        <li class="catitem">
+                            <a style="border-color: #ced1d1" href="/anuncios/?tipoAnuncio=5">Serviços</a>
+                        </li>
+                        <li class="catitem">
+                            <input id="price" type="text" class="js-range-slider" name="my_range" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            @RenderSection("side", false)
+        </div>
+    </div>
+</div>
+@section Footer {
+
+    @RenderSection("Footer", false)
+}
+
+
+<script>
+
+    $(document).ready(function () {
+        var url = window.location.href;
+        var values = url.split("?valor=")[1];
+        var valInicio = 5000;
+        var valFinal = 90000;
+        if (values != null) {            
+            valInicio = values.split("-")[0];
+            valFinal = values.split("-")[1];
+        }       
+
+        $("#price").ionRangeSlider({
+            type: "double",
+            min: 0,
+            max: 100000,
+            from: valInicio,
+            to: valFinal,
+            onChange: function (data) {
+                //console.log(data.from);
+                //console.log(data.to);
+                window.location.href = ("/anuncios/?valor=" + data.from + "-" + data.to);
+            }
+        });
+
+        
+    });
+</script>

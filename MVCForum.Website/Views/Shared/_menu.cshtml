@@ -4,9 +4,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul>
-                    @*@Html.Partial("SubNavigation")*@
+
                     <li><a href="/universoRetro/">Universo da Retro</a></li>
-                    @*<li><a href="/eventos/">Eventos</a></li>*@
                     <li class="dropdown ">
                         <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
                             Forum <i class="fas fa-chevron-down"></i>
@@ -18,26 +17,57 @@
                             <li><a href="/meusTopicos/">Meus Tópicos</a></li>
                         </ul>
                     </li>
-                    @*<li><a href="/anuncios/">Anúncios</a></li>*@
-                    <li><a href="/perguntasfrequentes/">Perguntas Frequentes</a></li>
-                    <!-- <li class="dropdown ">
-        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">Suporte CASE <i class="fas fa-chevron-down"></i></a>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="/perguntasfrequentes/">Perguntas Frequentes</a></li>
-        </ul>
-    </li> -->
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <!-- <span class="hidden">Olá, @User.Identity.Name</span> -->
-                        <li><a href="/moderate/">Moderar</a></li>
-                        
-                        <!-- <a class="btn btn-secondary pull-right" href="@Url.Action("LogOff", "Members")">Sair</a> -->
-                        @*@Html.Action("SideAdminPanel", "Members", new { isDropDown = true })*@
-                    }
+
                     <li><a href="/sobre/">Sobre</a></li>
+                    <li class="dropdown ">
+                        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
+                            Suporte <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/manuais/">Manuais</a></li>
+                            <li><a href="/perguntasfrequentes/">Perguntas Frequentes</a></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li><a href="https://clubedaretro.com.br/suporte/contato" data-toggle="tooltip" data-placement="top" title="Área de contato exclusiva para proprietários de retroescavadeiras CASE"><i class="fas fa-lock" style="color: #000;"></i> Fale com a Case</a></li>
+                            }
+                        </ul>
+                    </li>
+
+                    <li class="dropdown ">
+                        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
+                            Eventos <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/eventos/">VER EVENTOS</a></li>
+                            <li><a href="/eventos/novo">NOVO EVENTO</a></li>
+                            <li><a href="/eventos/?tipoEvento=0">TENHO INTERESSE</a></li>
+                            <li><a href="/eventos/?tipoEvento=1">EU VOU</a></li>                            
+                        </ul>
+                    </li>
+                    <!-- ./ li (Eventos) -->
+
+                    <li class="dropdown ">
+                        <a href="#" class="dropdown-toggle mytoolslink" data-toggle="dropdown" aria-expanded="true">
+                            Anúncio <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/anuncios/">VER ANÚNCIOS</a></li>
+                            <li><a href="/anuncios/categoria/">CATEGORIAS</a></li>
+                            <li><a href="/anuncios/novo/">NOVO ANÚNCIO</a></li>
+                            <li><a href="/anuncios/?tipoAnuncio=6">TENHO INTERESSE</a></li>
+                        </ul>
+                    </li>
+                    <!-- ./ li (Anúncio) -->
+
                     <li><a href="/contato/">Contato</a></li>
 
                 </ul>
+
+                <script>
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
             </div>
         </div>
     </div>

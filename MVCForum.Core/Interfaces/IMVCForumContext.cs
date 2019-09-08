@@ -23,6 +23,8 @@
         DbSet<MembershipRole> MembershipRole { get; set; }
         DbSet<MembershipUser> MembershipUser { get; set; }
         DbSet<MembershipUserPoints> MembershipUserPoints { get; set; }
+        DbSet<MembershipUserTopicInterest> MembershipUserTopicInterest { get; set; }
+        DbSet<MemberShipUserTopicIGo> MemberShipUserTopicIGo { get; set; }
         DbSet<Permission> Permission { get; set; }
         DbSet<Poll> Poll { get; set; }
         DbSet<PollAnswer> PollAnswer { get; set; }

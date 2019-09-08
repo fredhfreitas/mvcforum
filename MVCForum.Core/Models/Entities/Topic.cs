@@ -38,5 +38,73 @@
         {
             get { return Posts.Select(x => x.VoteCount).Sum(); }
         }
+
+        public bool? IsCategoryNew { get; set; }
+        public bool? IsCategoryUsed { get; set; }
+        public bool? IsCategoryExchange { get; set; }
+        public bool? IsAnuncio { get; set; }
+        public Decimal? Price { get; set; }
+
+        public string TipoAnuncio { get; set; }
+        public bool? IsMecanico { get; set; }
+        public bool? IsInstrutor { get; set; }
+        public bool? IsOperador { get; set; }
+        public string Marca { get; set; }
+        public string Modelo { get; set; }
+        public string TelefoneUsuario { get; set; }
+        public string TelefoneWhatsApp { get; set; }
+        public string CidadeUsuario { get; set; }
+        public string EstadoUsuario { get; set; }
+        public string Observacoes { get; set; }
+        public string Imagem { get; set; }
+
+        public string NomeCategoriaAnuncio
+        {
+            get
+            {
+                if (IsCategoryNew.HasValue && IsCategoryNew.Value)
+                    return "NOVO";
+
+                if (IsCategoryUsed.HasValue && IsCategoryUsed.Value)
+                    return "USADO";
+
+                if (IsCategoryExchange.HasValue && IsCategoryExchange.Value)
+                    return "TROCA";
+
+                return string.Empty;
+            }
+        }
+
+        public short CodigoCategoriaAnuncio
+        {
+            get
+            {
+                if (IsCategoryNew.HasValue && IsCategoryNew.Value)
+                    return 0;
+
+                if (IsCategoryUsed.HasValue && IsCategoryUsed.Value)
+                    return 1;
+
+                if (IsCategoryExchange.HasValue && IsCategoryExchange.Value)
+                    return 2;
+
+                return -1;
+            }
+        }
+
+        public bool? IsEvento { get; set; }
+        public DateTime DataEventoInicio { get; set; }
+        public DateTime DataEventoFim { get; set; }
+
+        public TimeSpan HoraEventoInicio { get; set; }
+        public TimeSpan HoraEventoFim { get; set; }
+
+        public string LocalEvento { get; set; }
+
+        public string LinkExternoEvento { get; set; }
+
+        public string CidadeEvento { get; set; }
+
+        public string EstadoEvento { get; set; }
     }
 }

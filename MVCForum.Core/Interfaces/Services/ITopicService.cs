@@ -14,7 +14,7 @@
         IList<Topic> GetAll(List<Category> allowedCategories);      
         IList<SelectListItem> GetAllSelectList(List<Category> allowedCategories, int amount);
         IList<Topic> GetHighestViewedTopics(int amountToTake, List<Category> allowedCategories);
-
+       
         IList<Topic> GetPopularTopics(DateTime? from, DateTime? to, List<Category> allowedCategories,
             int amountToShow = 20);
 
@@ -38,6 +38,8 @@
 
         Task<PaginatedList<Topic>> GetTopicosDestacados(int pageIndex, int pageSize, int amountToTake,
             List<Category> allowedCategories);
+
+        Task<PaginatedList<Topic>> GetAnuncioPorValores(int pageIndex, int pageSize, int amountToTake, decimal paramInicio, decimal paramFim);
 
         IList<Topic> GetRecentRssTopics(int amountToTake, List<Category> allowedCategories);
         IList<Topic> GetTopicsByUser(Guid memberId, List<Category> allowedCategories);
@@ -86,5 +88,37 @@
 
         IList<Topic> GetTopicBySlugLike(string slug);
         bool PassedTopicFloodTest(string topicTitle, MembershipUser user);
+
+        Task<PaginatedList<Topic>> GetAnunciosMaisVistos(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetAnuncios(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetEventos(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetEventosByRegiao(int pageIndex, int pageSize, int amountToTake, string cidade, string estado);
+
+        Task<PaginatedList<Topic>> GetAllEventosByID(int pageIndex, int pageSize, int amountToTake, List<Guid> itens);
+        Task<PaginatedList<Topic>> GetAllAnunciosByID(int pageIndex, int pageSize, int amountToTake, List<Guid> itens);
+        List<EventoDto> GetEventosData();
+
+        Task<PaginatedList<Topic>> GetAnunciosNovos(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetAnunciosUsados(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetAnunciosTrocas(int pageIndex, int pageSize, int amountToTake);
+
+        Task<PaginatedList<Topic>> GetAnunciosPorTipo(int pageIndex, int pageSize, int amountToTake, string paramTipo);
+
+        int GetQuantidadeTipoAnuncios(string tipoAnuncio);
+    }
+
+    public class EventoDto
+    {
+        public DateTime date { get; set; }
+        public string title { get; set; }
+        public string id { get; set; }
+
+        public bool badget = true;
+
     }
 }

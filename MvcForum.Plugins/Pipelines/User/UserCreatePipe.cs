@@ -186,7 +186,7 @@
                         NameTo = _localizationService.GetResourceString("Members.Admin"),
                         Subject = _localizationService.GetResourceString("Members.NewMemberSubject")
                     };
-                    email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString());
+                    email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString(), "header-novo-usuario.jpg");
                     _emailService.SendMail(email);
                 }
 

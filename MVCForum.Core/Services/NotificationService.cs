@@ -250,7 +250,7 @@
                             .Where(x => x.DisableEmailNotifications != true && !x.IsLockedOut && x.IsBanned != true).Select(
                                 user => new Email
                                 {
-                                    Body = _emailService.EmailTemplate(user.UserName, sb.ToString()),
+                                    Body = _emailService.EmailTemplate(user.UserName, sb.ToString(), "header-novo-comentario.jpg"),
                                     EmailTo = user.Email,
                                     NameTo = user.UserName,
                                     Subject = string.Concat(

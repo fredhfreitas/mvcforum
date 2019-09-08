@@ -32,6 +32,8 @@
         [Authorize]
         public virtual ActionResult Index()
         {
+            //var isAnuncio = !String.IsNullOrEmpty(Request.Params["anuncio"]);
+
             var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
 
             // Get the favourites
@@ -39,6 +41,37 @@
 
             // Pull out the posts
             var posts = favourites.Select(x => x.Post);
+
+            // Create the view Model
+            var viewModel = new MyFavouritesViewModel();
+
+            // Map the view models
+            // TODO - Need to improve performance of this
+            foreach (var post in posts)
+            {
+                var permissions = RoleService.GetPermissions(post.Topic.Category,
+                    loggedOnReadOnlyUser.Roles.FirstOrDefault());
+                var postViewModel = ViewModelMapping.CreatePostViewModel(post, post.Votes.ToList(), permissions,
+                    post.Topic, loggedOnReadOnlyUser, SettingsService.GetSettings(), post.Favourites.ToList());
+                postViewModel.ShowTopicName = true;
+                viewModel.Posts.Add(postViewModel);
+            }
+
+            return View(viewModel);
+        }
+
+        [Authorize]
+        public virtual ActionResult IndexAnuncio()
+        {
+            //var isAnuncio = !String.IsNullOrEmpty(Request.Params["anuncio"]);
+
+            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+
+            // Get the favourites
+            var favourites = _favouriteService.GetAllByMember(loggedOnReadOnlyUser.Id);
+
+            // Pull out the posts
+            var posts = favourites.Select(x => x.Post).Where(x=>x.Topic.IsAnuncio.HasValue == true);
 
             // Create the view Model
             var viewModel = new MyFavouritesViewModel();

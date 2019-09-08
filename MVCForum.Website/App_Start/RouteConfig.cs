@@ -15,6 +15,35 @@
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{*favicon}", new {favicon = @"(.*/)?favicon.ico(/.*)?"});
 
+            routes.MapRoute(
+               "verAnuncios", // Route name
+               "Anuncios",
+               new { controller = "VerAnuncios", action = "Index" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                  name: "categoriaAnuncio",
+                  url: "Anuncios/Categoria",
+               defaults: new { controller = "CategoriaAnuncio", action = "Index" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+              name: "NovoAnuncio", // Route name
+              url: "Anuncios/Novo",
+              defaults: new { controller = "NovoAnuncio", action = "Index" } // Parameter defaults
+           );
+
+           // routes.MapRoute(
+           //   name: "/verAnuncios/?tipoAnuncio=6", // Route name
+           //   url: "Anuncio/Interesse",
+           //   defaults: new { controller = "VerAnuncio", action = "Index" } // Parameter defaults
+           //);
+
+            routes.MapRoute(
+               "TenhoInteresse", // Route name
+               "TenhoInteresse",
+               new { controller = "Favourite", action = "IndexAnuncio" } // Parameter defaults
+           );
 
             routes.MapRoute(
                 "registerDefault", // Route name
@@ -27,6 +56,18 @@
                 "perguntasDefault", // Route name
                 "PerguntasFrequentes",
                 new { controller = "Home", action = "PerguntasFrequentes" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "manuaisDefault", // Route name
+                "Manuais",
+                new { controller = "Suporte", action = "Manuais" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "FaleCaseDefault", // Route name
+                "FaleComACase",
+                new { controller = "Suporte", action = "Contato" } // Parameter defaults
             );
 
             routes.MapRoute(
@@ -103,8 +144,8 @@
                 new { controller = "Members", action = "Edit", Guid = UrlParameter.Optional } // Parameter defaults
             );
 
-             
-                 routes.MapRoute(
+            
+            routes.MapRoute(
                 "categoryRssUrls", // Route name
                 string.Concat(ForumConfiguration.Instance.CategoryUrlIdentifier, "/rss/{slug}"), // URL with parameters
                 new
