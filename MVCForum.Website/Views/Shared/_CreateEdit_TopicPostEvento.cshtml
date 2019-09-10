@@ -1,0 +1,167 @@
+﻿
+@using MvcForum.Web.Application.ExtensionMethods
+@model MvcForum.Web.ViewModels.Topic.CreateEditTopicEventViewModel
+@{
+    var count = 0;
+    const string displayNone = "style=\"display: none;\"";
+}
+
+@Html.HiddenFor(x => x.TopicId)
+
+<div class="col-md-6 col-md-offset-3 topiccategory">
+
+    @if (Model.Id == Guid.Empty)
+    {
+        <div class="form-group createuploadfiles">
+            <span class="title-step">Escolha uma foto</span>
+            <div class="input-group">
+                <input type="text" class="form-control" readonly="">
+                <span class="input-group-btn">
+                    <span class="btn btn-default btn-file">
+                        @Html.LanguageString("Post.Browse") <input type="file" name="files" id="files" multiple="multiple" value="">
+                    </span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(x => x.Files)
+        </div>
+    }
+</div>
+
+<div class="paddedrow topicname">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name, new { @class = "createtopicname form-control" })
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+</div>
+
+<div class="paddedrow topicname">
+    <div class="form-group">
+        @Html.LabelFor(model => model.LocalEvento)
+        @Html.TextBoxFor(model => model.LocalEvento, new { @class = "createtopicname form-control" })
+        @Html.ValidationMessageFor(model => model.LocalEvento)
+    </div>
+</div>
+
+<div class="paddedrow topicname">
+    <div class="form-group">
+        @Html.LabelFor(model => model.LinkExternoEvento)
+        @Html.TextBoxFor(model => model.LinkExternoEvento, new { @class = "createtopicname form-control" })
+
+    </div>
+</div>
+
+<div class="paddedrow topicname">
+    <div class="form-group">
+        @Html.LabelFor(model => model.DataEventoInicio)
+        @Html.TextBoxFor(model => model.DataEventoInicio, "{0:dd/MM/yyyy}", new { @class = "createtopicname form-control" })
+        @Html.ValidationMessageFor(model => model.DataEventoInicio)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DataEventoFim)
+        @Html.TextBoxFor(model => model.DataEventoFim, "{0:dd/MM/yyyy}", new { @class = "createtopicname form-control" })
+        @Html.ValidationMessageFor(model => model.DataEventoFim)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HoraInicio)
+        @Html.TextBoxFor(model => model.HoraInicio, new { @class = "createtopicname form-control" })
+        @Html.ValidationMessageFor(model => model.HoraInicio)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HoraFim)
+        @Html.TextBoxFor(model => model.HoraFim, new { @class = "createtopicname form-control" })
+        @Html.ValidationMessageFor(model => model.HoraFim)
+    </div>
+</div>
+<div class="paddedrow topicname">
+    <div class="form-group">
+        @Html.LabelFor(model => model.CidadeEvento)
+        @Html.TextBoxFor(model => model.CidadeEvento, new { @class = "createtopicname form-control" })
+        @Html.ValidationMessageFor(model => model.CidadeEvento)
+    </div>
+</div>
+
+<div class="paddedrow topicname">
+    <div class="form-group">
+        @Html.LabelFor(model => model.EstadoEvento)
+        <select id="EstadoEvento" name="EstadoEvento">
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espírito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+            <option value="ES">Estrangeiro</option>
+        </select>
+        @Html.ValidationMessageFor(model => model.EstadoEvento)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 topiccontent">
+        <div class="editor-field editorholder">
+            @Html.EditorFor(model => model.Content)
+            @Html.ValidationMessageFor(model => model.Content)
+        </div>
+    </div>
+</div>
+<div class="col-md-6 col-md-offset-3 createtopicbuttonholder">
+    <div class="submit-holder">
+        <button type="submit" class="btn btn-primary btn-full">
+            Salvar Evento
+        </button>
+    </div>
+</div>
+
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script>
+    $(function () {
+        $.validator.addMethod('date',
+            function (value, element) {
+                if (this.optional(element)) {
+                    return true;
+                }
+                var valid = true;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                }
+                catch (err) {
+                    valid = false;
+                }
+                return valid;
+            });
+        
+            $('#DataEventoInicio').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR'
+            });
+            $('#DataEventoFim').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR'
+            });
+        });
+</script>

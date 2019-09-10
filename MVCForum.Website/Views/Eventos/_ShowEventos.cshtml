@@ -1,0 +1,51 @@
+﻿@using MvcForum.Core.Utilities
+@using MvcForum.Web.Application.ExtensionMethods
+@model MvcForum.Web.ViewModels.Topic.TopicViewModel
+
+@using System.Text.RegularExpressions;
+@{
+
+    var postToolTip = string.Concat(StringUtils.ReturnAmountWordsFromString(StringUtils.StripHtmlFromString(Model.StarterPost.Post.PostContent), 50), "....");
+
+}
+<div class="col-md-6">
+    <div class="topic-item">
+        <div class="topic-image">
+            <img src="@Model.Topic.Imagem" class="latestby" alt="@Model.Topic.Name">
+        </div>
+        <div class="topic-title">
+            <p><a title="@postToolTip" href="@Url.Action("TenhoInteresse", "Eventos", new { slug = Model.Topic.Slug })">Nome: @Html.Raw(Model.Topic.Name)</a></p>
+            <p><a href="@Url.Action("TenhoInteresse", "Eventos", new { slug = Model.Topic.Slug })">Data: @Html.Raw(Model.Topic.DataEventoInicio.ToString("dd/MM/yyyy")) até @Html.Raw(Model.Topic.DataEventoFim.ToString("dd/MM/yyyy"))</a></p>
+            <p><a href="@Url.Action("TenhoInteresse", "Eventos", new { slug = Model.Topic.Slug })">Local: @Html.Raw(Model.Topic.LocalEvento)</a></p>
+        </div>
+
+        <div class="topic-info-actions">
+            <div class="avatar">
+                <a href="@Html.Raw(Model.LastPostPermaLink)">
+                    <img src="@Model.Topic.LastPost.User.MemberImage(ForumConfiguration.Instance.GravatarLatestBySize)" class="latestby" alt="@Model.Topic.LastPost.User.UserName">
+                </a>
+            </div>
+            <div class="name-date">
+                <p>
+                    <a href="@Model.Topic.LastPost.User.NiceUrl">@Model.Topic.LastPost.User.UserName</a>
+                    <span>@Model.Topic.LastPost.DateCreated.ToString()</span>
+                </p>
+            </div>
+            <div class="view-comment">
+                <span class="stats topicviews"><i class="far fa-eye"></i> @Model.Views.KiloFormat()</span>
+                <span class="stats topicanswers"><i class="far fa-comment-alt"></i> @Model.Answers.KiloFormat()</span>
+            </div>
+
+            <a id="linkTenhoInteresse-@Model.Topic.Id" href="@Url.Action("TenhoInteresse", "Eventos", new { slug = Model.Topic.Slug })" class="btn btn-primary" style="width: 50%">TENHO INTERESSE</a>
+        </div>
+    </div>
+    @{
+        if (User.Identity.IsAuthenticated)
+        {
+            <script>
+            PossuiInteresse('@Model.Topic.Id');
+            </script>
+        }
+    }
+</div>
+

@@ -1,0 +1,28 @@
+﻿@model MvcForum.Web.ViewModels.Favourite.MyFavouritesViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
+    ViewBag.Title = "Clube da Retro | Tenho Interesse";
+    ViewBag.MetaDesc = "Tenho Interesse do Clube da Retro!";
+}
+
+@section side
+{
+    @Html.Partial("_CommonSideNav")
+}
+
+<div class="myfavourites">
+    
+    <h1 class="title-bar">Tenho Interesse</h1>
+
+    @if (Model.Posts.Any())
+    {
+        foreach (var postViewModel in Model.Posts)
+        {
+            @Html.Partial("_PostAnuncio", postViewModel)
+        }
+    }
+    else
+    {
+        <p>@Html.Lang("Favourites.NoMemberFavourites")</p>
+    }
+</div>

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "_LayoutDireitoVerEventos.cshtml";
+    ViewBag.Title = "Clube da Retro | Eventos";
+    ViewBag.MetaDesc = "Eventos do Clube da Retro";
+}
+@section side
+{
+    @*<div class="topics side">
+        <h3 class="title-bar">Anúncios <span>mais vistos</span></h3>
+        @Html.Action("AnunciosMaisVistos", "CategoriaAnuncio", new { Values = "4" })
+        <a href="/home/topicosMaisVistos" class="btn btn-primary">Ver todos</a>
+    </div>*@
+}
+
+<div class="row default-header">
+    <div class="col-md-12">
+        <h3 class="title-bar">Eventos</h3>
+    </div>
+</div>
+<div class="postedin">
+    @Html.Action("ShowEventos", "Eventos")
+</div>

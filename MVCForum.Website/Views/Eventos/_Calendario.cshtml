@@ -1,0 +1,38 @@
+﻿@model MvcForum.Web.ViewModels.Topic.ActiveTopicsViewModel
+<!-- define the calendar element -->
+<div id="calendar"></div>
+
+<!-- initialize the calendar on ready -->
+<script>
+    $(document).ready(function () {
+        var eventData = [@foreach (var x in Model.DatasEvento)
+                {
+                    @Html.Raw("{");
+                    @Html.Raw(String.Format("'date':'{0}', 'badge':{1}, 'title':'{2}', 'url': '{3}'", x.date.ToString("yyyy-MM-dd"), "true", x.title, @Url.Action("TenhoInteresse", "Eventos", new { slug = x.title })));
+                    @Html.Raw("},");
+                }];
+
+        function redirectTODateUrl(id) {
+            var date = $("#" + id).data("date");
+            for (var i = 0; i < eventData.length; i++) {
+                if (eventData[i]["date"] == date) {
+                    url = eventData[i]["url"]
+                    if (typeof (url) != "undefined") {
+                        location = url;
+                    }
+                }
+            }
+        }
+
+        $('#calendar').zabuto_calendar({
+            language: 'en',
+            ajax: true,
+            data: eventData,
+            action: function () {                
+                id = this.id;
+                redirectTODateUrl(id);
+            },
+            today: true
+        });
+    });
+</script>

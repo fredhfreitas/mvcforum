@@ -1,0 +1,50 @@
+﻿@using MvcForum.Web.Application.ExtensionMethods
+@model MvcForum.Web.ViewModels.Topic.ActiveTopicsViewModel
+@{
+    Layout = null;
+    var totalCount = Convert.ToInt32(Model.TotalCount);
+    ViewBag.Canonical = Html.Raw(AppHelpers.CanonicalPagingTag(totalCount, Html.Settings().TopicsPerPage, Html));
+}
+<style>
+    .btn-primary-interest {
+        background: #fff;
+        border-color: #FAA21B;
+    }
+</style>
+@{
+    
+        <script>
+            function PossuiInteresse(paramId) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("IsInteresse", "Members")',
+
+                    data: ({                        
+                        topicID: paramId
+                    }),
+                    success: function (data) {
+                        //alert(data);
+                        if (data == 'True') {
+                            $("#linkTenhoInteresse-" + paramId).attr("class", "btn btn-primary-interest");
+                        } else {
+
+                            $("#linkTenhoInteresse-" + paramId).attr("class", "btn btn-primary");
+                        }
+                    }
+                });
+            }
+        </script>
+   
+}
+<div class="latesttopics row">
+    <div class="topics row">
+        @foreach (var topic in Model.Topics)
+        {
+            Html.RenderPartial("_ShowEventos", topic);
+        }
+    </div>
+    @if (Model.TotalPages > 1)
+    {
+        @Html.Pager(Convert.ToInt32(Model.PageIndex), Html.Settings().TopicsPerPage, totalCount, null, "Index", "Eventos")
+    }
+</div>
