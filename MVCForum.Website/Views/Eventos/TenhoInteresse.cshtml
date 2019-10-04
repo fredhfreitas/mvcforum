@@ -2,6 +2,7 @@
 @using MvcForum.Core.Utilities
 @using MvcForum.Web.Application.ExtensionMethods
 @using MvcForum.Web.ViewModels.Post
+@using MvcForum.Core.Services
 @model MvcForum.Web.ViewModels.Topic.TopicViewModel
 @{
     Layout = "~/Views/Eventos/_LayoutDireitoVerEventos.cshtml";
@@ -43,12 +44,12 @@
         var topicId = '@(Model.Topic.Id)';
     </script>
 }
-    <style>
-        .btn-primary-interest {
-            background: #fff;
-            border-color: #FAA21B;
-        }
-    </style>
+<style>
+    .btn-primary-interest {
+        background: #fff;
+        border-color: #FAA21B;
+    }
+</style>
 <div class="row default-header">
     <div class="col-md-12">
         <h3 class="title-bar">Eventos</h3>
@@ -62,6 +63,7 @@
             <p><span class="stats topicanswers"><i class="far fa-comment-alt"></i> @Model.EuVouCount PESSOAS IRÃO AO EVENTO | @Model.InteresseCount TÊM INTERESSE</span></p>
         </div>
     </div>
+
 </div>
 <div class="topicshow">
     <div class="row">
@@ -111,7 +113,7 @@
                         else
                         {
                             <p><a id="euVou" href="#" class="btn btn-primary">Eu Vou</a></p>
-                        }                        
+                        }
 
                     </div>
                 </div>
@@ -209,6 +211,8 @@
         <p class="topiclockedmessage">@Html.LanguageString("Topic.IsLocked")</p>
     }
 
+
+
     <input type="hidden" id="pageIndex" value="@(Model.PageIndex + 1)" />
     <input type="hidden" id="topicId" value="@Model.Topic.Id" />
     <input type="hidden" id="totalPages" value="@Model.TotalPages" />
@@ -220,6 +224,50 @@
         <div id="divAlert"></div>
     </div>
 </section>
+
+<div>
+<h2>Irão ao Evento</h2>
+<div class="row default-header">
+</div>
+<div>
+    <div>
+        @foreach (var user in Model.usuariosEuVou)
+        {
+            <p>
+                <div>
+                    <a href="@user.NiceUrl">
+                        <img src="@user.MemberImage(ForumConfiguration.Instance.GravatarTopicSize)" alt="@user.UserName">
+                    </a> 
+                    <span>@user.UserName</span>
+                </div>
+            </p>
+
+        }
+    </div>
+</div>
+</div>
+<br /><br />
+<div>
+    <h2>Interessados</h2>
+    <div class="row default-header">
+    </div>
+    <div>
+        <div>
+            @foreach (var user in Model.usuariosInteressados)
+            {
+                <p>
+                    <div>
+                        <a href="@user.NiceUrl">
+                            <img src="@user.MemberImage(ForumConfiguration.Instance.GravatarTopicSize)" alt="@user.UserName">
+                        </a> 
+                        <span>@user.UserName</span>
+                    </div>
+                </p>
+
+            }
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function () {

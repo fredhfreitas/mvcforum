@@ -70,6 +70,7 @@
                 new { controller = "Suporte", action = "Contato" } // Parameter defaults
             );
 
+
             routes.MapRoute(
                 "CategoryDefault", // Route name
                 "Categoria",

@@ -9,7 +9,7 @@
     {
         [UIHint(Constants.EditorType)]
         [AllowHtml]
-        [StringLength(6000)]
+        [StringLength(60000)]
         public string PostContent { get; set; }
 
         public Guid Topic { get; set; }

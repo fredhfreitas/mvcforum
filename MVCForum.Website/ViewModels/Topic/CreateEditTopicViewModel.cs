@@ -23,7 +23,7 @@
 
         [UIHint(Constants.EditorType)]
         [AllowHtml]
-        [StringLength(6000)]
+        [StringLength(60000)]
         public string Content { get; set; }
 
         [ForumMvcResourceDisplayName("Post.Label.IsStickyTopic")]

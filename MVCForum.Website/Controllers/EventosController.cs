@@ -362,11 +362,35 @@
                 int interesses = _membershipUserTopicInterestService.GetByTopic(topic.Id).Count();
                 int qtdVou = _membershipUserTopicIGoService.GetByTopic(topic.Id).Count();
 
+                var memberIGo = _membershipUserTopicIGoService.GetByTopic(topic.Id);
+                var memberInterest = _membershipUserTopicInterestService.GetByTopic(topic.Id);
+
+
+                List<MembershipUser> usuariosEuVou = new List<MembershipUser>();
+                List<MembershipUser> usuariosInteressados = new List<MembershipUser>();
+                
+
+                foreach (var id in memberIGo)
+                {
+
+                    MembershipUser membershipUser = base.MembershipService.Get(id.IdUser);
+                    usuariosEuVou.Add(membershipUser);
+                }
+
+                foreach (var id in memberInterest)
+                {
+
+                    MembershipUser membershipUser = base.MembershipService.Get(id.IdUser);
+                    usuariosInteressados.Add(membershipUser);
+                }
 
 
                 TopicViewModel viewModel = ViewModelMapping.CreateTopicViewModel(topic, permissions, posts, postIds,
                     starterPost, posts.PageIndex, posts.TotalCount, posts.TotalPages, loggedOnReadOnlyUser,
                     settings, _notificationService, _pollService, votes, favourites, true);
+
+                viewModel.usuariosEuVou = usuariosEuVou;
+                viewModel.usuariosInteressados = usuariosInteressados;
 
                 // If there is a quote querystring
                 string quote = Request["quote"];

@@ -44,13 +44,13 @@ namespace MvcForum.Web.Views.Suporte
 
         public ActionResult Contato()
         {
-            var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
-            var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
+            //var loggedOnReadOnlyUser = User.GetMembershipUser(MembershipService);
+            //var loggedOnUsersRole = loggedOnReadOnlyUser.GetRole(RoleService);
             
-            if (loggedOnReadOnlyUser == null)
-            {
-                return Content("Você precisa estar logado para executar essa ação.");
-            }
+            //if (loggedOnReadOnlyUser == null)
+            //{
+            //    return Content("Você precisa estar logado para executar essa ação.");
+            //}
 
             return View();
         }
@@ -95,11 +95,11 @@ namespace MvcForum.Web.Views.Suporte
                 }
                 TempData[Constants.MessageViewBagName] = message;
 
-                return View("Index");
+                return View("Contato");
             }
             else
             {
-                return View("Index");
+                return View("Contato");
             }
         }
     }

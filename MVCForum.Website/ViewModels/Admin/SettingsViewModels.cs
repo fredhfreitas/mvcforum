@@ -200,7 +200,7 @@
         [DisplayName("Terms & Conditions of the forum")]
         [UIHint(Constants.EditorType)]
         [AllowHtml]
-        [StringLength(6000)]
+        [StringLength(60000)]
         public string TermsAndConditions { get; set; }
     }
 }

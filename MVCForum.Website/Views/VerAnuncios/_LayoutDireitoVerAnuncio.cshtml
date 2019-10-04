@@ -44,6 +44,9 @@
                         <li class="catitem">
                             <input id="price" type="text" class="js-range-slider" name="my_range" />
                         </li>
+                        <li class="catitem">
+                            <a class="btn btn-primary" href="javascript:filtrar();"  style="width: 50">Filtrar</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -60,6 +63,8 @@
 
 
 <script>
+
+    var urlFiltro = "";
 
     $(document).ready(function () {
         var url = window.location.href;
@@ -80,10 +85,14 @@
             onChange: function (data) {
                 //console.log(data.from);
                 //console.log(data.to);
-                window.location.href = ("/anuncios/?valor=" + data.from + "-" + data.to);
+                //window.location.href = ("/anuncios/?valor=" + data.from + "-" + data.to);
+                urlFiltro = ("/anuncios/?valor=" + data.from + "-" + data.to);
             }
         });
 
-        
     });
+
+     function filtrar() {
+            window.location.href = (urlFiltro);
+        }
 </script>

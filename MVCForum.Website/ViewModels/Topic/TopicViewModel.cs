@@ -55,6 +55,10 @@
         public bool IsEuVou { get; set; }
 
         // Misc
-        public bool ShowUnSubscribedLink { get; set; }       
+        public bool ShowUnSubscribedLink { get; set; }
+
+        public List<MembershipUser> usuariosEuVou { get; set; }
+        public List<MembershipUser> usuariosInteressados { get; set; }
+        
     }
 }
